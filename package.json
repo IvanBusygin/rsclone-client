@@ -55,6 +55,10 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.8",
     "@reduxjs/toolkit": "^1.9.2",
     "classnames": "^2.3.2",
     "react": "^18.2.0",

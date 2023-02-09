@@ -1,0 +1,19 @@
+@import './styles/variables';
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &_light {
+    background-color: $color-background-light;
+  }
+
+  &_dark {
+    background-color: $color-background-dark;
+  }
+}
+
+.main {
+  flex-grow: 1;
+}

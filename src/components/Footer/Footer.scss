@@ -39,7 +39,7 @@
   }
 
   &_light {
-    background-color: $color-theme-light;
+    background-color: $color-main-light;
 
     .footer__github,
     .footer__year {
@@ -52,11 +52,11 @@
   }
 
   &_dark {
-    background-color: $color-theme-dark;
+    background-color: $color-main-dark;
 
     .footer__github,
     .footer__year {
-      color: $color-light;
+      color: $color-main-light;
     }
 
     .footer__logo {

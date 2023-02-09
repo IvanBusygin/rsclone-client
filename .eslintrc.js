@@ -41,5 +41,6 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'off',
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }], // для redux: Assignment to property of function parameter 'state'
     eqeqeq: 2,
+    'react/function-component-definition': 0,
   },
 };

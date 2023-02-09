@@ -1,0 +1,20 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.header {
+  &__container {
+    @extend %Container;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+  }
+}

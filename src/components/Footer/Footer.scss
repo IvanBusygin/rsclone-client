@@ -1,0 +1,66 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.footer {
+  &__container {
+    @extend %Container;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__githubs {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__github,
+  &__year,
+  &__logo {
+    display: block;
+  }
+
+  &__github,
+  &__year {
+    font-size: 20px;
+    letter-spacing: 3px;
+  }
+
+  &__year {
+    font-family: 'Roboto-Regular', sans-serif;
+    font-size: 20px;
+  }
+
+  &__logo {
+    width: 75px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .footer__github,
+    .footer__year {
+      color: $color-dark;
+    }
+
+    .footer__logo {
+      background-image: url('../../assets/img/svg/rsschool__icon_light.svg');
+    }
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+
+    .footer__github,
+    .footer__year {
+      color: $color-main-light;
+    }
+
+    .footer__logo {
+      background-image: url('../../assets/img/svg/rschool__icon_dark.svg');
+    }
+  }
+}

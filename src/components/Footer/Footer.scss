@@ -11,7 +11,7 @@
 
   &__githubs {
     display: flex;
-    gap: 20px;
+    gap: 2rem;
   }
 
   &__github,
@@ -20,7 +20,18 @@
     display: block;
   }
 
-  &__github,
+  &__github {
+    width: 3rem;
+    height: 3rem;
+
+    & span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      @extend %BgImage;
+    }
+  }
+
   &__year {
     font-size: 20px;
     letter-spacing: 3px;
@@ -32,18 +43,22 @@
   }
 
   &__logo {
-    width: 75px;
-    height: 50px;
-    background-repeat: no-repeat;
-    background-position: center;
+    width: 7.5rem;
+    height: 5rem;
+    @extend %BgImage;
   }
 
   &_light {
     background-color: $color-main-light;
 
-    .footer__github,
     .footer__year {
       color: $color-dark;
+    }
+
+    .footer__github {
+      & span {
+        background-image: url('../../assets/img/svg/github_icon_light.svg');
+      }
     }
 
     .footer__logo {
@@ -54,13 +69,36 @@
   &_dark {
     background-color: $color-main-dark;
 
-    .footer__github,
     .footer__year {
       color: $color-main-light;
     }
 
+    .footer__github {
+      & span {
+        background-image: url('../../assets/img/svg/github_icon_dark.svg');
+      }
+    }
+
     .footer__logo {
       background-image: url('../../assets/img/svg/rschool__icon_dark.svg');
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .footer {
+    &__github {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    &__year {
+      font-size: 16px;
+    }
+
+    &__logo {
+      width: 5.5rem;
+      height: 3.5rem;
     }
   }
 }

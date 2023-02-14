@@ -80,12 +80,12 @@
     }
 
     .footer__logo {
-      background-image: url('../../assets/img/svg/rschool__icon_dark.svg');
+      background-image: url('../../assets/img/svg/rsschool__icon_dark.svg');
     }
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 500px) {
   .footer {
     &__github {
       width: 2.5rem;

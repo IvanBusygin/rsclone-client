@@ -1,0 +1,85 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.editPage {
+  padding: $size-padding;
+  border-radius: $size-border-radius;
+  font-family: Roboto-Regular, sans-serif;
+  display: flex;
+  justify-content: center;
+
+  &__wrapper {
+    width: 50rem;
+    @extend %FlexColumn;
+    align-items: center;
+  }
+
+  &__item {
+    width: 100%;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+  }
+
+  &__label {
+    margin-right: 1rem;
+  }
+
+  &__field {
+    margin-left: auto;
+    padding: 0.5rem;
+    width: 63%;
+    min-width: 17rem;
+    border: 1px solid $color-background-light;
+    border-radius: 0.5rem;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &_light {
+    color: $color-dark;
+    background-color: $color-main-light;
+
+    .editPage__field {
+      color: $color-dark;
+      background-color: $color-main-light;
+    }
+  }
+
+  &_dark {
+    color: $color-main-light;
+    background-color: $color-main-dark;
+
+    .editPage__field {
+      color: $color-main-light;
+      background-color: $color-main-dark;
+      border-color: $color-nav-count;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .editPage {
+    &__wrapper {
+      width: 85%;
+    }
+
+    &__item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    &__field {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .editPage {
+    &__wrapper {
+      width: 100%;
+    }
+  }
+}

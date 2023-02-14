@@ -36,13 +36,18 @@ button {
   padding: 0;
 }
 
+textarea {
+  border: none;
+  outline: none;
+}
+
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 0px;
 }
 
 ::-webkit-scrollbar-track-piece {
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 3px;
+  //border-radius: 3px;
 }

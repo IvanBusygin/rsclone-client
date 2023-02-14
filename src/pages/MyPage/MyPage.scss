@@ -1,0 +1,55 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.myPage {
+  display: grid;
+  grid-template-columns: 1fr 30rem;
+  grid-template-rows: 25rem 5rem auto;
+  grid-template-areas:
+    'header right-side'
+    'wall right-side'
+    'wall right-side';
+  gap: $size-gap;
+
+  &__rightSide {
+    @extend %FlexColumn;
+    grid-area: right-side;
+  }
+}
+
+@media (max-width: 1000px) {
+  .myPage {
+    grid-template-columns: 1fr 9rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .myPage {
+    grid-template-columns: 1fr 7rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .myPage {
+    grid-template-columns: 100%;
+    grid-template-rows: 15rem 6rem 5rem auto;
+    grid-template-areas:
+      'header'
+      'right-side'
+      'wall'
+      'wall';
+
+    &__rightSide {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+}
+
+@media (max-width: 610px) {
+  .myPage {
+    &__rightSide {
+      justify-content: space-between;
+    }
+  }
+}

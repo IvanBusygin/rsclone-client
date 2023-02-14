@@ -69,6 +69,10 @@
     padding: 0;
     width: 2.5rem;
 
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+
     &__icon {
       margin-right: 0;
     }

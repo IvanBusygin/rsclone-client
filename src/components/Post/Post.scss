@@ -1,0 +1,116 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.post {
+  padding: $size-padding;
+  border-radius: $size-border-radius;
+
+  &__header {
+    padding-bottom: $size-padding;
+    position: relative;
+    display: flex;
+  }
+
+  &__avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &__info {
+    margin-left: $size-padding;
+    font-family: Roboto-Regular, sans-serif;
+  }
+
+  &__author {
+    font-size: 1.4rem;
+  }
+
+  &__time {
+    color: $color-nav-count;
+    font-size: 1.2rem;
+  }
+
+  &__button {
+    width: 1rem;
+    height: 1rem;
+    font-size: 2.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__text {
+    padding: $size-padding 0;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__likes {
+    padding-top: $size-padding;
+    display: flex;
+    align-items: center;
+  }
+
+  &__likesIcon {
+    width: 2.4rem;
+    height: 2.4rem;
+    background-image: url('../../assets/img/svg/likes_icon.svg');
+    @extend %BgImage;
+    display: inline-block;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__likesCount {
+    margin-left: 0.5rem;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .post__author,
+    .post__button,
+    .post__text {
+      color: $color-main-dark;
+    }
+
+    .post__likesCount {
+      color: $color-main-dark;
+    }
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+
+    .post__author,
+    .post__button,
+    .post__text {
+      color: $color-main-light;
+    }
+
+    .post__likesCount {
+      color: $color-main-light;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .post {
+    &__likesIcon {
+      width: 1.7rem;
+      height: 1.7rem;
+    }
+
+    &__likesCount {
+      font-size: 1.2rem;
+    }
+  }
+}

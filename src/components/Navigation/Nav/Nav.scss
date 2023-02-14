@@ -1,0 +1,11 @@
+@import '../../../styles/variables';
+
+.navigation {
+  &_light {
+    color: $color-dark;
+  }
+
+  &_dark {
+    color: $color-main-light;
+  }
+}

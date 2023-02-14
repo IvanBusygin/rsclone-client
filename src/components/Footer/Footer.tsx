@@ -1,5 +1,4 @@
 import React from 'react';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import style from './Footer.scss';
 import { useTypedSelector } from '../../redux/hooks';
 
@@ -17,7 +16,7 @@ const Footer = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <GitHubIcon sx={{ fontSize: 30 }} />
+            <span />
           </a>
           <a
             className={style.footer__github}
@@ -25,7 +24,7 @@ const Footer = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <GitHubIcon sx={{ fontSize: 30 }} />
+            <span />
           </a>
           <a
             className={style.footer__github}
@@ -33,7 +32,7 @@ const Footer = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <GitHubIcon sx={{ fontSize: 30 }} />
+            <span />
           </a>
         </div>
         <time

@@ -1,0 +1,36 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.textField {
+  position: relative;
+
+  &__textarea {
+    padding: 1rem 5rem 1rem $size-padding;
+    width: 100%;
+    height: 100%;
+    border-radius: $size-border-radius;
+    display: block;
+    resize: none;
+
+    &_light {
+      color: $color-dark;
+      background-color: $color-main-light;
+    }
+
+    &_dark {
+      color: $color-main-light;
+      background-color: $color-main-dark;
+    }
+  }
+
+  &__button {
+    width: 2.4rem;
+    height: 2.4rem;
+    @extend %BgImage;
+    background-image: url('../../assets/img/svg/send-button_icon.svg');
+    position: absolute;
+    top: 50%;
+    right: $size-padding;
+    transform: translateY(-50%);
+  }
+}

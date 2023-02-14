@@ -1,0 +1,55 @@
+@import '../../styles/variables';
+
+.friend {
+  width: $size-friend-avatar;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+
+  &__avatar {
+    width: $size-friend-avatar;
+    height: $size-friend-avatar;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &__name {
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 800px) {
+  .friend {
+    width: 4rem;
+
+    &__avatar {
+      width: 40px;
+      height: 40px;
+    }
+
+    &__name {
+      font-size: 10px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .friend {
+    &__name {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .friend {
+    width: 3.5rem;
+
+    &__avatar {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+}

@@ -15,15 +15,18 @@ const Nav = () => {
     <nav className={classNames(style.navigation, themeClass)}>
       <ul className={style.navigation__list}>
         <NavItem
+          route="/"
           icon={myPageIcon}
           name="Моя страница"
         />
         <NavItem
+          route="/messenger"
           icon={messengerIcon}
           name="Мессенджер"
           count={5}
         />
         <NavItem
+          route="/friends"
           icon={friendsIcon}
           name="Друзья"
           count={1}

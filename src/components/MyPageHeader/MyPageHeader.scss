@@ -1,0 +1,70 @@
+@import '../../styles/variables';
+
+.myPage {
+  &__header {
+    height: 25rem;
+    border-radius: $size-border-radius;
+    overflow: hidden;
+    grid-area: header;
+    display: flex;
+    flex-direction: column;
+
+    &_light {
+      color: $color-dark;
+      background-color: $color-main-light;
+
+      .myPage__userCover {
+        background: linear-gradient(90deg, #cce6ff, #7abfff, #52abff);
+      }
+    }
+
+    &_dark {
+      color: $color-main-light;
+      background-color: $color-main-dark;
+
+      .myPage__userCover {
+        background: linear-gradient(90deg, #cce6ff, #6f6e99);
+      }
+    }
+  }
+
+  &__userCover {
+    flex-grow: 1;
+  }
+
+  &__userInfo {
+    padding: $size-padding;
+    border-radius: $size-border-radius;
+    display: flex;
+    align-items: center;
+  }
+
+  &__info {
+    margin-left: $size-padding;
+  }
+
+  &__name,
+  &__status {
+    font-family: Roboto-Regular, sans-serif;
+  }
+
+  &__name {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .myPage {
+    &__header {
+      height: 15rem;
+    }
+
+    &__name {
+      font-size: 1.6rem;
+    }
+
+    &__status {
+      font-size: 1.2rem;
+    }
+  }
+}

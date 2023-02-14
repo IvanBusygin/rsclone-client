@@ -25,7 +25,8 @@
     margin-right: 1rem;
   }
 
-  &__field {
+  &__field,
+  &__textarea {
     margin-left: auto;
     padding: 0.5rem;
     width: 63%;
@@ -36,11 +37,16 @@
     font-size: 1.4rem;
   }
 
+  &__textarea {
+    resize: none;
+  }
+
   &_light {
     color: $color-dark;
     background-color: $color-main-light;
 
-    .editPage__field {
+    .editPage__field,
+    .editPage__textarea {
       color: $color-dark;
       background-color: $color-main-light;
     }
@@ -50,7 +56,8 @@
     color: $color-main-light;
     background-color: $color-main-dark;
 
-    .editPage__field {
+    .editPage__field,
+    .editPage__textarea {
       color: $color-main-light;
       background-color: $color-main-dark;
       border-color: $color-nav-count;
@@ -70,7 +77,8 @@
       gap: 1rem;
     }
 
-    &__field {
+    &__field,
+    &__textarea {
       width: 100%;
     }
   }

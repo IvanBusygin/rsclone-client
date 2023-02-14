@@ -48,6 +48,40 @@ const EditPage = () => {
             className={style.editPage__field}
           />
         </div>
+        <div className={style.editPage__item}>
+          <p className={style.editPage__label}>Школа:</p>
+          <input
+            type="text"
+            className={style.editPage__field}
+          />
+        </div>
+        <div className={style.editPage__item}>
+          <p className={style.editPage__label}>ВУЗ:</p>
+          <input
+            type="text"
+            className={style.editPage__field}
+          />
+        </div>
+        <div className={style.editPage__item}>
+          <p className={style.editPage__label}>Интересы:</p>
+          <textarea className={style.editPage__textarea} />
+        </div>
+        <div className={style.editPage__item}>
+          <p className={style.editPage__label}>Жизненная позиция:</p>
+          <textarea className={style.editPage__textarea} />
+        </div>
+        <div className={style.editPage__item}>
+          <p className={style.editPage__label}>Любимая музыка:</p>
+          <textarea className={style.editPage__textarea} />
+        </div>
+        <div className={style.editPage__item}>
+          <p className={style.editPage__label}>Любимые книги:</p>
+          <textarea className={style.editPage__textarea} />
+        </div>
+        <div className={style.editPage__item}>
+          <p className={style.editPage__label}>Любимые фильмы:</p>
+          <textarea className={style.editPage__textarea} />
+        </div>
       </div>
     </div>
   );

@@ -6,3 +6,15 @@
   margin: 0 auto;
   padding: 0 $size-padding;
 }
+
+%FlexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $size-gap;
+}
+
+%BgImage {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

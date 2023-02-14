@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer';
 import { useTypedSelector } from './redux/hooks';
 import Nav from './components/Navigation/Nav/Nav';
 import MyPage from './pages/MyPage/MyPage';
+import EditPage from './pages/EditPage/EditPage';
 
 function App() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -23,6 +24,10 @@ function App() {
               <Route
                 path="/"
                 element={<MyPage />}
+              />
+              <Route
+                path="/edit"
+                element={<EditPage />}
               />
             </Routes>
           </div>

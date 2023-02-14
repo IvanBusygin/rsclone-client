@@ -24,8 +24,14 @@ ul {
   list-style: none;
 }
 
+a:active,
+a:visited,
+a:link,
+a:hover,
+a:focus,
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 button {
@@ -36,7 +42,8 @@ button {
   padding: 0;
 }
 
-textarea {
+textarea,
+input {
   border: none;
   outline: none;
 }

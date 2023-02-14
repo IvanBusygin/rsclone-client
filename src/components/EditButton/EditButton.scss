@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
-.settings {
+.edit {
   padding: $size-padding;
   border-radius: $size-border-radius;
   display: flex;
@@ -41,7 +41,7 @@
 }
 
 @media (max-width: 1000px) {
-  .settings {
+  .edit {
     justify-content: center;
 
     &__icon {
@@ -57,7 +57,7 @@
 }
 
 @media (max-width: 650px) {
-  .settings {
+  .edit {
     height: 100%;
 
     &__icon {
@@ -73,7 +73,7 @@
 }
 
 @media (max-width: 610px) {
-  .settings {
+  .edit {
     width: 6rem;
 
     &__icon {

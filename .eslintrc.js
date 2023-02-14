@@ -42,5 +42,6 @@ module.exports = {
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }], // для redux: Assignment to property of function parameter 'state'
     eqeqeq: 2,
     'react/function-component-definition': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
   },
 };

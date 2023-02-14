@@ -3,7 +3,7 @@ import style from './MyPage.scss';
 import MyPageHeader from '../../components/MyPageHeader/MyPageHeader';
 import Wall from '../../components/Wall/Wall';
 import FriendList from '../../components/FriendList/FriendList';
-import InfoButton from '../../components/SettingsButton/InfoButton';
+import EditButton from '../../components/EditButton/EditButton';
 
 const MyPage = () => {
   return (
@@ -11,7 +11,7 @@ const MyPage = () => {
       <MyPageHeader />
       <Wall />
       <div className={style.myPage__rightSide}>
-        <InfoButton />
+        <EditButton />
         <FriendList />
       </div>
     </div>

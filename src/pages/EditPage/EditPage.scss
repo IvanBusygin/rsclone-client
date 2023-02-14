@@ -5,8 +5,8 @@
   padding: $size-padding;
   border-radius: $size-border-radius;
   font-family: Roboto-Regular, sans-serif;
-  display: flex;
-  justify-content: center;
+  @extend %FlexColumn;
+  align-items: center;
 
   &__wrapper {
     width: 50rem;
@@ -41,6 +41,14 @@
     resize: none;
   }
 
+  &__button {
+    margin-top: 3rem;
+    padding: 1rem $size-padding;
+    border-radius: $size-border-radius;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+  }
+
   &_light {
     color: $color-dark;
     background-color: $color-main-light;
@@ -49,6 +57,15 @@
     .editPage__textarea {
       color: $color-dark;
       background-color: $color-main-light;
+    }
+
+    .editPage__button {
+      color: $color-main-light;
+      background-color: $color-save-button;
+
+      &:hover {
+        background-color: darken($color-save-button, $size-hover-percent);
+      }
     }
   }
 
@@ -61,6 +78,15 @@
       color: $color-main-light;
       background-color: $color-main-dark;
       border-color: $color-nav-count;
+    }
+
+    .editPage__button {
+      color: $color-dark;
+      background-color: $color-main-light;
+
+      &:hover {
+        background-color: darken($color-main-light, $size-hover-percent);
+      }
     }
   }
 }

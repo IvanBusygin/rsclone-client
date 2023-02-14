@@ -83,6 +83,12 @@ const EditPage = () => {
           <textarea className={style.editPage__textarea} />
         </div>
       </div>
+      <button
+        type="button"
+        className={style.editPage__button}
+      >
+        Сохранить
+      </button>
     </div>
   );
 };

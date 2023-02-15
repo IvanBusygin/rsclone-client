@@ -1,28 +1,28 @@
 import React from 'react';
 import classNames from 'classnames';
-import style from './FriendList.scss';
-import Friend from '../Friend/Friend';
+import style from './FriendIconList.scss';
+import FriendIcon from '../FriendIcon/FriendIcon';
 import { useTypedSelector } from '../../redux/hooks';
 
-const FriendList = () => {
+const FriendIconList = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.friends_light : style.friends_dark;
 
   return (
     <div className={classNames(style.friends, themeClass)}>
-      <Friend
+      <FriendIcon
         image="https://via.placeholder.com/60"
         name="Алеша Попович"
       />
-      <Friend
+      <FriendIcon
         image="https://via.placeholder.com/60"
         name="Добрыня Никитич"
       />
-      <Friend
+      <FriendIcon
         image="https://via.placeholder.com/60"
         name="Илья Муромец"
       />
-      <Friend
+      <FriendIcon
         image="https://via.placeholder.com/60"
         name="Твоя бывшая"
       />
@@ -30,4 +30,4 @@ const FriendList = () => {
   );
 };
 
-export default FriendList;
+export default FriendIconList;

@@ -2,7 +2,7 @@ import React from 'react';
 import style from './MyPage.scss';
 import MyPageHeader from '../../components/MyPageHeader/MyPageHeader';
 import Wall from '../../components/Wall/Wall';
-import FriendList from '../../components/FriendList/FriendList';
+import FriendIconList from '../../components/FriendIconList/FriendIconList';
 import EditButton from '../../components/EditButton/EditButton';
 
 const MyPage = () => {
@@ -12,7 +12,7 @@ const MyPage = () => {
       <Wall />
       <div className={style.myPage__rightSide}>
         <EditButton />
-        <FriendList />
+        <FriendIconList />
       </div>
     </div>
   );

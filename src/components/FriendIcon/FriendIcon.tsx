@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import style from './Friend.scss';
+import style from './FriendIcon.scss';
 import { IFriendProps } from '../../types/myPage';
 
-const Friend: FC<IFriendProps> = (props) => {
+const FriendIcon: FC<IFriendProps> = (props) => {
   const { image, name } = props;
 
   return (
@@ -10,7 +10,7 @@ const Friend: FC<IFriendProps> = (props) => {
       <div className={style.friend__avatar}>
         <img
           src={image}
-          alt="Friend avatar"
+          alt="FriendIcon avatar"
         />
       </div>
       <span className={style.friend__name}>{name.split(' ')[0]}</span>
@@ -18,4 +18,4 @@ const Friend: FC<IFriendProps> = (props) => {
   );
 };
 
-export default Friend;
+export default FriendIcon;

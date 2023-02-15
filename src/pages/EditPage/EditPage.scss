@@ -25,6 +25,11 @@
     margin-right: 1rem;
   }
 
+  &__familyStatus {
+    margin-left: auto;
+    width: 63%;
+  }
+
   &__field,
   &__textarea {
     margin-left: auto;
@@ -104,7 +109,8 @@
     }
 
     &__field,
-    &__textarea {
+    &__textarea,
+    &__familyStatus {
       width: 100%;
     }
   }

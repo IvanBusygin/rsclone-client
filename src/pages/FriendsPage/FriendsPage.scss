@@ -15,16 +15,15 @@
   &__button {
     padding: 1rem $size-padding;
     border-radius: $size-border-radius;
+    color: $color-dark;
     text-align: center;
     display: block;
   }
 
   &_light {
-    color: $color-dark;
     background-color: $color-main-light;
 
     .friendsPage__button {
-      color: $color-dark;
       background-color: $color-background-light;
     }
   }
@@ -34,7 +33,7 @@
     background-color: $color-main-dark;
 
     .friendsPage__button {
-      color: $color-main-light;
+      color: $color-dark;
       background-color: $color-main-light;
     }
   }

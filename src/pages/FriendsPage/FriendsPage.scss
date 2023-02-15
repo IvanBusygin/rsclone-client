@@ -1,0 +1,63 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.friendsPage {
+  padding: $size-padding;
+  border-radius: $size-border-radius;
+  font-family: Roboto-Regular, sans-serif;
+  @extend %FlexColumn;
+
+  &__header {
+    display: flex;
+    gap: $size-gap;
+  }
+
+  &__button {
+    padding: 1rem $size-padding;
+    border-radius: $size-border-radius;
+    text-align: center;
+    display: block;
+  }
+
+  &_light {
+    color: $color-dark;
+    background-color: $color-main-light;
+
+    .friendsPage__button {
+      color: $color-dark;
+      background-color: $color-background-light;
+    }
+  }
+
+  &_dark {
+    color: $color-main-light;
+    background-color: $color-main-dark;
+
+    .friendsPage__button {
+      color: $color-main-light;
+      background-color: $color-main-light;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .friendsPage {
+    &__button {
+      padding: 0.5rem 1rem;
+      font-size: 1.4rem;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .friendsPage {
+    &__header {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__button {
+      width: 50%;
+    }
+  }
+}

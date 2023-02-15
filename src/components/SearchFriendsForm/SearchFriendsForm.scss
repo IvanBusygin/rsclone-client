@@ -1,0 +1,69 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.searchForm {
+  margin: 0 auto;
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-gap;
+
+  &__field {
+    padding: 1rem $size-padding;
+    border: 1px solid $color-background-light;
+    border-radius: 0.5rem;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &__button {
+    padding: 1rem $size-padding;
+    border-radius: $size-border-radius;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &_light {
+    .searchForm__field {
+      color: $color-dark;
+      background-color: $color-main-light;
+    }
+
+    .searchForm__button {
+      color: $color-main-light;
+      background-color: $color-save-button;
+
+      &:hover {
+        background-color: darken($color-save-button, $size-hover-percent);
+      }
+    }
+  }
+
+  &_dark {
+    .searchForm__field {
+      color: $color-main-light;
+      background-color: $color-main-dark;
+      border-color: $color-nav-count;
+    }
+
+    .searchForm__button {
+      color: $color-dark;
+      background-color: $color-main-light;
+
+      &:hover {
+        background-color: darken($color-main-light, $size-hover-percent);
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .searchForm {
+    flex-direction: column;
+    align-items: center;
+
+    &__field {
+      width: 100%;
+    }
+  }
+}

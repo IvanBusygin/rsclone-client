@@ -8,6 +8,10 @@ import { useTypedSelector } from './redux/hooks';
 import Nav from './components/Navigation/Nav/Nav';
 import MyPage from './pages/MyPage/MyPage';
 import EditPage from './pages/EditPage/EditPage';
+import FriendsPage from './pages/FriendsPage/FriendsPage';
+import InboxFriends from './components/InboxFriends/InboxFriends';
+import OutboxFriends from './components/OutboxFriends/OutboxFriends';
+import SearchFriendsForm from './components/SearchFriendsForm/SearchFriendsForm';
 
 function App() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -29,6 +33,23 @@ function App() {
                 path="/edit"
                 element={<EditPage />}
               />
+              <Route
+                path="/friends"
+                element={<FriendsPage />}
+              >
+                <Route
+                  path="inbox"
+                  element={<InboxFriends />}
+                />
+                <Route
+                  path="outbox"
+                  element={<OutboxFriends />}
+                />
+                <Route
+                  path="search"
+                  element={<SearchFriendsForm />}
+                />
+              </Route>
             </Routes>
           </div>
         </div>

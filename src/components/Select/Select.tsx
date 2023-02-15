@@ -7,21 +7,14 @@ import { ISelectProps } from '../../types/editPage';
 import { useTypedSelector } from '../../redux/hooks';
 
 const Select: FC<ISelectProps> = (props) => {
-  const { selected, setSelected } = props;
-
-  const { isLightTheme } = useTypedSelector(({ common }) => common);
-  const themeClass = isLightTheme ? style.select_light : style.select_dark;
+  const { options, selected, setSelected } = props;
 
   const [isActive, setIsActive] = useState(false);
 
-  const options = [
-    'Есть семья',
-    'Встречаюсь',
-    'Скоро свадьба',
-    'В гражданском браке',
-    'Все сложно',
-    'В активном поиске',
-  ];
+  const zIndexClass = isActive ? style.zIndex : null;
+
+  const { isLightTheme } = useTypedSelector(({ common }) => common);
+  const themeClass = isLightTheme ? style.select_light : style.select_dark;
 
   const onOptionClick = (value: string) => {
     setSelected(value);
@@ -29,23 +22,24 @@ const Select: FC<ISelectProps> = (props) => {
   };
 
   return (
-    <div className={classNames(style.select, themeClass)}>
-      <button
-        type="button"
-        className={style.select__button}
-        onClick={() => setIsActive(!isActive)}
-      >
+    <div
+      className={classNames(style.select, themeClass)}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
+    >
+      <div className={style.select__selectedItem}>
         <span>{selected}</span>
         {isActive ? (
           <ArrowDropUpIcon style={{ fontSize: 'large' }} />
         ) : (
           <ArrowDropDownIcon style={{ fontSize: 'large' }} />
         )}
-      </button>
+      </div>
       {isActive && (
-        <div className={style.select__content}>
+        <div className={classNames(style.select__content, zIndexClass)}>
           {options.map((option) => (
             <div
+              key={option}
               className={style.select__item}
               onClick={() => onOptionClick(option)}
               onKeyDown={() => onOptionClick(option)}

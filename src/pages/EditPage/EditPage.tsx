@@ -3,12 +3,22 @@ import classNames from 'classnames';
 import style from './EditPage.scss';
 import { useTypedSelector } from '../../redux/hooks';
 import Select from '../../components/Select/Select';
+import Birthday from '../../components/Birthday/Birthday';
 
 const EditPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.editPage_light : style.editPage_dark;
 
   const [selected, setSelected] = useState('Не выбрано');
+
+  const options = [
+    'Есть семья',
+    'Встречаюсь',
+    'Скоро свадьба',
+    'В гражданском браке',
+    'Все сложно',
+    'В активном поиске',
+  ];
 
   return (
     <div className={classNames(style.editPage, themeClass)}>
@@ -28,6 +38,10 @@ const EditPage = () => {
           />
         </div>
         <div className={style.editPage__item}>
+          <p className={style.editPage__label}>День рождения:</p>
+          <Birthday />
+        </div>
+        <div className={style.editPage__item}>
           <p className={style.editPage__label}>Статус:</p>
           <input
             type="text"
@@ -36,10 +50,13 @@ const EditPage = () => {
         </div>
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Семейное положение:</p>
-          <Select
-            selected={selected}
-            setSelected={setSelected}
-          />
+          <div className={style.editPage__familyStatus}>
+            <Select
+              options={options}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </div>
         </div>
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Родной город:</p>

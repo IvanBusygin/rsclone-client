@@ -1,0 +1,24 @@
+.birthday {
+  margin-left: auto;
+  width: 63%;
+  display: flex;
+  justify-content: space-between;
+
+  &__day {
+    width: 25%;
+  }
+
+  &__month {
+    width: 40%;
+  }
+
+  &__year {
+    width: 30%;
+  }
+}
+
+@media (max-width: 650px) {
+  .birthday {
+    width: 100%;
+  }
+}

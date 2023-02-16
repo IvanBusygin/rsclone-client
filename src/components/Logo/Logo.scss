@@ -5,11 +5,11 @@
   display: flex;
   align-items: center;
 
-  &_light {
+  &_light .logo__name {
     color: $color-dark;
   }
 
-  &_dark {
+  &_dark .logo__name {
     color: $color-main-light;
   }
 

@@ -15,6 +15,7 @@
     .inputs {
       background-color: $color-main-light;
     }
+
     .ques__text,
     .ques__btn {
       color: $color-dark;
@@ -25,17 +26,17 @@
     .inputs {
       background-color: $color-main-dark;
     }
+
     .ques__text,
     .ques__btn {
       color: $color-main-light;
     }
   }
-
 }
 
 .inputs {
-  padding: 20px;
-  border-radius: 15px;
+  padding: $size-padding;
+  border-radius: $size-border-radius;
   max-width: 140rem;
   position: absolute;
   top: 40%;
@@ -45,18 +46,19 @@
 
 .ques {
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   align-items: flex-end;
+
   &__text {
-    font-size: 1.3rem;
+    font-size: $size-small-font;
   }
 
   &__btn {
-    margin: 1rem;
     min-width: 12rem;
     padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-size: 1.3rem;
+    border-radius: $size-border-radius;
+    font-size: $size-small-font;
     background-color: $color-button;
     transition: all 0.2s;
 
@@ -64,9 +66,6 @@
       background-color: $color-button-hover;
       border: none;
     }
+  }
+
 }
-
-
-}
-
-

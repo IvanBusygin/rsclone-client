@@ -4,7 +4,6 @@
 .page {
   &__container {
     @extend %Container;
-    padding: 10px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,6 +41,7 @@
     .input {
       border: $color-main-light solid 1px;
       background-color: $color-main-dark;
+
       &:focus {
         border: 1px solid $color-button;
       }
@@ -62,7 +62,7 @@
   outline: none;
   padding: 8px;
   margin: 8px;
-  border-radius: 10px;
+  border-radius: $size-border-radius;
 }
 
 .icon {
@@ -81,7 +81,7 @@
   margin: 2rem;
   height: 4rem;
   padding: 0 15px;
-  border-radius: 10px;
+  border-radius: $size-border-radius;
   font-size: 1.8rem;
   background-color: $color-button;
   transition: all 0.2s;
@@ -93,6 +93,6 @@
 }
 
 .error {
-  font-size: 1.4rem;
+  font-size: $size-small-font;
   color: red;
 }

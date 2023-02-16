@@ -20,12 +20,12 @@ enum ErrorMsg {
   nameReq = 'Введите ваше имя',
   surnameReq = 'Введите вашу фамилию',
   NameLength = 'Не менее 2 символов',
-  emailReq = 'Введите е-почту',
-  emailCor = 'Введите корректный адрес е-почты',
-  passwordLength = 'Пароль должен содержать минимум 8 символов',
-  passwordReq = 'Enter password',
-  passwordNum = 'Пароль должен содержать число',
-  passwordSym = 'Пароль должен содержать буквенные символы',
+  emailReq = 'Введите email',
+  emailCor = 'Введите корректный email',
+  passwordLength = 'Должен содержать минимум 8 символов',
+  passwordReq = 'Введите пароль',
+  passwordNum = 'Должен содержать число',
+  passwordSym = 'Должен содержать буквенные символы',
   passwordDif = 'Пароли не совпадают',
 }
 
@@ -41,7 +41,6 @@ function Signup() {
     formState: { errors },
     handleSubmit,
     getValues,
-    // setValue,
   } = useForm<IFormInputs>({});
 
   const onSubmitForm = () => {
@@ -112,7 +111,7 @@ function Signup() {
               message: ErrorMsg.emailCor,
             },
           })}
-          placeholder="Ввидете е-почту"
+          placeholder="Ввидете email"
         />
         {errors.email && <p className={style.error}>{errors?.email?.message}</p>}
 

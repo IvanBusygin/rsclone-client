@@ -12,9 +12,9 @@ interface IFormInputs {
 
 enum ErrorMsg {
   loginReq = 'Введите логин',
-  loginLength = 'Логина минимум 4 символов',
+  loginLength = 'Логин минимум 4 символов',
   passwordLength = 'Пароль минимум 8 символов',
-  passwordReq = 'Enter password',
+  passwordReq = 'Введите пароль',
   passwordNum = 'Должен содержать число',
   passwordSym = 'Должен содержать буквенные символы',
 }
@@ -27,7 +27,6 @@ function Signin() {
     register,
     formState: { errors },
     handleSubmit,
-    // setValue,
   } = useForm<IFormInputs>({});
 
   const onSubmitForm = () => {

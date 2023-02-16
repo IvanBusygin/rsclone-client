@@ -7,7 +7,7 @@ import style from './Layout.scss';
 import { useTypedSelector } from '../../redux/hooks';
 import Nav from '../Navigation/Nav/Nav';
 
-function Layout() {
+function LayoutMain() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.main_light : style.main_dark;
 
@@ -27,4 +27,4 @@ function Layout() {
   );
 }
 
-export default Layout;
+export default LayoutMain;

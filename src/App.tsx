@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import LayoutMain from './components/Layouts/LayoutMain';
+import LayoutLogin from './components/Layouts/LayoutLogin';
 import MyPage from './pages/MyPage/MyPage';
 import EditPage from './pages/EditPage/EditPage';
-import Layout from './components/Layouts/Layout';
 import FriendsPage from './pages/FriendsPage/FriendsPage';
 import InboxFriends from './components/InboxFriends/InboxFriends';
 import OutboxFriends from './components/OutboxFriends/OutboxFriends';
@@ -14,18 +15,18 @@ function App() {
     <Routes>
       <Route
         path="/"
-        element={<Layout />}
+        element={<LayoutMain />}
       >
         <Route
           index
           element={<MyPage />}
         />
         <Route
-          path="/edit"
+          path="edit"
           element={<EditPage />}
         />
         <Route
-          path="/friends"
+          path="friends"
           element={<FriendsPage />}
         >
           <Route
@@ -42,6 +43,10 @@ function App() {
           />
         </Route>
       </Route>
+      <Route
+        path="login"
+        element={<LayoutLogin />}
+      />
       <Route
         path="*"
         element={<NotFoundPage />}

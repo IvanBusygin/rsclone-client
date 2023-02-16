@@ -1,0 +1,31 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  padding: $size-padding 0;
+  flex-grow: 1;
+
+  &__container {
+    @extend %Container;
+    display: flex;
+    gap: $size-gap;
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+
+  &_light {
+    background-color: $color-background-light;
+  }
+
+  &_dark {
+    background-color: $color-background-dark;
+  }
+}

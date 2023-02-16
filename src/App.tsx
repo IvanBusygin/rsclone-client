@@ -7,6 +7,7 @@ import FriendsPage from './pages/FriendsPage/FriendsPage';
 import InboxFriends from './components/InboxFriends/InboxFriends';
 import OutboxFriends from './components/OutboxFriends/OutboxFriends';
 import SearchFriendsForm from './components/SearchFriendsForm/SearchFriendsForm';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
           />
         </Route>
       </Route>
+      <Route
+        path="*"
+        element={<NotFoundPage />}
+      />
     </Routes>
   );
 }

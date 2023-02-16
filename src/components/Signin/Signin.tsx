@@ -40,7 +40,7 @@ function Signin() {
         src={logoIcon}
         alt="Logo"
       />
-      <div className={style.title}>Вход ВК Clone</div>
+      <div className={style.title}>Вход VK Clone</div>
       <form
         className={style.form}
         onSubmit={handleSubmit(onSubmitForm)}

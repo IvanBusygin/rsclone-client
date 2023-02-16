@@ -54,7 +54,7 @@ function Signup() {
         src={logoIcon}
         alt="Logo"
       />
-      <div className={style.title}>Регистрация ВК Clone</div>
+      <div className={style.title}>Регистрация VK Clone</div>
       <form
         className={style.form}
         onSubmit={handleSubmit(onSubmitForm)}

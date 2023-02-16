@@ -5,9 +5,7 @@
   &__container {
     @extend %Container;
     padding: 10px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    @extend %FlexColumn;
     align-items: center;
   }
 
@@ -16,9 +14,12 @@
       background-color: $color-main-light;
     }
 
-    .ques__text,
-    .ques__btn {
+    .ques__text {
       color: $color-dark;
+    }
+
+    .ques__btn {
+      color: $color-main-light;
     }
   }
 
@@ -35,7 +36,7 @@
 }
 
 .inputs {
-  padding: $size-padding;
+  padding: 1rem 3rem 3rem;
   border-radius: $size-border-radius;
   max-width: 140rem;
   position: absolute;
@@ -45,8 +46,9 @@
 }
 
 .ques {
+  margin-top: 3rem;
   display: flex;
-  gap: 1rem;
+  gap: $size-gap;
   flex-direction: column;
   align-items: flex-end;
 
@@ -57,7 +59,7 @@
   &__btn {
     min-width: 12rem;
     padding: 0.5rem 1rem;
-    border-radius: $size-border-radius;
+    border-radius: 1rem;
     font-size: $size-small-font;
     background-color: $color-button;
     transition: all 0.2s;

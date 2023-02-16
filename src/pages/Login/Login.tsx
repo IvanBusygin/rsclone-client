@@ -18,7 +18,7 @@ function Login() {
 
         <div className={style.ques}>
           <div className={style.ques__text}>
-            {logState ? 'У вас нет аккаунта в ВК Clone?' : 'У вас есть аккаунт?'}
+            {logState ? 'У вас нет аккаунта в VK Clone?' : 'У вас есть аккаунт?'}
           </div>
           <button
             className={style.ques__btn}

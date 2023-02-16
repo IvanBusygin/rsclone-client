@@ -3,6 +3,7 @@
 
 .page {
   &__container {
+    font-family: Roboto-Regular, sans-serif;
     @extend %Container;
     display: flex;
     flex-direction: column;
@@ -13,14 +14,12 @@
   &_light {
     background-color: $color-main-light;
 
-    .text,
-    .input,
     .btn {
-      color: $color-dark;
+      color: $color-main-light;
     }
 
     .input {
-      border: $color-main-dark 1px solid;
+      border-color: $color-background-light;
 
       &:focus {
         border: 1px solid $color-button;
@@ -39,7 +38,7 @@
     }
 
     .input {
-      border: $color-main-light solid 1px;
+      color: $color-main-light;
       background-color: $color-main-dark;
 
       &:focus {
@@ -50,6 +49,7 @@
 }
 
 .form {
+  margin-top: 2rem;
   max-width: 32rem;
   display: flex;
   flex-direction: column;
@@ -59,10 +59,12 @@
 
 .input {
   width: 100%;
-  outline: none;
-  padding: 8px;
-  margin: 8px;
-  border-radius: $size-border-radius;
+  margin: 0.8rem;
+  padding: 1rem;
+  border: 1px solid $color-background-light;
+  border-radius: 0.5rem;
+  font-family: Roboto-Regular, sans-serif;
+  font-size: 1.4rem;
 }
 
 .icon {
@@ -80,7 +82,7 @@
   width: 100%;
   margin: 2rem;
   height: 4rem;
-  padding: 0 15px;
+  padding: 0 1.5rem;
   border-radius: $size-border-radius;
   font-size: 1.8rem;
   background-color: $color-button;

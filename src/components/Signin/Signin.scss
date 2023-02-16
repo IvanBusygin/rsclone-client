@@ -1,0 +1,98 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.page {
+  &__container {
+    @extend %Container;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .text,
+    .input,
+    .btn {
+      color: $color-dark;
+    }
+
+    .input {
+      border: $color-main-dark 1px solid;
+
+      &:focus {
+        border: 1px solid $color-button;
+        background-color: $color-main-light;
+      }
+    }
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+
+    .title,
+    .input,
+    .btn {
+      color: $color-main-light;
+    }
+
+    .input {
+      border: $color-main-light solid 1px;
+      background-color: $color-main-dark;
+
+      &:focus {
+        border: 1px solid $color-button;
+      }
+    }
+  }
+}
+
+.form {
+  max-width: 32rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  padding: 8px;
+  margin: 8px;
+  border-radius: $size-border-radius;
+}
+
+.icon {
+  margin: 2rem;
+  width: 5rem;
+  height: 100%;
+}
+
+.title {
+  margin: 1rem;
+  font-size: 2.2rem;
+}
+
+.btn {
+  width: 100%;
+  margin: 2rem;
+  height: 4rem;
+  padding: 0 15px;
+  border-radius: $size-border-radius;
+  font-size: 1.8rem;
+  background-color: $color-button;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $color-button-hover;
+    border: none;
+  }
+}
+
+.error {
+  font-size: $size-small-font;
+  color: red;
+}

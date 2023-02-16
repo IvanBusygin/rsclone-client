@@ -43,5 +43,6 @@ module.exports = {
     eqeqeq: 2,
     'react/function-component-definition': 0,
     'jsx-a11y/no-static-element-interactions': 0,
+    'react/jsx-props-no-spreading': 0,
   },
 };

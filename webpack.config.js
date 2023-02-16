@@ -96,7 +96,7 @@ module.exports = () => {
       new HtmlWebpackPlugin({
         template: path.join(__dirname, 'src/index.html'),
         filename: 'index.html',
-        favicon: './assets/favicon.ico',
+        favicon: './assets/img/svg/logo.svg',
       }),
       new NetlifyPlugin({
         redirects: [{ from: '/*', to: '/index.html', status: 200 }],

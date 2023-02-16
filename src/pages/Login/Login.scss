@@ -1,0 +1,71 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.page {
+  &__container {
+    @extend %Container;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_light {
+    .inputs {
+      background-color: $color-main-light;
+    }
+
+    .ques__text,
+    .ques__btn {
+      color: $color-dark;
+    }
+  }
+
+  &_dark {
+    .inputs {
+      background-color: $color-main-dark;
+    }
+
+    .ques__text,
+    .ques__btn {
+      color: $color-main-light;
+    }
+  }
+}
+
+.inputs {
+  padding: $size-padding;
+  border-radius: $size-border-radius;
+  max-width: 140rem;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+}
+
+.ques {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &__text {
+    font-size: $size-small-font;
+  }
+
+  &__btn {
+    min-width: 12rem;
+    padding: 0.5rem 1rem;
+    border-radius: $size-border-radius;
+    font-size: $size-small-font;
+    background-color: $color-button;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $color-button-hover;
+      border: none;
+    }
+  }
+
+}

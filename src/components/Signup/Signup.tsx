@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import style from './Signup.scss';
@@ -41,7 +41,12 @@ function Signup() {
     formState: { errors },
     handleSubmit,
     getValues,
+    setFocus,
   } = useForm<IFormInputs>({});
+
+  useEffect(() => {
+    setFocus('name');
+  }, [setFocus]);
 
   const onSubmitForm = () => {
     console.log(' отправлено ');

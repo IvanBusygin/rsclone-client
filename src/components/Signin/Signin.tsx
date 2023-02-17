@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import style from './Signin.scss';
@@ -27,7 +27,12 @@ function Signin() {
     register,
     formState: { errors },
     handleSubmit,
+    setFocus,
   } = useForm<IFormInputs>({});
+
+  useEffect(() => {
+    setFocus('login');
+  }, [setFocus]);
 
   const onSubmitForm = () => {
     console.log(' отправлено ');

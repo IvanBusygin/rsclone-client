@@ -24,6 +24,18 @@ const EditPage = () => {
     <div className={classNames(style.editPage, themeClass)}>
       <div className={style.editPage__wrapper}>
         <div className={style.editPage__item}>
+          <p className={style.editPage__label}>Аватар:</p>
+          <div className={classNames(style.editPage__field, style.editPage__fileWrapper)}>
+            <label htmlFor="file">
+              Выберите файл
+              <input
+                type="file"
+                id="file"
+              />
+            </label>
+          </div>
+        </div>
+        <div className={style.editPage__item}>
           <p className={style.editPage__label}>Имя:</p>
           <input
             type="text"

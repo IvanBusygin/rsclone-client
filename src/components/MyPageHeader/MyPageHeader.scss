@@ -28,6 +28,21 @@
     }
   }
 
+  &__avatar {
+    margin-top: -9rem;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+    background-color: $color-nav-hover;
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   &__userCover {
     flex-grow: 1;
   }
@@ -57,6 +72,11 @@
   .myPage {
     &__header {
       height: 15rem;
+    }
+
+    &__avatar {
+      width: 8rem;
+      height: 8rem;
     }
 
     &__name {

@@ -2,8 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import style from './MyPageHeader.scss';
 import { useTypedSelector } from '../../redux/hooks';
-import Avatar from '../Avatar/Avatar';
-// import logo from "../Logo/Logo";
+import userDefaultAvatar from '../../assets/img/svg/user_default_icon.svg';
 
 const MyPageHeader = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -18,7 +17,13 @@ const MyPageHeader = () => {
         />
       </div>
       <div className={style.myPage__userInfo}>
-        <Avatar />
+        <div className={style.myPage__avatar}>
+          <img
+            src={userDefaultAvatar}
+            alt="Avatar"
+            className={style.myPage__image}
+          />
+        </div>
         <div className={style.myPage__info}>
           <h2 className={style.myPage__name}>Петя Камушкин</h2>
           <p className={style.myPage__status}>{`I'm best of the best`}</p>

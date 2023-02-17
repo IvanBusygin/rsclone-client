@@ -46,6 +46,27 @@
     resize: none;
   }
 
+  &__fileWrapper {
+    padding: 0;
+    border: none;
+    position: relative;
+
+    & input {
+      width: 0;
+      height: 0;
+      opacity: 0;
+      display: block;
+      position: absolute;
+    }
+
+    & label {
+      padding: 0.5rem 1rem;
+      border-radius: 0.4rem;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+
   &__button {
     margin-top: 3rem;
     padding: 1rem $size-padding;
@@ -57,6 +78,13 @@
   &_light {
     color: $color-dark;
     background-color: $color-main-light;
+
+    .editPage__fileWrapper {
+      & label {
+        color: $color-main-light;
+        background-color: $color-save-button;
+      }
+    }
 
     .editPage__field,
     .editPage__textarea {
@@ -77,6 +105,13 @@
   &_dark {
     color: $color-main-light;
     background-color: $color-main-dark;
+
+    .editPage__fileWrapper {
+      & label {
+        color: $color-dark;
+        background-color: $color-main-light;
+      }
+    }
 
     .editPage__field,
     .editPage__textarea {

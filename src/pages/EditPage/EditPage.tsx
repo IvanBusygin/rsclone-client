@@ -67,6 +67,14 @@ const EditPage = () => {
                 onChange={loadUserAvatar}
               />
             </label>
+            {infoData.avatar && (
+              <div className={style.editPage__avatar}>
+                <img
+                  src={infoData.avatar}
+                  alt="Avatar"
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className={style.editPage__item}>

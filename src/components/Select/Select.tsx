@@ -7,7 +7,7 @@ import { ISelectProps } from '../../types/editPage';
 import { useTypedSelector } from '../../redux/hooks';
 
 const Select: FC<ISelectProps> = (props) => {
-  const { options, selected, setSelected } = props;
+  const { options, selected, fieldName, returnInfo } = props;
 
   const [isActive, setIsActive] = useState(false);
 
@@ -17,7 +17,7 @@ const Select: FC<ISelectProps> = (props) => {
   const themeClass = isLightTheme ? style.select_light : style.select_dark;
 
   const onOptionClick = (value: string) => {
-    setSelected(value);
+    returnInfo({ [fieldName]: value });
     setIsActive(false);
   };
 

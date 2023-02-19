@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import style from './EditPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
@@ -6,12 +6,15 @@ import Select from '../../components/Select/Select';
 import Birthday from '../../components/Birthday/Birthday';
 import { updateUserInfo } from '../../redux/slices/editPageSlice';
 import { getUserInfo, postUserInfo } from '../../redux/thunks';
+import { MAX_SIZE_FILE } from '../../utils/constants';
 
 const EditPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.editPage_light : style.editPage_dark;
 
   const { infoData } = useTypedSelector(({ editPage }) => editPage);
+
+  const [buttonName, setButtonName] = useState('Выберите файл');
 
   const dispatch = useTypedDispatch();
 
@@ -32,15 +35,20 @@ const EditPage = () => {
     const file = e.target.files;
 
     if (file) {
-      const image = file[0];
-      const reader = new FileReader();
+      if (file[0].size > MAX_SIZE_FILE) {
+        setButtonName('Не больше 5Mb');
+      } else {
+        setButtonName('Выберите файл');
+        const image = file[0];
+        const reader = new FileReader();
 
-      reader.onload = () => {
-        dispatch(updateUserInfo({ avatar: String(reader.result) }));
-      };
+        reader.onload = () => {
+          dispatch(updateUserInfo({ avatar: String(reader.result) }));
+        };
 
-      if (image) {
-        reader.readAsDataURL(image);
+        if (image) {
+          reader.readAsDataURL(image);
+        }
       }
     }
   };
@@ -60,9 +68,10 @@ const EditPage = () => {
           <p className={style.editPage__label}>Аватар:</p>
           <div className={classNames(style.editPage__field, style.editPage__fileWrapper)}>
             <label htmlFor="file">
-              Выберите файл
+              {buttonName}
               <input
                 type="file"
+                accept=".png, .jpg, .jpeg"
                 id="file"
                 onChange={loadUserAvatar}
               />

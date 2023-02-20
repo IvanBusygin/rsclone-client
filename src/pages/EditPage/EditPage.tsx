@@ -6,7 +6,14 @@ import Select from '../../components/Select/Select';
 import Birthday from '../../components/Birthday/Birthday';
 import { updateUserInfo } from '../../redux/slices/editPageSlice';
 import { getUserInfo, postUserInfo } from '../../redux/thunks';
-import { MAX_SIZE_FILE } from '../../utils/constants';
+import {
+  MAX_LENGTH_CITY,
+  MAX_LENGTH_NAME,
+  MAX_LENGTH_EDUCATION,
+  MAX_LENGTH_TEXT,
+  MAX_SIZE_FILE,
+  MIN_LENGTH_NAME,
+} from '../../utils/constants';
 
 const EditPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -90,6 +97,8 @@ const EditPage = () => {
           <p className={style.editPage__label}>Имя:</p>
           <input
             type="text"
+            minLength={MIN_LENGTH_NAME}
+            maxLength={MAX_LENGTH_NAME}
             className={style.editPage__field}
             value={infoData.firstName}
             onChange={(e) => getInfo({ firstName: e.target.value })}
@@ -99,6 +108,8 @@ const EditPage = () => {
           <p className={style.editPage__label}>Фамилия:</p>
           <input
             type="text"
+            minLength={MIN_LENGTH_NAME}
+            maxLength={MAX_LENGTH_NAME}
             className={style.editPage__field}
             value={infoData.lastName}
             onChange={(e) => getInfo({ lastName: e.target.value })}
@@ -115,6 +126,7 @@ const EditPage = () => {
           <p className={style.editPage__label}>Статус:</p>
           <input
             type="text"
+            maxLength={MAX_LENGTH_TEXT}
             className={style.editPage__field}
             value={infoData.status}
             onChange={(e) => getInfo({ status: e.target.value })}
@@ -135,6 +147,7 @@ const EditPage = () => {
           <p className={style.editPage__label}>Родной город:</p>
           <input
             type="text"
+            maxLength={MAX_LENGTH_CITY}
             className={style.editPage__field}
             value={infoData.hometown}
             onChange={(e) => getInfo({ hometown: e.target.value })}
@@ -144,6 +157,7 @@ const EditPage = () => {
           <p className={style.editPage__label}>Школа:</p>
           <input
             type="text"
+            maxLength={MAX_LENGTH_EDUCATION}
             className={style.editPage__field}
             value={infoData.school}
             onChange={(e) => getInfo({ school: e.target.value })}
@@ -153,6 +167,7 @@ const EditPage = () => {
           <p className={style.editPage__label}>ВУЗ:</p>
           <input
             type="text"
+            maxLength={MAX_LENGTH_EDUCATION}
             className={style.editPage__field}
             value={infoData.university}
             onChange={(e) => getInfo({ university: e.target.value })}
@@ -161,6 +176,7 @@ const EditPage = () => {
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Интересы:</p>
           <textarea
+            maxLength={MAX_LENGTH_TEXT}
             className={style.editPage__textarea}
             value={infoData.interests}
             onChange={(e) => getInfo({ interests: e.target.value })}
@@ -169,6 +185,7 @@ const EditPage = () => {
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Жизненная позиция:</p>
           <textarea
+            maxLength={MAX_LENGTH_TEXT}
             className={style.editPage__textarea}
             value={infoData.lifePosition}
             onChange={(e) => getInfo({ lifePosition: e.target.value })}
@@ -177,6 +194,7 @@ const EditPage = () => {
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Любимая музыка:</p>
           <textarea
+            maxLength={MAX_LENGTH_TEXT}
             className={style.editPage__textarea}
             value={infoData.favoriteMusic}
             onChange={(e) => getInfo({ favoriteMusic: e.target.value })}
@@ -185,6 +203,7 @@ const EditPage = () => {
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Любимые книги:</p>
           <textarea
+            maxLength={MAX_LENGTH_TEXT}
             className={style.editPage__textarea}
             value={infoData.favoriteBooks}
             onChange={(e) => getInfo({ favoriteBooks: e.target.value })}
@@ -193,6 +212,7 @@ const EditPage = () => {
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Любимые фильмы:</p>
           <textarea
+            maxLength={MAX_LENGTH_TEXT}
             className={style.editPage__textarea}
             value={infoData.favoriteFilms}
             onChange={(e) => getInfo({ favoriteFilms: e.target.value })}

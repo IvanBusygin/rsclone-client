@@ -14,12 +14,13 @@ import {
   MAX_SIZE_FILE,
   MIN_LENGTH_NAME,
 } from '../../utils/constants';
+import Preloader from '../../components/Preloader/Preloader';
 
 const EditPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.editPage_light : style.editPage_dark;
 
-  const { infoData } = useTypedSelector(({ editPage }) => editPage);
+  const { infoData, isLoading } = useTypedSelector(({ editPage }) => editPage);
 
   const [buttonName, setButtonName] = useState('Выберите файл');
 
@@ -224,7 +225,7 @@ const EditPage = () => {
         className={style.editPage__button}
         onClick={onSaveButtonClick}
       >
-        Сохранить
+        {isLoading ? <Preloader /> : 'Сохранить'}
       </button>
     </div>
   );

@@ -30,4 +30,5 @@ export interface IUserInfo {
 export interface IEditPageState {
   userId: string;
   infoData: IUserInfo;
+  isLoading: boolean;
 }

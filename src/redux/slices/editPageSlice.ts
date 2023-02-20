@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IEditPageState } from '../../types/editPage';
-import { getUserInfo } from '../thunks';
+import { getUserInfo, postUserInfo } from '../thunks';
 import { DEFAULT_DATE } from '../../utils/constants';
 
 const initialState: IEditPageState = {
@@ -21,6 +21,7 @@ const initialState: IEditPageState = {
     familyStatus: 'Не выбрано',
     favoriteFilms: '',
   },
+  isLoading: false,
 };
 
 const editPageSlice = createSlice({
@@ -33,10 +34,17 @@ const editPageSlice = createSlice({
   },
   extraReducers: {
     [getUserInfo.fulfilled.type]: (state, action) => {
+      console.log(action.payload);
       state.infoData = {
         ...state.infoData,
         ...action.payload,
       };
+    },
+    [postUserInfo.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [postUserInfo.fulfilled.type]: (state) => {
+      state.isLoading = false;
     },
   },
 });

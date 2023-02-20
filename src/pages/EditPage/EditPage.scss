@@ -84,11 +84,15 @@
   }
 
   &__button {
-    margin-top: 3rem;
-    padding: 1rem $size-padding;
+    width: 10rem;
+    height: 3.7rem;
     border-radius: $size-border-radius;
     font-family: Roboto-Regular, sans-serif;
     font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
   }
 
   &_light {

@@ -49,7 +49,6 @@ function Signup() {
 
   const onSubmitForm: SubmitHandler<IFormReg> = (data) => {
     dispatch(fetchReg(data));
-    console.log(' отправлено ');
   };
 
   useEffect(() => {

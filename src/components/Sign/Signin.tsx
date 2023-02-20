@@ -38,7 +38,6 @@ function Signin() {
 
   const onSubmitForm: SubmitHandler<IFormLogin> = (data) => {
     dispatch(fetchLogin(data));
-    console.log(' отправлено ');
   };
 
   useEffect(() => {

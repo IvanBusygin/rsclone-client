@@ -32,20 +32,20 @@ const editPageSlice = createSlice({
       state.infoData = { ...state.infoData, ...action.payload };
     },
   },
-  extraReducers: {
-    [getUserInfo.fulfilled.type]: (state, action) => {
-      console.log(action.payload);
-      state.infoData = {
-        ...state.infoData,
-        ...action.payload,
-      };
-    },
-    [postUserInfo.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [postUserInfo.fulfilled.type]: (state) => {
-      state.isLoading = false;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getUserInfo.fulfilled, (state, action) => {
+        state.infoData = {
+          ...state.infoData,
+          ...action.payload,
+        };
+      })
+      .addCase(postUserInfo.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(postUserInfo.fulfilled, (state) => {
+        state.isLoading = false;
+      });
   },
 });
 

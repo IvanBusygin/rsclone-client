@@ -1,10 +1,10 @@
 import { CombinedState, createAsyncThunk } from '@reduxjs/toolkit';
-import { GET_USER_INFO_URL, PATCH_USER_INFO_URL } from '../utils/constants';
+import { USER_INFO_URL } from '../utils/constants';
 import { IEditPageState } from '../types/editPage';
 
 export const getUserInfo = createAsyncThunk('editPage/getUserInfo', async () => {
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem('vk-clone-accessToken') ?? '');
-  const response = await fetch(GET_USER_INFO_URL, {
+  const response = await fetch(USER_INFO_URL, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +14,6 @@ export const getUserInfo = createAsyncThunk('editPage/getUserInfo', async () => 
   });
 
   const userInfo = await response.json();
-  console.log(userInfo);
   delete userInfo.user;
 
   return userInfo;
@@ -27,7 +26,7 @@ export const postUserInfo = createAsyncThunk('editPage/getUserInfo', async (_, {
     editPage: { infoData },
   } = getState() as CombinedState<{ editPage: IEditPageState }>;
 
-  await fetch(PATCH_USER_INFO_URL, {
+  await fetch(USER_INFO_URL, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

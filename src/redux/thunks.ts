@@ -19,7 +19,7 @@ export const getUserInfo = createAsyncThunk('editPage/getUserInfo', async () => 
   return userInfo;
 });
 
-export const postUserInfo = createAsyncThunk('editPage/getUserInfo', async (_, { getState }) => {
+export const postUserInfo = createAsyncThunk('editPage/postUserInfo', async (_, { getState }) => {
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem('vk-clone-accessToken') ?? '');
   const USER_ID = JSON.parse(localStorage.getItem('vk-clone-userID') ?? '');
   const {

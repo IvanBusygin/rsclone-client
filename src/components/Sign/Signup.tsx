@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames';
-import style from './Signup.scss';
-import { useTypedSelector } from '../../redux/hooks';
+import { useNavigate } from 'react-router-dom';
+import style from './Sign.scss';
+import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import logoIcon from '../../assets/img/svg/logo.svg';
-
-interface IFormInputs {
-  login: string;
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  password2: string;
-}
+import { IFormReg } from '../../types/login';
+import { fetchReg, resetDuplicate } from '../../redux/slices/authSlice';
 
 enum ErrorMsg {
   loginReq = 'Введите ваше логин',
@@ -36,21 +30,34 @@ function Signup() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.page_light : style.page_dark;
 
+  const { loading, errorDuplicate, isAuth } = useTypedSelector(({ auth }) => auth);
+
+  const dispatch = useTypedDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     getValues,
     setFocus,
-  } = useForm<IFormInputs>({});
+  } = useForm<IFormReg>({});
 
   useEffect(() => {
     setFocus('name');
   }, [setFocus]);
 
-  const onSubmitForm = () => {
+  const onSubmitForm: SubmitHandler<IFormReg> = (data) => {
+    dispatch(fetchReg(data));
     console.log(' отправлено ');
   };
+
+  useEffect(() => {
+    setTimeout(() => dispatch(resetDuplicate()), 5000);
+    if (loading === false && isAuth === true) {
+      navigate('/');
+    }
+  }, [dispatch, navigate, loading, isAuth]);
 
   return (
     <div className={classNames(themeClass, style.page__container)}>
@@ -136,6 +143,8 @@ function Signup() {
           })}
           placeholder="Введите пароль"
         />
+        {errors.password && <p className={style.error}>{errors?.password?.message}</p>}
+
         <input
           className={style.input}
           type="password"
@@ -151,7 +160,6 @@ function Signup() {
           })}
           placeholder="Повторите пароль"
         />
-        {errors.password && <p className={style.error}>{errors?.password?.message}</p>}
         {errors.password2 && <p className={style.error}>{errors?.password2?.message}</p>}
 
         <button
@@ -160,6 +168,9 @@ function Signup() {
         >
           Зарегистрироваться
         </button>
+
+        {errorDuplicate && <div className={style.errorDuplicate}>Пользователь уже существует</div>}
+        {loading && <div className={style.loading}>Загрузка...</div>}
       </form>
     </div>
   );

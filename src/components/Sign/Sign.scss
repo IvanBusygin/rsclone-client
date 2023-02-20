@@ -4,7 +4,6 @@
 .page {
   &__container {
     font-family: Roboto-Regular, sans-serif;
-    @extend %Container;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -49,7 +48,7 @@
 }
 
 .form {
-  margin-top: 2rem;
+  margin-top: 1rem;
   max-width: 32rem;
   display: flex;
   flex-direction: column;
@@ -74,6 +73,7 @@
 }
 
 .title {
+  text-align: center;
   margin: 1rem;
   font-size: 2.2rem;
 }
@@ -95,6 +95,23 @@
 }
 
 .error {
-  font-size: $size-small-font;
+  min-height: 12px;
+  font-size: 1.15rem;
   color: red;
+}
+
+.errorDuplicate {
+  color: red;
+  font-size: 1.5rem;
+}
+
+.loading {
+  color: green;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 680px) {
+  .title {
+    font-size: 2rem;
+  }
 }

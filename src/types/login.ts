@@ -14,7 +14,7 @@ export interface IFormReg {
 
 export interface IUserData {
   user: {
-    id: string | undefined;
+    _id: string | undefined;
     email: string;
     username: string;
     isActivated: boolean | undefined;

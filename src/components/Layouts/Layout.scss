@@ -8,6 +8,7 @@
 }
 
 .main {
+  padding: $size-padding 0;
   flex-grow: 1;
 
   &__container {

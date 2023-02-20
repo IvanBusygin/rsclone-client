@@ -1,0 +1,9 @@
+export const DEFAULT_DATE = '1930-02-01T01:00:00.000Z';
+export const SERVER_URL = 'https://rs-clone-vk.onrender.com';
+export const USER_INFO_URL = `${SERVER_URL}/info`;
+export const MAX_SIZE_FILE = 5242880;
+export const MIN_LENGTH_NAME = 2;
+export const MAX_LENGTH_NAME = 20;
+export const MAX_LENGTH_TEXT = 140;
+export const MAX_LENGTH_CITY = 30;
+export const MAX_LENGTH_EDUCATION = 50;

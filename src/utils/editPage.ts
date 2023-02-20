@@ -11,3 +11,9 @@ export const yearsGenerator = (from: number, to = new Date().getFullYear()) => {
 export const daysGenerator = () => {
   return new Array(31).fill(0).map((_, idx) => String(idx + 1));
 };
+
+export const formatDate = (y: number, m: number, d: number) => {
+  const timestamp = new Date(y, m, d).getTime();
+  const offset = new Date().getTimezoneOffset();
+  return new Date(timestamp - offset).toISOString();
+};

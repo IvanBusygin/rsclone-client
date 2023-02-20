@@ -33,9 +33,9 @@ const authSlice = createSlice({
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.isAuth = true;
         localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
-        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user.id));
+        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
+        state.isAuth = true;
         state.loading = false;
       })
       .addCase(fetchLogin.rejected, (state) => {
@@ -51,7 +51,7 @@ const authSlice = createSlice({
       })
       .addCase(fetchReg.fulfilled, (state, action) => {
         localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
-        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user.id));
+        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
         state.user = action.payload;
         state.errorDuplicate = false;
         state.loading = false;
@@ -70,7 +70,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isAuth = true;
         localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
-        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user.id));
+        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
       })
       .addCase(fetchRefresh.rejected, (state) => {
         state.isAuth = false;

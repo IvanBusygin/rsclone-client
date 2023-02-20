@@ -4,7 +4,6 @@
 .page {
   &__container {
     @extend %Container;
-    padding: 10px 0;
     @extend %FlexColumn;
     align-items: center;
   }
@@ -46,7 +45,7 @@
 }
 
 .ques {
-  margin-top: 3rem;
+  margin-top: 1rem;
   display: flex;
   gap: $size-gap;
   flex-direction: column;
@@ -68,5 +67,11 @@
       background-color: $color-button-hover;
       border: none;
     }
+  }
+}
+
+@media (max-width: 320px) {
+  .inputs {
+    padding: 1rem;
   }
 }

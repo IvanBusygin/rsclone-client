@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import classNames from 'classnames';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -11,7 +11,10 @@ function LayoutMain() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.main_light : style.main_dark;
 
-  return (
+  const location = useLocation();
+  const isAuth = useTypedSelector((state) => state.auth.isAuth);
+
+  return isAuth ? (
     <div className={style.app}>
       <Header />
       <main className={classNames(style.main, themeClass)}>
@@ -24,6 +27,12 @@ function LayoutMain() {
       </main>
       <Footer />
     </div>
+  ) : (
+    <Navigate
+      to="/login"
+      state={{ from: location }}
+      replace
+    />
   );
 }
 

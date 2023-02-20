@@ -1,14 +1,12 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames';
-import style from './Signin.scss';
-import { useTypedSelector } from '../../redux/hooks';
+import { useNavigate } from 'react-router-dom';
+import style from './Sign.scss';
+import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import logoIcon from '../../assets/img/svg/logo.svg';
-
-interface IFormInputs {
-  login: string;
-  password: string;
-}
+import { IFormLogin } from '../../types/login';
+import { fetchLogin } from '../../redux/slices/authSlice';
 
 enum ErrorMsg {
   loginReq = 'Введите логин',
@@ -23,15 +21,30 @@ function Signin() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.page_light : style.page_dark;
 
+  const { loading, isAuth } = useTypedSelector(({ auth }) => auth);
+  const dispatch = useTypedDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<IFormInputs>({});
+    setFocus,
+  } = useForm<IFormLogin>({});
 
-  const onSubmitForm = () => {
-    console.log(' отправлено ');
+  useEffect(() => {
+    setFocus('login');
+  }, [setFocus]);
+
+  const onSubmitForm: SubmitHandler<IFormLogin> = (data) => {
+    dispatch(fetchLogin(data));
   };
+
+  useEffect(() => {
+    if (loading === false && isAuth === true) {
+      navigate('/');
+    }
+  }, [navigate, loading, isAuth]);
 
   return (
     <div className={classNames(themeClass, style.page__container)}>
@@ -40,6 +53,7 @@ function Signin() {
         src={logoIcon}
         alt="Logo"
       />
+
       <div className={style.title}>Вход VK Clone</div>
       <form
         className={style.form}
@@ -83,6 +97,8 @@ function Signin() {
         >
           Войти
         </button>
+
+        {loading && <div className={style.loading}>Загрузка...</div>}
       </form>
     </div>
   );

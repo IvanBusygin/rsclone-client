@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import Signup from '../../components/Signup/Signup';
-import Signin from '../../components/Signin/Signin';
+import Signup from '../../components/Sign/Signup';
+import Signin from '../../components/Sign/Signin';
 import style from './Login.scss';
 import { useTypedSelector } from '../../redux/hooks';
 
@@ -13,7 +13,7 @@ function Login() {
 
   return (
     <div className={classNames(themeClass, style.page__container)}>
-      <div className={classNames(style.inputs, style.inputs)}>
+      <div className={style.inputs}>
         {logState ? <Signin /> : <Signup />}
 
         <div className={style.ques}>

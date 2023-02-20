@@ -14,10 +14,8 @@ function LayoutMain() {
     <div className={style.app}>
       <Header />
       <main className={classNames(style.main, themeClass)}>
-        <div className={style.main__container}>
-          <div className={style.main__content}>
-            <Login />
-          </div>
+        <div>
+          <Login />
         </div>
       </main>
       <Footer />

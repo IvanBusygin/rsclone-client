@@ -17,3 +17,11 @@ export const formatDate = (y: number, m: number, d: number) => {
   const offset = new Date().getTimezoneOffset();
   return new Date(timestamp - offset).toISOString();
 };
+
+export const getMonthNumber = (monthName: string, months: string[]) => {
+  return months.findIndex((m) => m === monthName);
+};
+
+export const getCountDays = (y: number, m: number) => {
+  return new Date(y, m + 1, 0).getDate();
+};

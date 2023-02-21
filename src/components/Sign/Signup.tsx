@@ -137,7 +137,7 @@ function Signup() {
             },
             validate: {
               corNun: (value) => /[0-9]/.test(value) || ErrorMsg.passwordNum,
-              corSym: (value) => /[a-zа-яё]/i.test(value) || ErrorMsg.passwordSym,
+              corSym: (value) => /[a-z]/i.test(value) || ErrorMsg.passwordSym,
             },
           })}
           placeholder="Введите пароль"

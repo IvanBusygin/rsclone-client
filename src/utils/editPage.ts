@@ -8,8 +8,8 @@ export const yearsGenerator = (from: number, to = new Date().getFullYear()) => {
   return result;
 };
 
-export const daysGenerator = () => {
-  return new Array(31).fill(0).map((_, idx) => String(idx + 1));
+export const daysGenerator = (daysCount: number) => {
+  return new Array(daysCount).fill(0).map((_, idx) => String(idx + 1));
 };
 
 export const formatDate = (y: number, m: number, d: number) => {

@@ -7,6 +7,7 @@ import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import logoIcon from '../../assets/img/svg/logo.svg';
 import { IFormLogin } from '../../types/login';
 import { fetchLogin } from '../../redux/slices/authSlice';
+import Preloader from '../Preloader/Preloader';
 
 enum ErrorMsg {
   loginReq = 'Введите логин',
@@ -71,7 +72,7 @@ function Signin() {
           })}
           placeholder="Введите логин или почту"
         />
-        {errors.login && <p className={style.error}>{errors?.login?.message}</p>}
+        {errors.login && <p className={style.error}>{errors.login.message}</p>}
 
         <input
           className={style.input}
@@ -89,16 +90,14 @@ function Signin() {
           })}
           placeholder="Введите пароль"
         />
-        {errors.password && <p className={style.error}>{errors?.password?.message}</p>}
+        {errors.password && <p className={style.error}>{errors.password.message}</p>}
 
         <button
           className={style.btn}
           type="submit"
         >
-          Войти
+          {loading ? <Preloader /> : 'Войти'}
         </button>
-
-        {loading && <div className={style.loading}>Загрузка...</div>}
       </form>
     </div>
   );

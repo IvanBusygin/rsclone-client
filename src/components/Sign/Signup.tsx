@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames';
-import { useNavigate } from 'react-router-dom';
 import style from './Sign.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
+import { fetchReg, resetDuplicate } from '../../redux/slices/authSlice';
 import logoIcon from '../../assets/img/svg/logo.svg';
 import { IFormReg } from '../../types/login';
-import { fetchReg, resetDuplicate } from '../../redux/slices/authSlice';
+import Preloader from '../Preloader/Preloader';
 
 enum ErrorMsg {
   loginReq = 'Введите ваше логин',
@@ -18,13 +19,30 @@ enum ErrorMsg {
   emailCor = 'Введите корректный email',
   passwordLength = 'Должен содержать минимум 8 символов',
   passwordReq = 'Введите пароль',
-  passwordNum = 'Должен содержать число',
-  passwordSym = 'Должен содержать буквенные символы',
   passwordDif = 'Пароли не совпадают',
 }
 
 const regexpEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const checkPasswordSymbols = (password: string) => {
+  const basicRegex =
+    /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.*[!"'#$%`()*+,-./:;<>=?@[\]^_{|}~])(?=.{8,})/;
+  const specialRegex = /[!"'#$%`()*+,-.:;<>=?@[\]^_{|}~]\\/;
+  const upperRegex = /[A-Z]/;
+  const lowerRegex = /[a-z]/;
+  const numberRegex = /[0-9]/;
+  const spaceRegex = /[ ]/;
+  if (spaceRegex.test(password)) return 'Пароль не должен содержать пробел';
+  if (!upperRegex.test(password)) return 'Пароль не включает символы в верхнем регистре';
+  if (!lowerRegex.test(password)) return 'Пароль не включает символы в нижнем регистре';
+  if (!numberRegex.test(password)) return 'Пароль не включает число';
+  if (!basicRegex.test(password)) return 'Неверный пароль';
+  if (!specialRegex.test(password)) {
+    return 'Пароль не включает специальные символы: !@#$%^&*()-_+=,.:;<>?[]{}"\'|\\/~';
+  }
+  return true;
+};
 
 function Signup() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -82,7 +100,7 @@ function Signup() {
           })}
           placeholder="Ввидете ваше имя"
         />
-        {errors.name && <p className={style.error}>{errors?.name?.message}</p>}
+        {errors.name && <p className={style.error}>{errors.name.message}</p>}
 
         <input
           className={style.input}
@@ -96,7 +114,7 @@ function Signup() {
           })}
           placeholder="Ввидете вашу фамилию"
         />
-        {errors.surname && <p className={style.error}>{errors?.surname?.message}</p>}
+        {errors.surname && <p className={style.error}>{errors.surname.message}</p>}
 
         <input
           className={style.input}
@@ -110,7 +128,7 @@ function Signup() {
           })}
           placeholder="Ввидете ваш логин"
         />
-        {errors.login && <p className={style.error}>{errors?.login?.message}</p>}
+        {errors.login && <p className={style.error}>{errors.login.message}</p>}
 
         <input
           className={style.input}
@@ -124,7 +142,7 @@ function Signup() {
           })}
           placeholder="Ввидете email"
         />
-        {errors.email && <p className={style.error}>{errors?.email?.message}</p>}
+        {errors.email && <p className={style.error}>{errors.email.message}</p>}
 
         <input
           className={style.input}
@@ -136,13 +154,12 @@ function Signup() {
               message: ErrorMsg.passwordLength,
             },
             validate: {
-              corNun: (value) => /[0-9]/.test(value) || ErrorMsg.passwordNum,
-              corSym: (value) => /[a-z]/i.test(value) || ErrorMsg.passwordSym,
+              corPassword: (password) => checkPasswordSymbols(password),
             },
           })}
           placeholder="Введите пароль"
         />
-        {errors.password && <p className={style.error}>{errors?.password?.message}</p>}
+        {errors.password && <p className={style.error}>{errors.password.message}</p>}
 
         <input
           className={style.input}
@@ -159,17 +176,16 @@ function Signup() {
           })}
           placeholder="Повторите пароль"
         />
-        {errors.password2 && <p className={style.error}>{errors?.password2?.message}</p>}
+        {errors.password2 && <p className={style.error}>{errors.password2.message}</p>}
 
         <button
           className={style.btn}
           type="submit"
         >
-          Зарегистрироваться
+          {loading ? <Preloader /> : 'Зарегистрироваться'}
         </button>
 
         {errorDuplicate && <div className={style.errorDuplicate}>Пользователь уже существует</div>}
-        {loading && <div className={style.loading}>Загрузка...</div>}
       </form>
     </div>
   );

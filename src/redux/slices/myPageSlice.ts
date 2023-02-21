@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState } from '../../types/myPage';
 
 const initialState: IMyPageState = {
+  newPostText: '',
   posts: [],
 };
 
@@ -9,6 +10,9 @@ const myPageSlice = createSlice({
   name: 'myPage',
   initialState,
   reducers: {
+    updateNewPostText(state, action) {
+      state.newPostText = action.payload.text;
+    },
     addPost(state, action) {
       const { text, creationTime } = action.payload;
       state.posts.push({ text, creationTime });
@@ -23,6 +27,6 @@ const myPageSlice = createSlice({
   },
 });
 
-export const { addPost, removePost } = myPageSlice.actions;
+export const { updateNewPostText, addPost, removePost } = myPageSlice.actions;
 
 export default myPageSlice.reducer;

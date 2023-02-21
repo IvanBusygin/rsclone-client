@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import style from './TextField.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { addPost } from '../../redux/slices/myPageSlice';
+import { addPost, updateNewPostText } from '../../redux/slices/myPageSlice';
 
 const TextField = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -11,23 +11,27 @@ const TextField = () => {
     ? style.textField__textarea_light
     : style.textField__textarea_dark;
 
-  const dispatch = useTypedDispatch();
+  const { newPostText } = useTypedSelector(({ myPage }) => myPage);
 
-  const [value, setValue] = useState('');
+  const onPostTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const text = e.target.value;
+    dispatch(updateNewPostText({ text }));
+  };
+
+  const dispatch = useTypedDispatch();
 
   moment.locale('ru');
 
   const onButtonClick = () => {
-    setValue('');
-    dispatch(addPost({ text: value, creationTime: moment().format('DD MMM YYYY HH:mm') }));
+    dispatch(addPost({ text: newPostText, creationTime: moment().format('DD MMM YYYY HH:mm') }));
   };
 
   return (
     <div className={style.textField}>
       <textarea
         className={classNames(style.textField__textarea, themeClass)}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={newPostText}
+        onChange={onPostTextChange}
         placeholder="Что у вас нового?"
       />
       <button

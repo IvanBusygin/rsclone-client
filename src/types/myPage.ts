@@ -4,6 +4,7 @@ interface IPost {
 }
 
 export interface IMyPageState {
+  newPostText: string;
   posts: IPost[];
 }
 

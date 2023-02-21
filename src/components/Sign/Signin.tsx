@@ -69,7 +69,7 @@ function Signin() {
               message: ErrorMsg.loginLength,
             },
           })}
-          placeholder="Введите логин"
+          placeholder="Введите логин или почту"
         />
         {errors.login && <p className={style.error}>{errors?.login?.message}</p>}
 
@@ -84,7 +84,7 @@ function Signin() {
             },
             validate: {
               corNun: (value) => /[0-9]/.test(value) || ErrorMsg.passwordNum,
-              corSym: (value) => /[a-zа-яё]/i.test(value) || ErrorMsg.passwordSym,
+              corSym: (value) => /[a-z]/i.test(value) || ErrorMsg.passwordSym,
             },
           })}
           placeholder="Введите пароль"

@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState } from '../../types/myPage';
+import postUserPost from '../thunks/myPageThunks';
 
 const initialState: IMyPageState = {
   newPostText: '',
   posts: [],
+  isLoading: false,
 };
 
 const myPageSlice = createSlice({
@@ -13,10 +15,6 @@ const myPageSlice = createSlice({
     updateNewPostText(state, action) {
       state.newPostText = action.payload.text;
     },
-    addPost(state, action) {
-      const { text, creationTime } = action.payload;
-      state.posts.push({ text, creationTime });
-    },
     removePost(state, action) {
       const index = state.posts.findIndex((post) => post.text === action.payload.post);
 
@@ -25,8 +23,24 @@ const myPageSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) =>
+    builder
+      .addCase(postUserPost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(postUserPost.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        const { id, date, text } = action.payload;
+        state.posts.push({
+          id,
+          date,
+          text,
+        });
+        state.newPostText = '';
+      }),
 });
 
-export const { updateNewPostText, addPost, removePost } = myPageSlice.actions;
+export const { updateNewPostText, removePost } = myPageSlice.actions;
 
 export default myPageSlice.reducer;

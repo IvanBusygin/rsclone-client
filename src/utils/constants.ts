@@ -4,6 +4,7 @@ export const USER_INFO_URL = `${SERVER_URL}/info`;
 export const LOGIN_URL = `${SERVER_URL}/auth/login`;
 export const AUTH_URL = `${SERVER_URL}/auth/registration`;
 export const REFRESH_URL = `${SERVER_URL}/auth/refresh`;
+export const USER_POST_URL = `${SERVER_URL}/posts`;
 export const MAX_SIZE_FILE = 5242880;
 export const MIN_LENGTH_NAME = 2;
 export const MAX_LENGTH_NAME = 20;

@@ -1,9 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import style from './TextField.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { addPost, updateNewPostText } from '../../redux/slices/myPageSlice';
+import { updateNewPostText } from '../../redux/slices/myPageSlice';
+import postUserPost from '../../redux/thunks/myPageThunks';
+import buttonIcon from '../../assets/img/svg/send-button_icon.svg';
+import Preloader from '../Preloader/Preloader';
 
 const TextField = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -11,7 +13,7 @@ const TextField = () => {
     ? style.textField__textarea_light
     : style.textField__textarea_dark;
 
-  const { newPostText } = useTypedSelector(({ myPage }) => myPage);
+  const { newPostText, isLoading } = useTypedSelector(({ myPage }) => myPage);
 
   const onPostTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value;
@@ -20,10 +22,8 @@ const TextField = () => {
 
   const dispatch = useTypedDispatch();
 
-  moment.locale('ru');
-
   const onButtonClick = () => {
-    dispatch(addPost({ text: newPostText, creationTime: moment().format('DD MMM YYYY HH:mm') }));
+    dispatch(postUserPost());
   };
 
   return (
@@ -38,8 +38,20 @@ const TextField = () => {
         className={style.textField__button}
         type="button"
         aria-label="Send post"
+        disabled={!newPostText}
         onClick={onButtonClick}
-      />
+      >
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <span className={style.textField__buttonIcon}>
+            <img
+              src={buttonIcon}
+              alt="Send button icon"
+            />
+          </span>
+        )}
+      </button>
     </div>
   );
 };

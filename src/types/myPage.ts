@@ -1,11 +1,13 @@
 interface IPost {
+  id: string;
   text: string;
-  creationTime: string;
+  date: string;
 }
 
 export interface IMyPageState {
   newPostText: string;
   posts: IPost[];
+  isLoading: boolean;
 }
 
 export interface IPostProps {

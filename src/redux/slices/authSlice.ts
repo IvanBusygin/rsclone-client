@@ -1,6 +1,6 @@
 import { AnyAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFormLogin, IFormReg, IUserData } from '../../types/login';
-import { AUTH_URL, LOGIN_URL, REFRESH_URL } from '../../utils/URL';
+import { AUTH_URL, LOGIN_URL, REFRESH_URL } from '../../utils/constants';
 
 interface IInitialState {
   user: IUserData | object;
@@ -32,17 +32,17 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
-        state.user = action.payload;
         localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
         localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
+        state.user = action.payload;
         state.isAuth = true;
         state.loading = false;
       })
       .addCase(fetchLogin.rejected, (state) => {
-        state.isAuth = false;
-        state.loading = false;
         localStorage.setItem('vk-clone-accessToken', '');
         localStorage.setItem('vk-clone-userID', '');
+        state.isAuth = false;
+        state.loading = false;
       })
 
       .addCase(fetchReg.pending, (state) => {
@@ -58,24 +58,24 @@ const authSlice = createSlice({
         state.isAuth = true;
       })
       .addCase(fetchReg.rejected, (state, action) => {
-        state.isAuth = false;
         localStorage.setItem('vk-clone-accessToken', '');
         localStorage.setItem('vk-clone-userID', '');
+        state.isAuth = false;
         if (action.payload === '421') {
           state.errorDuplicate = true;
         }
       })
 
       .addCase(fetchRefresh.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isAuth = true;
         localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
         localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
+        state.user = action.payload;
+        state.isAuth = true;
       })
       .addCase(fetchRefresh.rejected, (state) => {
-        state.isAuth = false;
         localStorage.setItem('vk-clone-accessToken', '');
         localStorage.setItem('vk-clone-userID', '');
+        state.isAuth = false;
       })
       .addMatcher(isError, (state, action: PayloadAction) => {
         console.log(action.payload);

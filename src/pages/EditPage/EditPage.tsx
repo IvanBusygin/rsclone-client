@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import style from './EditPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
@@ -6,13 +7,15 @@ import Select from '../../components/Select/Select';
 import Birthday from '../../components/Birthday/Birthday';
 import { updateUserInfo } from '../../redux/slices/editPageSlice';
 import { getUserInfo, postUserInfo } from '../../redux/thunks';
+import { IUserInfo } from '../../types/editPage';
 import {
-  MAX_LENGTH_CITY,
   MAX_LENGTH_NAME,
+  MIN_LENGTH_NAME,
+  MAX_LENGTH_CITY,
   MAX_LENGTH_EDUCATION,
   MAX_LENGTH_TEXT,
   MAX_SIZE_FILE,
-  MIN_LENGTH_NAME,
+  ERROR_MESSAGES,
 } from '../../utils/constants';
 import Preloader from '../../components/Preloader/Preloader';
 
@@ -65,13 +68,22 @@ const EditPage = () => {
     dispatch(updateUserInfo(value));
   };
 
-  const onSaveButtonClick = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<IUserInfo>({});
+
+  const onSaveButtonClick: SubmitHandler<IUserInfo> = () => {
     dispatch(postUserInfo());
   };
 
   return (
     <div className={classNames(style.editPage, themeClass)}>
-      <div className={style.editPage__wrapper}>
+      <form
+        className={style.editPage__wrapper}
+        onSubmit={handleSubmit(onSaveButtonClick)}
+      >
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Аватар:</p>
           <div className={classNames(style.editPage__field, style.editPage__fileWrapper)}>
@@ -98,24 +110,48 @@ const EditPage = () => {
           <p className={style.editPage__label}>Имя:</p>
           <input
             type="text"
-            minLength={MIN_LENGTH_NAME}
-            maxLength={MAX_LENGTH_NAME}
+            {...register('firstName', {
+              minLength: {
+                value: MIN_LENGTH_NAME,
+                message: ERROR_MESSAGES.min_length_name,
+              },
+              maxLength: {
+                value: MAX_LENGTH_NAME,
+                message: ERROR_MESSAGES.max_length_name,
+              },
+            })}
             className={style.editPage__field}
             value={infoData.firstName}
             onChange={(e) => getInfo({ firstName: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.firstName && <p className={style.error__input}>{errors.firstName.message}</p>}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Фамилия:</p>
           <input
             type="text"
-            minLength={MIN_LENGTH_NAME}
-            maxLength={MAX_LENGTH_NAME}
+            {...register('lastName', {
+              minLength: {
+                value: MIN_LENGTH_NAME,
+                message: ERROR_MESSAGES.min_length_name,
+              },
+              maxLength: {
+                value: MAX_LENGTH_NAME,
+                message: ERROR_MESSAGES.max_length_name,
+              },
+            })}
             className={style.editPage__field}
             value={infoData.lastName}
             onChange={(e) => getInfo({ lastName: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.lastName && <p className={style.error__input}>{errors.lastName.message}</p>}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>День рождения:</p>
           <Birthday
@@ -123,16 +159,30 @@ const EditPage = () => {
             returnInfo={getInfo}
           />
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Статус:</p>
           <input
             type="text"
-            maxLength={MAX_LENGTH_TEXT}
+            {...register('status', {
+              minLength: {
+                value: MIN_LENGTH_NAME,
+                message: ERROR_MESSAGES.min_length_name,
+              },
+              maxLength: {
+                value: MAX_LENGTH_TEXT,
+                message: ERROR_MESSAGES.max_length_text,
+              },
+            })}
             className={style.editPage__field}
             value={infoData.status}
             onChange={(e) => getInfo({ status: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.status && <p className={style.error__input}>{errors.status.message}</p>}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Семейное положение:</p>
           <div className={style.editPage__familyStatus}>
@@ -144,89 +194,171 @@ const EditPage = () => {
             />
           </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Родной город:</p>
           <input
             type="text"
-            maxLength={MAX_LENGTH_CITY}
+            {...register('hometown', {
+              maxLength: {
+                value: MAX_LENGTH_CITY,
+                message: ERROR_MESSAGES.max_length_city,
+              },
+            })}
             className={style.editPage__field}
             value={infoData.hometown}
             onChange={(e) => getInfo({ hometown: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.hometown && <p className={style.error__input}>{errors.hometown.message}</p>}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Школа:</p>
           <input
             type="text"
-            maxLength={MAX_LENGTH_EDUCATION}
+            {...register('school', {
+              maxLength: {
+                value: MAX_LENGTH_EDUCATION,
+                message: ERROR_MESSAGES.max_length_education,
+              },
+            })}
             className={style.editPage__field}
             value={infoData.school}
             onChange={(e) => getInfo({ school: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.school && <p className={style.error__input}>{errors.school.message}</p>}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>ВУЗ:</p>
           <input
             type="text"
-            maxLength={MAX_LENGTH_EDUCATION}
+            {...register('university', {
+              maxLength: {
+                value: MAX_LENGTH_EDUCATION,
+                message: ERROR_MESSAGES.max_length_education,
+              },
+            })}
             className={style.editPage__field}
             value={infoData.university}
             onChange={(e) => getInfo({ university: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.university && <p className={style.error__input}>{errors.university.message}</p>}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Интересы:</p>
           <textarea
-            maxLength={MAX_LENGTH_TEXT}
+            {...register('interests', {
+              maxLength: {
+                value: MAX_LENGTH_TEXT,
+                message: ERROR_MESSAGES.max_length_text,
+              },
+            })}
             className={style.editPage__textarea}
             value={infoData.interests}
             onChange={(e) => getInfo({ interests: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.interests && (
+              <p className={style.error__textarea}>{errors.interests.message}</p>
+            )}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Жизненная позиция:</p>
           <textarea
-            maxLength={MAX_LENGTH_TEXT}
+            {...register('lifePosition', {
+              maxLength: {
+                value: MAX_LENGTH_TEXT,
+                message: ERROR_MESSAGES.max_length_text,
+              },
+            })}
             className={style.editPage__textarea}
             value={infoData.lifePosition}
             onChange={(e) => getInfo({ lifePosition: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.lifePosition && (
+              <p className={style.error__textarea}>{errors.lifePosition.message}</p>
+            )}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Любимая музыка:</p>
           <textarea
-            maxLength={MAX_LENGTH_TEXT}
+            {...register('favoriteMusic', {
+              maxLength: {
+                value: MAX_LENGTH_TEXT,
+                message: ERROR_MESSAGES.max_length_text,
+              },
+            })}
             className={style.editPage__textarea}
             value={infoData.favoriteMusic}
             onChange={(e) => getInfo({ favoriteMusic: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.favoriteMusic && (
+              <p className={style.error__textarea}>{errors.favoriteMusic.message}</p>
+            )}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Любимые книги:</p>
           <textarea
-            maxLength={MAX_LENGTH_TEXT}
+            {...register('favoriteBooks', {
+              maxLength: {
+                value: MAX_LENGTH_TEXT,
+                message: ERROR_MESSAGES.max_length_text,
+              },
+            })}
             className={style.editPage__textarea}
             value={infoData.favoriteBooks}
             onChange={(e) => getInfo({ favoriteBooks: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.favoriteBooks && (
+              <p className={style.error__textarea}>{errors.favoriteBooks.message}</p>
+            )}
+          </div>
         </div>
+
         <div className={style.editPage__item}>
           <p className={style.editPage__label}>Любимые фильмы:</p>
           <textarea
-            maxLength={MAX_LENGTH_TEXT}
+            {...register('favoriteFilms', {
+              maxLength: {
+                value: MAX_LENGTH_TEXT,
+                message: ERROR_MESSAGES.max_length_text,
+              },
+            })}
             className={style.editPage__textarea}
             value={infoData.favoriteFilms}
             onChange={(e) => getInfo({ favoriteFilms: e.target.value })}
           />
+          <div className={style.error}>
+            {errors.favoriteFilms && (
+              <p className={style.error__textarea}>{errors.favoriteFilms.message}</p>
+            )}
+          </div>
         </div>
-      </div>
-      <button
-        type="button"
-        className={style.editPage__button}
-        onClick={onSaveButtonClick}
-      >
-        {isLoading ? <Preloader /> : 'Сохранить'}
-      </button>
+
+        <button
+          type="submit"
+          className={style.editPage__button}
+        >
+          {isLoading ? <Preloader /> : 'Сохранить'}
+        </button>
+      </form>
     </div>
   );
 };

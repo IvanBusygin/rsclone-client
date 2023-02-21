@@ -159,6 +159,29 @@
   }
 }
 
+.error {
+  position: relative;
+
+  &__input,
+  &__textarea {
+    position: absolute;
+    white-space: nowrap;
+    min-height: 12px;
+    font-size: 1.15rem;
+    color: red;
+  }
+
+  &__input {
+    bottom: -27px;
+    right: 1px;
+  }
+
+  &__textarea {
+    bottom: -35px;
+    right: 1px;
+  }
+}
+
 @media (max-width: 650px) {
   .editPage {
     &__wrapper {

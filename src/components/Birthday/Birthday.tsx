@@ -1,13 +1,18 @@
 import React, { FC } from 'react';
 import style from './Birthday.scss';
 import Select from '../Select/Select';
-import { daysGenerator, formatDate, yearsGenerator } from '../../utils/editPage';
+import {
+  daysGenerator,
+  formatDate,
+  getCountDays,
+  getMonthNumber,
+  yearsGenerator,
+} from '../../utils/editPage';
 import { IBirthDayProps } from '../../types/editPage';
 
 const Birthday: FC<IBirthDayProps> = (props) => {
   const { date, returnInfo } = props;
 
-  const dayOptions = daysGenerator();
   const monthOptions = [
     'Январь',
     'Февраль',
@@ -24,23 +29,41 @@ const Birthday: FC<IBirthDayProps> = (props) => {
   ];
   const yearOptions = yearsGenerator(1930);
 
-  const day = String(new Date(date).getDate());
+  const day = new Date(date).getDate();
   const month = new Date(date).getMonth();
-  const year = String(new Date(date).getFullYear());
+  const year = new Date(date).getFullYear();
+
+  const days = getCountDays(year, month);
+  const dayOptions = daysGenerator(days);
 
   const combineDate = (value: { [key: string]: string }) => {
     const [key] = Object.keys(value);
+    let daysCount;
+
     switch (key) {
       case 'day':
-        returnInfo({ birthDate: formatDate(+year, month, +value[key]) });
+        returnInfo({ birthDate: formatDate(year, month, +value[key]) });
         break;
       case 'month': {
-        const number = monthOptions.findIndex((m) => m === value[key]);
-        returnInfo({ birthDate: formatDate(+year, number, +day) });
+        const monthNumber = getMonthNumber(value[key], monthOptions);
+        daysCount = getCountDays(year, monthNumber);
+
+        if (day > daysCount) {
+          returnInfo({ birthDate: formatDate(year, monthNumber, 1) });
+        } else {
+          const number = monthOptions.findIndex((m) => m === value[key]);
+          returnInfo({ birthDate: formatDate(year, number, day) });
+        }
         break;
       }
       case 'year':
-        returnInfo({ birthDate: formatDate(+value[key], month, +day) });
+        daysCount = getCountDays(+value[key], month);
+
+        if (day > daysCount) {
+          returnInfo({ birthDate: formatDate(+value[key], month, 1) });
+        } else {
+          returnInfo({ birthDate: formatDate(+value[key], month, day) });
+        }
         break;
       default:
         break;
@@ -52,7 +75,7 @@ const Birthday: FC<IBirthDayProps> = (props) => {
       <div className={style.birthday__day}>
         <Select
           options={dayOptions}
-          selected={day}
+          selected={String(day)}
           fieldName="day"
           returnInfo={combineDate}
         />
@@ -68,7 +91,7 @@ const Birthday: FC<IBirthDayProps> = (props) => {
       <div className={style.birthday__year}>
         <Select
           options={yearOptions}
-          selected={year}
+          selected={String(year)}
           fieldName="year"
           returnInfo={combineDate}
         />

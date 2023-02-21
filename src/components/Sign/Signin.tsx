@@ -69,7 +69,7 @@ function Signin() {
               message: ErrorMsg.loginLength,
             },
           })}
-          placeholder="Ввидете логин"
+          placeholder="Введите логин"
         />
         {errors.login && <p className={style.error}>{errors?.login?.message}</p>}
 

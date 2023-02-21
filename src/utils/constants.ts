@@ -1,4 +1,4 @@
-export const DEFAULT_DATE = '1930-02-01T01:00:00.000Z';
+export const DEFAULT_DATE = '1930-01-01T01:00:00.000Z';
 export const SERVER_URL = 'https://rs-clone-vk.onrender.com';
 export const USER_INFO_URL = `${SERVER_URL}/info`;
 export const LOGIN_URL = `${SERVER_URL}/auth/login`;

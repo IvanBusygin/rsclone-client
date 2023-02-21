@@ -1,6 +1,6 @@
 import { CombinedState, createAsyncThunk } from '@reduxjs/toolkit';
-import { USER_INFO_URL } from '../utils/constants';
-import { IEditPageState } from '../types/editPage';
+import { USER_INFO_URL } from '../../utils/constants';
+import { IEditPageState } from '../../types/editPage';
 
 export const getUserInfo = createAsyncThunk('editPage/getUserInfo', async () => {
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem('vk-clone-accessToken') ?? '');

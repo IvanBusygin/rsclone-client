@@ -6,7 +6,7 @@ import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import Select from '../../components/Select/Select';
 import Birthday from '../../components/Birthday/Birthday';
 import { updateUserInfo } from '../../redux/slices/editPageSlice';
-import { getUserInfo, postUserInfo } from '../../redux/thunks';
+import { getUserInfo, postUserInfo } from '../../redux/thunks/editPageThunks';
 import { IUserInfo } from '../../types/editPage';
 import {
   MAX_LENGTH_NAME,

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IEditPageState } from '../../types/editPage';
-import { getUserInfo, postUserInfo } from '../thunks';
+import { getUserInfo, postUserInfo } from '../thunks/editPageThunks';
 import { DEFAULT_DATE } from '../../utils/constants';
 
 const initialState: IEditPageState = {

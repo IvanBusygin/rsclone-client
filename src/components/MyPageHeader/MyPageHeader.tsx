@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import style from './MyPageHeader.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import userDefaultAvatar from '../../assets/img/svg/user_default_icon.svg';
-import { getUserInfo } from '../../redux/thunks';
+import { getUserInfo } from '../../redux/thunks/editPageThunks';
 
 const MyPageHeader = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);

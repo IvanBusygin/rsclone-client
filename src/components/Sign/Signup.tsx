@@ -27,8 +27,8 @@ const regexpEmail =
 
 const checkPasswordSymbols = (password: string) => {
   const basicRegex =
-    /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.*[!"'#$%`()*+,-./:;<>=?@[\]^_{|}~])(?=.{8,})/;
-  const specialRegex = /[!"'#$%`()*+,-.:;<>=?@[\]^_{|}~]\\/;
+    /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.*[!"'#$%`()*+,-./:;<>=?@[\]^&_{\\|}~])(?=.{8,})/;
+  const specialRegex = /[!"'#$%`()*+,-.:;<>=?@[\]^&_{\\/|}~]/;
   const upperRegex = /[A-Z]/;
   const lowerRegex = /[a-z]/;
   const numberRegex = /[0-9]/;
@@ -37,10 +37,10 @@ const checkPasswordSymbols = (password: string) => {
   if (!upperRegex.test(password)) return 'Пароль не включает символы в верхнем регистре';
   if (!lowerRegex.test(password)) return 'Пароль не включает символы в нижнем регистре';
   if (!numberRegex.test(password)) return 'Пароль не включает число';
-  if (!basicRegex.test(password)) return 'Неверный пароль';
   if (!specialRegex.test(password)) {
-    return 'Пароль не включает специальные символы: !@#$%^&*()-_+=,.:;<>?[]{}"\'|\\/~';
+    return 'Добавте специальные символы: !@#$%^&*()-_+=,.:;<>?[]{}"\'|\\/~';
   }
+  if (!basicRegex.test(password)) return 'Неверный пароль';
   return true;
 };
 
@@ -100,7 +100,9 @@ function Signup() {
           })}
           placeholder="Ввидете ваше имя"
         />
-        {errors.name && <p className={style.error}>{errors.name.message}</p>}
+        <div className={style.error}>
+          {errors.name && <p className={style.error__msg}>{errors.name.message}</p>}
+        </div>
 
         <input
           className={style.input}
@@ -114,7 +116,9 @@ function Signup() {
           })}
           placeholder="Ввидете вашу фамилию"
         />
-        {errors.surname && <p className={style.error}>{errors.surname.message}</p>}
+        <div className={style.error}>
+          {errors.surname && <p className={style.error__msg}>{errors.surname.message}</p>}
+        </div>
 
         <input
           className={style.input}
@@ -128,7 +132,9 @@ function Signup() {
           })}
           placeholder="Ввидете ваш логин"
         />
-        {errors.login && <p className={style.error}>{errors.login.message}</p>}
+        <div className={style.error}>
+          {errors.login && <p className={style.error__msg}>{errors.login.message}</p>}
+        </div>
 
         <input
           className={style.input}
@@ -142,7 +148,9 @@ function Signup() {
           })}
           placeholder="Ввидете email"
         />
-        {errors.email && <p className={style.error}>{errors.email.message}</p>}
+        <div className={style.error}>
+          {errors.email && <p className={style.error__msg}>{errors.email.message}</p>}
+        </div>
 
         <input
           className={style.input}
@@ -159,7 +167,9 @@ function Signup() {
           })}
           placeholder="Введите пароль"
         />
-        {errors.password && <p className={style.error}>{errors.password.message}</p>}
+        <div className={style.error}>
+          {errors.password && <p className={style.error__msg}>{errors.password.message}</p>}
+        </div>
 
         <input
           className={style.input}
@@ -176,7 +186,9 @@ function Signup() {
           })}
           placeholder="Повторите пароль"
         />
-        {errors.password2 && <p className={style.error}>{errors.password2.message}</p>}
+        <div className={style.error}>
+          {errors.password2 && <p className={style.error__msg}>{errors.password2.message}</p>}
+        </div>
 
         <button
           className={style.btn}

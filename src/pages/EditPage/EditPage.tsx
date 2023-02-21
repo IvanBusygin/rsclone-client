@@ -15,16 +15,9 @@ import {
   MAX_LENGTH_EDUCATION,
   MAX_LENGTH_TEXT,
   MAX_SIZE_FILE,
+  ERROR_MESSAGES,
 } from '../../utils/constants';
 import Preloader from '../../components/Preloader/Preloader';
-
-const ErrorMsg = {
-  max_length_name: `Максимальная длина ${MAX_LENGTH_NAME} символов`,
-  min_length_name: `Минимальная длина ${MIN_LENGTH_NAME} символа`,
-  max_length_city: `Максимальная длина ${MAX_LENGTH_CITY} символов`,
-  max_length_education: `Максимальная длина ${MAX_LENGTH_EDUCATION} символов`,
-  max_length_text: `Максимальная длина ${MAX_LENGTH_TEXT} символа`,
-};
 
 const EditPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -120,11 +113,11 @@ const EditPage = () => {
             {...register('firstName', {
               minLength: {
                 value: MIN_LENGTH_NAME,
-                message: ErrorMsg.min_length_name,
+                message: ERROR_MESSAGES.min_length_name,
               },
               maxLength: {
                 value: MAX_LENGTH_NAME,
-                message: ErrorMsg.max_length_name,
+                message: ERROR_MESSAGES.max_length_name,
               },
             })}
             className={style.editPage__field}
@@ -143,11 +136,11 @@ const EditPage = () => {
             {...register('lastName', {
               minLength: {
                 value: MIN_LENGTH_NAME,
-                message: ErrorMsg.min_length_name,
+                message: ERROR_MESSAGES.min_length_name,
               },
               maxLength: {
                 value: MAX_LENGTH_NAME,
-                message: ErrorMsg.max_length_name,
+                message: ERROR_MESSAGES.max_length_name,
               },
             })}
             className={style.editPage__field}
@@ -174,11 +167,11 @@ const EditPage = () => {
             {...register('status', {
               minLength: {
                 value: MIN_LENGTH_NAME,
-                message: ErrorMsg.min_length_name,
+                message: ERROR_MESSAGES.min_length_name,
               },
               maxLength: {
                 value: MAX_LENGTH_TEXT,
-                message: ErrorMsg.max_length_text,
+                message: ERROR_MESSAGES.max_length_text,
               },
             })}
             className={style.editPage__field}
@@ -209,7 +202,7 @@ const EditPage = () => {
             {...register('hometown', {
               maxLength: {
                 value: MAX_LENGTH_CITY,
-                message: ErrorMsg.max_length_city,
+                message: ERROR_MESSAGES.max_length_city,
               },
             })}
             className={style.editPage__field}
@@ -228,7 +221,7 @@ const EditPage = () => {
             {...register('school', {
               maxLength: {
                 value: MAX_LENGTH_EDUCATION,
-                message: ErrorMsg.max_length_education,
+                message: ERROR_MESSAGES.max_length_education,
               },
             })}
             className={style.editPage__field}
@@ -247,7 +240,7 @@ const EditPage = () => {
             {...register('university', {
               maxLength: {
                 value: MAX_LENGTH_EDUCATION,
-                message: ErrorMsg.max_length_education,
+                message: ERROR_MESSAGES.max_length_education,
               },
             })}
             className={style.editPage__field}
@@ -265,7 +258,7 @@ const EditPage = () => {
             {...register('interests', {
               maxLength: {
                 value: MAX_LENGTH_TEXT,
-                message: ErrorMsg.max_length_text,
+                message: ERROR_MESSAGES.max_length_text,
               },
             })}
             className={style.editPage__textarea}
@@ -285,7 +278,7 @@ const EditPage = () => {
             {...register('lifePosition', {
               maxLength: {
                 value: MAX_LENGTH_TEXT,
-                message: ErrorMsg.max_length_text,
+                message: ERROR_MESSAGES.max_length_text,
               },
             })}
             className={style.editPage__textarea}
@@ -305,7 +298,7 @@ const EditPage = () => {
             {...register('favoriteMusic', {
               maxLength: {
                 value: MAX_LENGTH_TEXT,
-                message: ErrorMsg.max_length_text,
+                message: ERROR_MESSAGES.max_length_text,
               },
             })}
             className={style.editPage__textarea}
@@ -325,7 +318,7 @@ const EditPage = () => {
             {...register('favoriteBooks', {
               maxLength: {
                 value: MAX_LENGTH_TEXT,
-                message: ErrorMsg.max_length_text,
+                message: ERROR_MESSAGES.max_length_text,
               },
             })}
             className={style.editPage__textarea}
@@ -345,7 +338,7 @@ const EditPage = () => {
             {...register('favoriteFilms', {
               maxLength: {
                 value: MAX_LENGTH_TEXT,
-                message: ErrorMsg.max_length_text,
+                message: ERROR_MESSAGES.max_length_text,
               },
             })}
             className={style.editPage__textarea}

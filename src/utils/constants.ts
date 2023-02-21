@@ -10,3 +10,10 @@ export const MAX_LENGTH_NAME = 20;
 export const MAX_LENGTH_TEXT = 140;
 export const MAX_LENGTH_CITY = 30;
 export const MAX_LENGTH_EDUCATION = 50;
+export const ERROR_MESSAGES = {
+  max_length_name: `Максимальная длина ${MAX_LENGTH_NAME} символов`,
+  min_length_name: `Минимальная длина ${MIN_LENGTH_NAME} символа`,
+  max_length_city: `Максимальная длина ${MAX_LENGTH_CITY} символов`,
+  max_length_education: `Максимальная длина ${MAX_LENGTH_EDUCATION} символов`,
+  max_length_text: `Максимальная длина ${MAX_LENGTH_TEXT} символа`,
+};

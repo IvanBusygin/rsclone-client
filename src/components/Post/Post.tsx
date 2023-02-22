@@ -7,7 +7,7 @@ import { removePost } from '../../redux/slices/myPageSlice';
 import getLocaleTimeString from '../../utils/myPage';
 
 const Post: FC<IPostProps> = (props) => {
-  const { text, time } = props;
+  const { firstName, lastName, avatar, text, time, likes } = props;
 
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.post_light : style.post_dark;
@@ -25,12 +25,12 @@ const Post: FC<IPostProps> = (props) => {
       <header className={style.post__header}>
         <div className={style.post__avatar}>
           <img
-            src="https://via.placeholder.com/40"
+            src={avatar}
             alt="Avatar"
           />
         </div>
         <div className={style.post__info}>
-          <p className={style.post__author}>Петя Камушкин</p>
+          <p className={style.post__author}>{`${firstName} ${lastName}`}</p>
           <time className={style.post__time}>{localeTime}</time>
         </div>
         <button
@@ -45,7 +45,7 @@ const Post: FC<IPostProps> = (props) => {
       <div className={style.post__text}>{text}</div>
       <div className={style.post__likes}>
         <span className={style.post__likesIcon} />
-        <span className={style.post__likesCount}>10</span>
+        <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
       </div>
     </div>
   );

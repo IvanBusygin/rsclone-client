@@ -31,11 +31,12 @@ const myPageSlice = createSlice({
       .addCase(postUserPost.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        const { id, date, text } = action.payload;
+        const { id, date, text, likes } = action.payload;
         state.posts.push({
           id,
           date,
           text,
+          likes,
         });
         state.newPostText = '';
       }),

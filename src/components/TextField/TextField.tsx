@@ -14,6 +14,7 @@ const TextField = () => {
     : style.textField__textarea_dark;
 
   const { newPostText, isLoading } = useTypedSelector(({ myPage }) => myPage);
+  const buttonClass = isLoading ? style.textField__button_inActive : null;
 
   const onPostTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value;
@@ -35,7 +36,7 @@ const TextField = () => {
         placeholder="Что у вас нового?"
       />
       <button
-        className={style.textField__button}
+        className={classNames(style.textField__button, buttonClass)}
         type="button"
         aria-label="Send post"
         disabled={!newPostText}

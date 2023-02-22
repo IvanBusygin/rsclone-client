@@ -38,6 +38,11 @@
       opacity: 0.3;
       cursor: default;
     }
+
+    &_inActive {
+      pointer-events: none;
+      cursor: default;
+    }
   }
 
   &__buttonIcon {

@@ -85,7 +85,7 @@
 
   &__button {
     width: 10rem;
-    height: 3.7rem;
+    height: $size-button-height;
     border-radius: $size-border-radius;
     font-family: Roboto-Regular, sans-serif;
     font-size: 1.4rem;
@@ -166,7 +166,6 @@
   &__textarea {
     position: absolute;
     white-space: nowrap;
-    min-height: 12px;
     font-size: 1.15rem;
     color: red;
   }

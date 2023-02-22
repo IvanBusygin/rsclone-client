@@ -72,7 +72,9 @@ function Signin() {
           })}
           placeholder="Введите логин или почту"
         />
-        {errors.login && <p className={style.error}>{errors.login.message}</p>}
+        <div className={style.error}>
+          {errors.login && <p className={style.error__msg}>{errors.login.message}</p>}
+        </div>
 
         <input
           className={style.input}
@@ -90,7 +92,9 @@ function Signin() {
           })}
           placeholder="Введите пароль"
         />
-        {errors.password && <p className={style.error}>{errors.password.message}</p>}
+        <div className={style.error}>
+          {errors.password && <p className={style.error__msg}>{errors.password.message}</p>}
+        </div>
 
         <button
           className={style.btn}

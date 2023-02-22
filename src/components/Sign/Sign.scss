@@ -51,6 +51,7 @@
   margin-top: 1rem;
   max-width: 32rem;
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -58,7 +59,6 @@
 
 .input {
   width: 100%;
-  margin: 0.8rem;
   padding: 1rem;
   border: 1px solid $color-background-light;
   border-radius: 0.5rem;
@@ -79,10 +79,10 @@
 }
 
 .btn {
-  width: 100%;
   margin: 2rem;
-  height: 4rem;
   padding: 0 1.5rem;
+  width: 100%;
+  height: $size-button-height;
   border-radius: $size-border-radius;
   font-size: 1.8rem;
   background-color: $color-button;
@@ -95,9 +95,17 @@
 }
 
 .error {
-  min-height: 12px;
-  font-size: 1.15rem;
-  color: red;
+  position: relative;
+
+  &__msg {
+    position: absolute;
+    bottom: -3px;
+    left: 1px;
+    transform: translate(-50%);
+    white-space: nowrap;
+    font-size: 1.15rem;
+    color: red;
+  }
 }
 
 .errorDuplicate {

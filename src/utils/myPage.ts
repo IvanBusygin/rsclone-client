@@ -1,9 +1,11 @@
 export default (time: string) => {
-  return new Date(Date.parse(time)).toLocaleString('ru', {
+  const dateString = new Date(Date.parse(time)).toLocaleString('ru', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
   });
+
+  return dateString.replace('г.,', 'в');
 };

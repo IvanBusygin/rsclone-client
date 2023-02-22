@@ -5,6 +5,18 @@ interface IPost {
   likes: [];
 }
 
+export interface IPostFromServer {
+  date: string;
+  text: string;
+  likes: string[];
+  user: string;
+  comments: string[];
+  files: string[];
+  isEdit: boolean;
+  lastEdit: string | undefined;
+  _id: string;
+}
+
 export interface IMyPageState {
   newPostText: string;
   posts: IPost[];

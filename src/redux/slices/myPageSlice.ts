@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IMyPageState } from '../../types/myPage';
-import { deleteUserPost, postUserPost } from '../thunks/myPageThunks';
+import { IMyPageState, IPostFromServer } from '../../types/myPage';
+import { deleteUserPost, getUserPosts, postUserPost } from '../thunks/myPageThunks';
 
 const initialState: IMyPageState = {
   newPostText: '',
@@ -26,6 +26,14 @@ const myPageSlice = createSlice({
   },
   extraReducers: (builder) =>
     builder
+      .addCase(getUserPosts.fulfilled, (state, action) => {
+        state.posts = action.payload.map((post: IPostFromServer) => ({
+          id: post._id,
+          text: post.text,
+          date: post.date,
+          likes: structuredClone(post.likes),
+        }));
+      })
       .addCase(postUserPost.pending, (state) => {
         state.isLoading = true;
       })

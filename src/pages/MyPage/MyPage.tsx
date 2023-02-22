@@ -6,12 +6,14 @@ import FriendIconList from '../../components/FriendIconList/FriendIconList';
 import EditButton from '../../components/EditButton/EditButton';
 import { useTypedDispatch } from '../../redux/hooks';
 import { getUserInfo } from '../../redux/thunks/editPageThunks';
+import { getUserPosts } from '../../redux/thunks/myPageThunks';
 
 const MyPage = () => {
   const dispatch = useTypedDispatch();
 
   useEffect(() => {
     dispatch(getUserInfo());
+    dispatch(getUserPosts());
   }, [dispatch]);
 
   return (

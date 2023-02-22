@@ -10,8 +10,9 @@ const PostsList = () => {
     <section className={style.posts}>
       {posts.map((post) => (
         <Post
-          post={post.text}
-          time={post.creationTime}
+          key={post.id}
+          text={post.text}
+          time={post.date}
         />
       ))}
     </section>

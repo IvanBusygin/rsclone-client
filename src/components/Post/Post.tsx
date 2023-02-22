@@ -4,17 +4,20 @@ import style from './Post.scss';
 import { IPostProps } from '../../types/myPage';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { removePost } from '../../redux/slices/myPageSlice';
+import getLocaleTimeString from '../../utils/myPage';
 
 const Post: FC<IPostProps> = (props) => {
-  const { post, time } = props;
+  const { text, time } = props;
 
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.post_light : style.post_dark;
 
+  const localeTime = getLocaleTimeString(time);
+
   const dispatch = useTypedDispatch();
 
   const onButtonClick = () => {
-    dispatch(removePost({ post }));
+    dispatch(removePost({ text }));
   };
 
   return (
@@ -28,7 +31,7 @@ const Post: FC<IPostProps> = (props) => {
         </div>
         <div className={style.post__info}>
           <p className={style.post__author}>Петя Камушкин</p>
-          <time className={style.post__time}>{time}</time>
+          <time className={style.post__time}>{localeTime}</time>
         </div>
         <button
           className={style.post__button}
@@ -39,7 +42,7 @@ const Post: FC<IPostProps> = (props) => {
           &times;
         </button>
       </header>
-      <div className={style.post__text}>{post}</div>
+      <div className={style.post__text}>{text}</div>
       <div className={style.post__likes}>
         <span className={style.post__likesIcon} />
         <span className={style.post__likesCount}>10</span>

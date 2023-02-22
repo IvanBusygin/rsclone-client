@@ -11,7 +11,7 @@ export interface IMyPageState {
 }
 
 export interface IPostProps {
-  post: string;
+  text: string;
   time: string;
 }
 

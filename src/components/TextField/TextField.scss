@@ -12,6 +12,10 @@
     display: block;
     resize: none;
 
+    &::placeholder {
+      font-family: Roboto-Regular, sans-serif;
+    }
+
     &_light {
       color: $color-dark;
       background-color: $color-main-light;

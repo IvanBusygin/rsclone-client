@@ -1,46 +1,43 @@
-import React, { ChangeEvent } from 'react';
+import React, { FC, useState } from 'react';
 import classNames from 'classnames';
 import style from './TextField.scss';
-import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { updateNewPostText } from '../../redux/slices/myPageSlice';
-import { postUserPost } from '../../redux/thunks/myPageThunks';
+import { useTypedSelector } from '../../redux/hooks';
 import buttonIcon from '../../assets/img/svg/send-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
+import { ITextFieldProps } from '../../types/myPage';
 
-const TextField = () => {
+const TextField: FC<ITextFieldProps> = (props) => {
+  const { text, placeholder, onButtonClick } = props;
+
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme
     ? style.textField__textarea_light
     : style.textField__textarea_dark;
 
-  const { newPostText, isLoading } = useTypedSelector(({ myPage }) => myPage);
+  const [postText, setPostText] = useState(text || '');
+
+  const { isLoading } = useTypedSelector(({ myPage }) => myPage);
   const buttonClass = isLoading ? style.textField__button_inActive : null;
 
-  const onPostTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const text = e.target.value;
-    dispatch(updateNewPostText({ text }));
-  };
-
-  const dispatch = useTypedDispatch();
-
-  const onButtonClick = () => {
-    dispatch(postUserPost());
+  const onSendPostClick = () => {
+    onButtonClick(postText);
+    setPostText('');
   };
 
   return (
     <div className={style.textField}>
       <textarea
         className={classNames(style.textField__textarea, themeClass)}
-        value={newPostText}
-        onChange={onPostTextChange}
-        placeholder="Что у вас нового?"
+        value={postText}
+        onChange={(e) => setPostText(e.target.value)}
+        placeholder={placeholder}
       />
       <button
         className={classNames(style.textField__button, buttonClass)}
         type="button"
         aria-label="Send post"
-        disabled={!newPostText}
-        onClick={onButtonClick}
+        disabled={!postText}
+        onClick={onSendPostClick}
       >
         {isLoading ? (
           <Preloader />

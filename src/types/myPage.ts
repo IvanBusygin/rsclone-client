@@ -3,6 +3,7 @@ interface IPost {
   text: string;
   date: string;
   likes: [];
+  lastEdit?: string;
 }
 
 export interface IPostFromServer {
@@ -18,10 +19,10 @@ export interface IPostFromServer {
 }
 
 export interface IMyPageState {
-  newPostText: string;
   posts: IPost[];
   isLoading: boolean;
   deletingPostId: string;
+  editingPostId: string;
 }
 
 export interface IPostProps {
@@ -32,9 +33,16 @@ export interface IPostProps {
   text: string;
   time: string;
   likes: [];
+  editTime: string | undefined;
 }
 
 export interface IFriendProps {
   image: string;
   name: string;
+}
+
+export interface ITextFieldProps {
+  onButtonClick: (postText: string) => void;
+  text?: string;
+  placeholder?: string;
 }

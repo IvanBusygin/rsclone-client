@@ -1,27 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState, IPostFromServer } from '../../types/myPage';
-import { deleteUserPost, getUserPosts, postUserPost } from '../thunks/myPageThunks';
+import { deleteUserPost, editUserPost, getUserPosts, postUserPost } from '../thunks/myPageThunks';
 
 const initialState: IMyPageState = {
-  newPostText: '',
   posts: [],
   isLoading: false,
   deletingPostId: '',
+  editingPostId: '',
 };
 
 const myPageSlice = createSlice({
   name: 'myPage',
   initialState,
   reducers: {
-    updateNewPostText(state, action) {
-      state.newPostText = action.payload.text;
-    },
-    removePost(state, action) {
-      const index = state.posts.findIndex((post) => post.text === action.payload.post);
-
-      if (index !== -1) {
-        state.posts.splice(index, 1);
-      }
+    editPost(state, action) {
+      state.editingPostId = action.payload.postId;
     },
   },
   extraReducers: (builder) =>
@@ -32,6 +25,7 @@ const myPageSlice = createSlice({
           text: post.text,
           date: post.date,
           likes: structuredClone(post.likes),
+          lastEdit: post.lastEdit,
         }));
       })
       .addCase(postUserPost.pending, (state) => {
@@ -40,14 +34,13 @@ const myPageSlice = createSlice({
       .addCase(postUserPost.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        const { id, date, text, likes } = action.payload;
+        const { _id: id, date, text, likes } = action.payload;
         state.posts.push({
           id,
           date,
           text,
           likes,
         });
-        state.newPostText = '';
       })
       .addCase(deleteUserPost.pending, (state, action) => {
         state.deletingPostId = action.meta.arg;
@@ -61,9 +54,27 @@ const myPageSlice = createSlice({
         if (idx !== -1) {
           state.posts.splice(idx, 1);
         }
+      })
+      .addCase(editUserPost.fulfilled, (state, action) => {
+        state.editingPostId = '';
+
+        const { _id: id, date, text, likes, lastEdit } = action.payload;
+        const idx = state.posts.findIndex((post) => post.id === id);
+
+        const editedPost = {
+          id,
+          date,
+          text,
+          likes,
+          lastEdit,
+        };
+
+        if (idx !== -1) {
+          state.posts.splice(idx, 1, editedPost);
+        }
       }),
 });
 
-export const { updateNewPostText } = myPageSlice.actions;
+export const { editPost } = myPageSlice.actions;
 
 export default myPageSlice.reducer;

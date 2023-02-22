@@ -1,5 +1,4 @@
-import { CombinedState, createAsyncThunk } from '@reduxjs/toolkit';
-import { IMyPageState } from '../../types/myPage';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   LS_ACCESS_TOKEN,
   LS_USER_ID,
@@ -25,12 +24,9 @@ export const getUserPosts = createAsyncThunk('myPage/getUserPosts', async () => 
   return data;
 });
 
-export const postUserPost = createAsyncThunk('myPage/postUserPost', async (_, { getState }) => {
+export const postUserPost = createAsyncThunk('myPage/postUserPost', async (postText: string) => {
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
   const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
-  const {
-    myPage: { newPostText },
-  } = getState() as CombinedState<{ myPage: IMyPageState }>;
 
   const response = await fetch(USER_POST_URL, {
     method: 'POST',
@@ -38,12 +34,11 @@ export const postUserPost = createAsyncThunk('myPage/postUserPost', async (_, { 
       'Content-Type': 'application/json',
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
-
     credentials: 'include',
     body: JSON.stringify({
       userId: USER_ID,
       post: {
-        text: newPostText,
+        text: postText,
       },
     }),
   });
@@ -62,7 +57,6 @@ export const deleteUserPost = createAsyncThunk('myPage/deleteUserPost', async (p
       'Content-Type': 'application/json',
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
-
     credentials: 'include',
     body: JSON.stringify({
       postId,
@@ -73,3 +67,29 @@ export const deleteUserPost = createAsyncThunk('myPage/deleteUserPost', async (p
 
   return data;
 });
+
+export const editUserPost = createAsyncThunk(
+  'myPage/editUserPost',
+  async ({ postId, newPostText }: { postId: string; newPostText: string }) => {
+    const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+
+    const response = await fetch(USER_POST_URL, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        postId,
+        post: {
+          text: newPostText,
+        },
+      }),
+    });
+
+    const data = await response.json();
+
+    return data;
+  },
+);

@@ -18,6 +18,7 @@ const PostsList = () => {
           avatar={avatar}
           text={post.text}
           time={post.date}
+          editTime={post.lastEdit}
           likes={post.likes}
         />
       ))}

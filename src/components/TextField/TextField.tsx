@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import style from './TextField.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { updateNewPostText } from '../../redux/slices/myPageSlice';
-import postUserPost from '../../redux/thunks/myPageThunks';
+import { postUserPost } from '../../redux/thunks/myPageThunks';
 import buttonIcon from '../../assets/img/svg/send-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
 

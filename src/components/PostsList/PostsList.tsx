@@ -12,6 +12,7 @@ const PostsList = () => {
       {posts.map((post) => (
         <Post
           key={post.id}
+          postId={post.id}
           firstName={firstName}
           lastName={lastName}
           avatar={avatar}

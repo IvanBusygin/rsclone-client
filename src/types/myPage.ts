@@ -9,9 +9,11 @@ export interface IMyPageState {
   newPostText: string;
   posts: IPost[];
   isLoading: boolean;
+  deletingPostId: string;
 }
 
 export interface IPostProps {
+  postId: string;
   firstName: string;
   lastName: string;
   avatar: string;

@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState } from '../../types/myPage';
-import postUserPost from '../thunks/myPageThunks';
+import { deleteUserPost, postUserPost } from '../thunks/myPageThunks';
 
 const initialState: IMyPageState = {
   newPostText: '',
   posts: [],
   isLoading: false,
+  deletingPostId: '',
 };
 
 const myPageSlice = createSlice({
@@ -39,9 +40,22 @@ const myPageSlice = createSlice({
           likes,
         });
         state.newPostText = '';
+      })
+      .addCase(deleteUserPost.pending, (state, action) => {
+        state.deletingPostId = action.meta.arg;
+      })
+      .addCase(deleteUserPost.fulfilled, (state, action) => {
+        state.deletingPostId = '';
+
+        const { _id: id } = action.payload.postData;
+        const idx = state.posts.findIndex((post) => post.id === id);
+
+        if (idx !== -1) {
+          state.posts.splice(idx, 1);
+        }
       }),
 });
 
-export const { updateNewPostText, removePost } = myPageSlice.actions;
+export const { updateNewPostText } = myPageSlice.actions;
 
 export default myPageSlice.reducer;

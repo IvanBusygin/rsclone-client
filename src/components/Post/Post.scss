@@ -79,6 +79,12 @@
     font-size: 1.4rem;
   }
 
+  &_remove {
+    filter: blur(1px);
+    opacity: .5;
+    pointer-events: none;
+  }
+
   &_light {
     background-color: $color-main-light;
 

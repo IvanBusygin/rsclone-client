@@ -1,7 +1,7 @@
 @import '../../styles/mixins';
 @import '../../styles/variables';
 
-.page {
+.content {
   &__container {
     @extend %Container;
     @extend %FlexColumn;
@@ -37,15 +37,10 @@
 .inputs {
   padding: 1rem 3rem 3rem;
   border-radius: $size-border-radius;
-  max-width: 140rem;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -40%);
 }
 
 .ques {
-  margin-top: 1rem;
+  margin-top: 2.2rem;
   display: flex;
   gap: $size-gap;
   flex-direction: column;

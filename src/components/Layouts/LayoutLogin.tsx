@@ -13,10 +13,8 @@ function LayoutMain() {
   return (
     <div className={style.app}>
       <Header />
-      <main className={classNames(style.main, themeClass)}>
-        <div>
-          <Login />
-        </div>
+      <main className={classNames(style.main, style.login, themeClass)}>
+        <Login />
       </main>
       <Footer />
     </div>

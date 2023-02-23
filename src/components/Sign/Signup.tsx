@@ -46,7 +46,7 @@ const checkPasswordSymbols = (password: string) => {
 
 function Signup() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
-  const themeClass = isLightTheme ? style.page_light : style.page_dark;
+  const themeClass = isLightTheme ? style.sign_light : style.sign_dark;
 
   const { loading, isAuth, errorMsg } = useTypedSelector(({ auth }) => auth);
 
@@ -80,7 +80,7 @@ function Signup() {
   }, [navigate, loading, isAuth]);
 
   return (
-    <div className={classNames(themeClass, style.page__container)}>
+    <div className={classNames(themeClass, style.sign__container)}>
       <img
         className={style.icon}
         src={logoIcon}

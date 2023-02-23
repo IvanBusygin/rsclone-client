@@ -1,7 +1,7 @@
 @import '../../styles/mixins';
 @import '../../styles/variables';
 
-.page {
+.sign {
   &__container {
     font-family: Roboto-Regular, sans-serif;
     display: flex;
@@ -49,7 +49,6 @@
 
 .form {
   margin-top: 1rem;
-  max-width: 32rem;
   display: flex;
   gap: 1rem;
   flex-direction: column;
@@ -58,7 +57,7 @@
 }
 
 .input {
-  width: 100%;
+  min-width: 220px;
   padding: 1rem;
   border: 1px solid $color-background-light;
   border-radius: 0.5rem;

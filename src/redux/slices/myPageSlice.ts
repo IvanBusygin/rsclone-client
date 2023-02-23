@@ -4,9 +4,10 @@ import { deleteUserPost, editUserPost, getUserPosts, postUserPost } from '../thu
 
 const initialState: IMyPageState = {
   posts: [],
-  isLoading: false,
+  isPostLoading: false,
   deletingPostId: '',
   editingPostId: '',
+  savingPostId: '',
 };
 
 const myPageSlice = createSlice({
@@ -15,6 +16,9 @@ const myPageSlice = createSlice({
   reducers: {
     editPost(state, action) {
       state.editingPostId = action.payload.postId;
+    },
+    unEditPost(state) {
+      state.editingPostId = '';
     },
   },
   extraReducers: (builder) =>
@@ -29,13 +33,13 @@ const myPageSlice = createSlice({
         }));
       })
       .addCase(postUserPost.pending, (state) => {
-        state.isLoading = true;
+        state.isPostLoading = true;
       })
       .addCase(postUserPost.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isPostLoading = false;
 
         const { _id: id, date, text, likes } = action.payload;
-        state.posts.push({
+        state.posts.unshift({
           id,
           date,
           text,
@@ -55,8 +59,12 @@ const myPageSlice = createSlice({
           state.posts.splice(idx, 1);
         }
       })
-      .addCase(editUserPost.fulfilled, (state, action) => {
+      .addCase(editUserPost.pending, (state, action) => {
+        state.savingPostId = action.meta.arg.postId;
         state.editingPostId = '';
+      })
+      .addCase(editUserPost.fulfilled, (state, action) => {
+        state.savingPostId = '';
 
         const { _id: id, date, text, likes, lastEdit } = action.payload;
         const idx = state.posts.findIndex((post) => post.id === id);
@@ -75,6 +83,6 @@ const myPageSlice = createSlice({
       }),
 });
 
-export const { editPost } = myPageSlice.actions;
+export const { editPost, unEditPost } = myPageSlice.actions;
 
 export default myPageSlice.reducer;

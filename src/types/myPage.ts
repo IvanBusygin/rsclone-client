@@ -20,9 +20,10 @@ export interface IPostFromServer {
 
 export interface IMyPageState {
   posts: IPost[];
-  isLoading: boolean;
+  isPostLoading: boolean;
   deletingPostId: string;
   editingPostId: string;
+  savingPostId: string;
 }
 
 export interface IPostProps {

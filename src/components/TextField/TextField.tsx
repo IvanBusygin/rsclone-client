@@ -16,8 +16,8 @@ const TextField: FC<ITextFieldProps> = (props) => {
 
   const [postText, setPostText] = useState(text || '');
 
-  const { isLoading } = useTypedSelector(({ myPage }) => myPage);
-  const buttonClass = isLoading ? style.textField__button_inActive : null;
+  const { isPostLoading } = useTypedSelector(({ myPage }) => myPage);
+  const buttonClass = isPostLoading ? style.textField__button_inActive : null;
 
   const onSendPostClick = () => {
     onButtonClick(postText);
@@ -39,7 +39,7 @@ const TextField: FC<ITextFieldProps> = (props) => {
         disabled={!postText}
         onClick={onSendPostClick}
       >
-        {isLoading ? (
+        {isPostLoading ? (
           <Preloader />
         ) : (
           <span className={style.textField__buttonIcon}>

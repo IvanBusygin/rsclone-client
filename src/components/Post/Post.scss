@@ -52,7 +52,6 @@
   }
 
   &__textWrapper {
-    border-bottom: 1px solid $color-border;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -60,18 +59,54 @@
 
   &__text {
     padding: $size-padding 0;
+    border: 1px solid $color-main-light;
+    border-radius: 0.5rem;
     flex-grow: 1;
     word-break: break-all;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $color-main-light;
+    }
+  }
+
+  &__editButtons {
+    margin-left: $size-padding;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $size-gap;
+  }
+
+  &__editPostButton,
+  &__unEdit {
+    width: 1.6rem;
+    height: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &__editPostButton {
-    margin-left: $size-padding;
-    width: 1.6rem;
-    height: 1.6rem;
-    align-self: flex-start;
     flex-shrink: 0;
-    @extend %BgImage;
-    background-image: url('../../assets/img/svg/settings_icon.svg');
+  }
+
+  &__buttonIcon {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__unEdit {
+    font-size: 2.2rem;
+    color: $color-stop-editing-post;
   }
 
   &__likes {
@@ -113,6 +148,14 @@
       color: $color-main-dark;
     }
 
+    .post__text {
+      border-color: $color-main-light;
+
+      &:focus {
+        border-color: $color-border;
+      }
+    }
+
     .post__likesCount {
       color: $color-main-dark;
     }
@@ -125,6 +168,14 @@
     .post__deletePostButton,
     .post__text {
       color: $color-main-light;
+    }
+
+    .post__text {
+      border-color: $color-main-dark;
+
+      &:focus {
+        border-color: $color-border;
+      }
     }
 
     .post__likesCount {

@@ -3,6 +3,7 @@
 
 .post {
   padding: $size-padding;
+  max-width: 67rem;
   border-radius: $size-border-radius;
   font-family: Roboto-Regular, sans-serif;
 
@@ -59,11 +60,16 @@
 
   &__text {
     padding: $size-padding 0;
+    flex-grow: 1;
+    word-break: break-all;
   }
 
   &__editPostButton {
+    margin-left: $size-padding;
     width: 1.6rem;
     height: 1.6rem;
+    align-self: flex-start;
+    flex-shrink: 0;
     @extend %BgImage;
     background-image: url('../../assets/img/svg/settings_icon.svg');
   }

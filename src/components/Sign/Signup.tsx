@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames';
 import style from './Sign.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { fetchReg, resetDuplicate } from '../../redux/slices/authSlice';
+import { fetchReg, resetError } from '../../redux/slices/authSlice';
 import logoIcon from '../../assets/img/svg/logo.svg';
 import { IFormReg } from '../../types/login';
 import Preloader from '../Preloader/Preloader';
@@ -48,7 +48,7 @@ function Signup() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.page_light : style.page_dark;
 
-  const { loading, errorDuplicate, isAuth } = useTypedSelector(({ auth }) => auth);
+  const { loading, isAuth, errorMsg } = useTypedSelector(({ auth }) => auth);
 
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
@@ -65,16 +65,19 @@ function Signup() {
     setFocus('name');
   }, [setFocus]);
 
+  const resetHandler = () => {
+    if (errorMsg) dispatch(resetError());
+  };
+
   const onSubmitForm: SubmitHandler<IFormReg> = (data) => {
     dispatch(fetchReg(data));
   };
 
   useEffect(() => {
-    setTimeout(() => dispatch(resetDuplicate()), 5000);
     if (loading === false && isAuth === true) {
       navigate('/');
     }
-  }, [dispatch, navigate, loading, isAuth]);
+  }, [navigate, loading, isAuth]);
 
   return (
     <div className={classNames(themeClass, style.page__container)}>
@@ -92,6 +95,7 @@ function Signup() {
           className={style.input}
           type="text"
           {...register('name', {
+            onChange: resetHandler,
             required: ErrorMsg.nameReq,
             minLength: {
               value: 2,
@@ -108,6 +112,7 @@ function Signup() {
           className={style.input}
           type="text"
           {...register('surname', {
+            onChange: resetHandler,
             required: ErrorMsg.surnameReq,
             minLength: {
               value: 2,
@@ -124,6 +129,7 @@ function Signup() {
           className={style.input}
           type="text"
           {...register('login', {
+            onChange: resetHandler,
             required: ErrorMsg.loginReq,
             minLength: {
               value: 4,
@@ -140,6 +146,7 @@ function Signup() {
           className={style.input}
           type="email"
           {...register('email', {
+            onChange: resetHandler,
             required: ErrorMsg.emailReq,
             pattern: {
               value: regexpEmail,
@@ -156,6 +163,7 @@ function Signup() {
           className={style.input}
           type="password"
           {...register('password', {
+            onChange: resetHandler,
             required: ErrorMsg.passwordReq,
             minLength: {
               value: 8,
@@ -175,11 +183,8 @@ function Signup() {
           className={style.input}
           type="password"
           {...register('password2', {
+            onChange: resetHandler,
             required: ErrorMsg.passwordReq,
-            minLength: {
-              value: 8,
-              message: ErrorMsg.passwordLength,
-            },
             validate: {
               cor: () => getValues('password') === getValues('password2') || ErrorMsg.passwordDif,
             },
@@ -197,7 +202,7 @@ function Signup() {
           {loading ? <Preloader /> : 'Зарегистрироваться'}
         </button>
 
-        {errorDuplicate && <div className={style.errorDuplicate}>Пользователь уже существует</div>}
+        {Boolean(errorMsg) && <p className={style.errorRequest}> {errorMsg} </p>}
       </form>
     </div>
   );

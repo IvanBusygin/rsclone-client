@@ -79,7 +79,7 @@
 }
 
 .btn {
-  margin: 2rem;
+  margin: 1rem 0 0;
   padding: 0 1.5rem;
   width: 100%;
   height: $size-button-height;
@@ -106,11 +106,14 @@
     font-size: 1.15rem;
     color: red;
   }
-}
 
-.errorDuplicate {
-  color: red;
-  font-size: 1.5rem;
+  &__request {
+    transform: translate(-50%);
+    white-space: nowrap;
+    position: absolute;
+    color: red;
+    font-size: 1.5rem;
+  }
 }
 
 .loading {

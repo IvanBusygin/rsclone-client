@@ -1,0 +1,59 @@
+@import '../../styles/variables';
+
+.modal {
+  &__cover {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    pointer-events: none;
+  }
+
+  &__info {
+    padding: $size-padding;
+    background-color: $color-error-message-background;
+    border-radius: $size-border-radius;
+    color: $color-main-dark;
+    font-family: 'Roboto-Medium', sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-duration: 2s;
+    animation-name: showMessage;
+  }
+}
+
+@keyframes showMessage {
+  0% {
+    top: -10%;
+  }
+
+  20% {
+    top: 1rem;
+  }
+
+  80% {
+    top: 1rem;
+  }
+
+  100% {
+    top: -10%;
+  }
+}
+
+@media (max-width: 520px) {
+  .modal {
+    &__info {
+      width: 27rem;
+      font-size: 1.4rem;
+    }
+  }
+}

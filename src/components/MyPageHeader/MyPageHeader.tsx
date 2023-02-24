@@ -1,21 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import style from './MyPageHeader.scss';
-import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
+import { useTypedSelector } from '../../redux/hooks';
 import userDefaultAvatar from '../../assets/img/svg/user_default_icon.svg';
-import { getUserInfo } from '../../redux/thunks';
 
 const MyPageHeader = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.myPage__header_light : style.myPage__header_dark;
 
   const { infoData } = useTypedSelector(({ editPage }) => editPage);
-
-  const dispatch = useTypedDispatch();
-
-  useEffect(() => {
-    dispatch(getUserInfo());
-  }, [dispatch]);
 
   return (
     <section className={classNames(style.myPage__header, themeClass)}>

@@ -1,41 +1,55 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import style from './TextField.scss';
-import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { addPost } from '../../redux/slices/myPageSlice';
+import { useTypedSelector } from '../../redux/hooks';
+import buttonIcon from '../../assets/img/svg/send-button_icon.svg';
+import Preloader from '../Preloader/Preloader';
+import { ITextFieldProps } from '../../types/myPage';
 
-const TextField = () => {
+const TextField: FC<ITextFieldProps> = (props) => {
+  const { text, placeholder, onButtonClick } = props;
+
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme
     ? style.textField__textarea_light
     : style.textField__textarea_dark;
 
-  const dispatch = useTypedDispatch();
+  const [postText, setPostText] = useState(text || '');
 
-  const [value, setValue] = useState('');
+  const { isPostLoading } = useTypedSelector(({ myPage }) => myPage);
+  const buttonClass = isPostLoading ? style.textField__button_inActive : null;
 
-  moment.locale('ru');
-
-  const onButtonClick = () => {
-    setValue('');
-    dispatch(addPost({ text: value, creationTime: moment().format('DD MMM YYYY HH:mm') }));
+  const onSendPostClick = () => {
+    onButtonClick(postText);
+    setPostText('');
   };
 
   return (
     <div className={style.textField}>
       <textarea
         className={classNames(style.textField__textarea, themeClass)}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder="Что у вас нового?"
+        value={postText}
+        onChange={(e) => setPostText(e.target.value)}
+        placeholder={placeholder}
       />
       <button
-        className={style.textField__button}
+        className={classNames(style.textField__button, buttonClass)}
         type="button"
         aria-label="Send post"
-        onClick={onButtonClick}
-      />
+        disabled={!postText}
+        onClick={onSendPostClick}
+      >
+        {isPostLoading ? (
+          <Preloader />
+        ) : (
+          <span className={style.textField__buttonIcon}>
+            <img
+              src={buttonIcon}
+              alt="Send button icon"
+            />
+          </span>
+        )}
+      </button>
     </div>
   );
 };

@@ -3,7 +3,9 @@
 
 .post {
   padding: $size-padding;
+  max-width: 67rem;
   border-radius: $size-border-radius;
+  font-family: Roboto-Regular, sans-serif;
 
   &__header {
     padding-bottom: $size-padding;
@@ -16,11 +18,16 @@
     height: 4rem;
     border-radius: 50%;
     overflow: hidden;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   &__info {
     margin-left: $size-padding;
-    font-family: Roboto-Regular, sans-serif;
   }
 
   &__author {
@@ -32,7 +39,7 @@
     font-size: 1.2rem;
   }
 
-  &__button {
+  &__deletePostButton {
     width: 1rem;
     height: 1rem;
     font-size: 2.2rem;
@@ -44,9 +51,62 @@
     right: 0;
   }
 
+  &__textWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__text {
     padding: $size-padding 0;
-    border-bottom: 1px solid $color-border;
+    border: 1px solid $color-main-light;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+    word-break: break-all;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $color-main-light;
+    }
+  }
+
+  &__editButtons {
+    margin-left: $size-padding;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $size-gap;
+  }
+
+  &__editPostButton,
+  &__unEdit {
+    width: 1.6rem;
+    height: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__editPostButton {
+    flex-shrink: 0;
+  }
+
+  &__buttonIcon {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__unEdit {
+    font-size: 2.2rem;
+    color: $color-stop-editing-post;
   }
 
   &__likes {
@@ -73,13 +133,27 @@
     font-size: 1.4rem;
   }
 
+  &_remove {
+    filter: blur(1px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   &_light {
     background-color: $color-main-light;
 
     .post__author,
-    .post__button,
+    .post__deletePostButton,
     .post__text {
       color: $color-main-dark;
+    }
+
+    .post__text {
+      border-color: $color-main-light;
+
+      &:focus {
+        border-color: $color-border;
+      }
     }
 
     .post__likesCount {
@@ -91,9 +165,17 @@
     background-color: $color-main-dark;
 
     .post__author,
-    .post__button,
+    .post__deletePostButton,
     .post__text {
       color: $color-main-light;
+    }
+
+    .post__text {
+      border-color: $color-main-dark;
+
+      &:focus {
+        border-color: $color-border;
+      }
     }
 
     .post__likesCount {

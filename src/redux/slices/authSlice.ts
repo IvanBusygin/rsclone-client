@@ -1,12 +1,18 @@
-import { AnyAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AnyAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IFormLogin, IFormReg, IUserData } from '../../types/login';
-import { AUTH_URL, LOGIN_URL, REFRESH_URL } from '../../utils/constants';
+import {
+  AUTH_URL,
+  LOGIN_URL,
+  LS_ACCESS_TOKEN,
+  LS_USER_ID,
+  REFRESH_URL,
+} from '../../utils/constants';
 
 interface IInitialState {
   user: IUserData | object;
   accessToken: string;
   isAuth: boolean;
-  errorDuplicate: boolean;
+  errorMsg: string;
   loading: boolean;
 }
 
@@ -14,7 +20,7 @@ const initialState: IInitialState = {
   user: {},
   accessToken: '',
   isAuth: false,
-  errorDuplicate: false,
+  errorMsg: '',
   loading: false,
 };
 
@@ -22,8 +28,8 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    resetDuplicate(state) {
-      state.errorDuplicate = false;
+    resetError(state) {
+      state.errorMsg = '';
     },
   },
   extraReducers: (builder) => {
@@ -32,53 +38,50 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
-        localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
-        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
+        localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
+        localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
         state.user = action.payload;
         state.isAuth = true;
         state.loading = false;
       })
-      .addCase(fetchLogin.rejected, (state) => {
-        localStorage.setItem('vk-clone-accessToken', '');
-        localStorage.setItem('vk-clone-userID', '');
+      .addCase(fetchLogin.rejected, (state, action) => {
+        localStorage.setItem(LS_ACCESS_TOKEN, '');
+        localStorage.setItem(LS_USER_ID, '');
+        state.errorMsg = action.payload || '';
         state.isAuth = false;
         state.loading = false;
       })
 
       .addCase(fetchReg.pending, (state) => {
         state.loading = true;
-        state.errorDuplicate = false;
       })
       .addCase(fetchReg.fulfilled, (state, action) => {
-        localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
-        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
+        localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
+        localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
         state.user = action.payload;
-        state.errorDuplicate = false;
         state.loading = false;
         state.isAuth = true;
       })
       .addCase(fetchReg.rejected, (state, action) => {
-        localStorage.setItem('vk-clone-accessToken', '');
-        localStorage.setItem('vk-clone-userID', '');
+        localStorage.setItem(LS_ACCESS_TOKEN, '');
+        localStorage.setItem(LS_USER_ID, '');
         state.isAuth = false;
-        if (action.payload === '421') {
-          state.errorDuplicate = true;
-        }
+        state.errorMsg = action.payload || '';
       })
 
       .addCase(fetchRefresh.fulfilled, (state, action) => {
-        localStorage.setItem('vk-clone-accessToken', JSON.stringify(action.payload.accessToken));
-        localStorage.setItem('vk-clone-userID', JSON.stringify(action.payload.user._id));
+        localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
+        localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
         state.user = action.payload;
         state.isAuth = true;
       })
       .addCase(fetchRefresh.rejected, (state) => {
-        localStorage.setItem('vk-clone-accessToken', '');
-        localStorage.setItem('vk-clone-userID', '');
+        localStorage.setItem(LS_ACCESS_TOKEN, '');
+        localStorage.setItem(LS_USER_ID, '');
         state.isAuth = false;
       })
-      .addMatcher(isError, (state, action: PayloadAction) => {
-        console.log(action.payload);
+      .addMatcher(isError, (state) => {
+        // console.log(action.payload);
         state.loading = false;
       });
   },
@@ -96,11 +99,11 @@ export const fetchLogin = createAsyncThunk<IUserData, IFormLogin, { rejectValue:
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
-
     if (response.ok) {
       return response.json();
     }
-    return rejectWithValue('Server Error!');
+    const res = await response.json();
+    return rejectWithValue(res.message);
   },
 );
 
@@ -123,11 +126,8 @@ export const fetchReg = createAsyncThunk<IUserData, IFormReg, { rejectValue: str
     if (response.ok) {
       return response.json();
     }
-    if (response.status === 421) {
-      return rejectWithValue('421');
-    }
-
-    return rejectWithValue('Server Error!');
+    const res = await response.json();
+    return rejectWithValue(res.message);
   },
 );
 
@@ -147,6 +147,5 @@ function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
 
-export const { resetDuplicate } = authSlice.actions;
-
+export const { resetError } = authSlice.actions;
 export default authSlice.reducer;

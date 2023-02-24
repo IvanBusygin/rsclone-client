@@ -6,23 +6,20 @@ import style from './Sign.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import logoIcon from '../../assets/img/svg/logo.svg';
 import { IFormLogin } from '../../types/login';
-import { fetchLogin } from '../../redux/slices/authSlice';
 import Preloader from '../Preloader/Preloader';
+import { fetchLogin, resetError } from '../../redux/slices/authSlice';
 
 enum ErrorMsg {
   loginReq = 'Введите логин',
   loginLength = 'Логин минимум 4 символов',
-  passwordLength = 'Пароль минимум 8 символов',
   passwordReq = 'Введите пароль',
-  passwordNum = 'Должен содержать число',
-  passwordSym = 'Должен содержать буквенные символы',
 }
 
 function Signin() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
-  const themeClass = isLightTheme ? style.page_light : style.page_dark;
+  const themeClass = isLightTheme ? style.sign_light : style.sign_dark;
 
-  const { loading, isAuth } = useTypedSelector(({ auth }) => auth);
+  const { loading, isAuth, errorMsg } = useTypedSelector(({ auth }) => auth);
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
 
@@ -37,6 +34,10 @@ function Signin() {
     setFocus('login');
   }, [setFocus]);
 
+  const resetHandler = () => {
+    if (errorMsg) dispatch(resetError());
+  };
+
   const onSubmitForm: SubmitHandler<IFormLogin> = (data) => {
     dispatch(fetchLogin(data));
   };
@@ -48,7 +49,7 @@ function Signin() {
   }, [navigate, loading, isAuth]);
 
   return (
-    <div className={classNames(themeClass, style.page__container)}>
+    <div className={classNames(themeClass, style.sign__container)}>
       <img
         className={style.icon}
         src={logoIcon}
@@ -64,6 +65,7 @@ function Signin() {
           className={style.input}
           type="text"
           {...register('login', {
+            onChange: resetHandler,
             required: ErrorMsg.loginReq,
             minLength: {
               value: 4,
@@ -80,15 +82,8 @@ function Signin() {
           className={style.input}
           type="password"
           {...register('password', {
+            onChange: resetHandler,
             required: ErrorMsg.passwordReq,
-            minLength: {
-              value: 8,
-              message: ErrorMsg.passwordLength,
-            },
-            validate: {
-              corNun: (value) => /[0-9]/.test(value) || ErrorMsg.passwordNum,
-              corSym: (value) => /[a-z]/i.test(value) || ErrorMsg.passwordSym,
-            },
           })}
           placeholder="Введите пароль"
         />
@@ -102,6 +97,10 @@ function Signin() {
         >
           {loading ? <Preloader /> : 'Войти'}
         </button>
+
+        <div className={style.error}>
+          {Boolean(errorMsg) && <p className={style.error__request}> {errorMsg} </p>}
+        </div>
       </form>
     </div>
   );

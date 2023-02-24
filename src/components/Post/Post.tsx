@@ -16,7 +16,9 @@ const Post: FC<IPostProps> = (props) => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.post_light : style.post_dark;
 
-  const { deletingPostId, editingPostId, savingPostId } = useTypedSelector(({ myPage }) => myPage);
+  const { deletingPostId, editingPostId, savingPostId, successfullySavedPostId } = useTypedSelector(
+    ({ myPage }) => myPage,
+  );
   const postClass = deletingPostId === postId ? style.post_remove : null;
 
   const [isButtonSave, setIsButtonSave] = useState(false);
@@ -41,17 +43,19 @@ const Post: FC<IPostProps> = (props) => {
       setIsButtonSave(false);
     }
 
-    if (postTempText && savingPostId !== postId && postRef.current) {
+    if (postTempText && successfullySavedPostId !== postId && postRef.current) {
       postRef.current.innerText = postTempText;
     }
 
-    if (savingPostId === postId) {
+    if (successfullySavedPostId === postId) {
       setPostTempText('');
     }
-  }, [editingPostId, postId, postTempText, savingPostId]);
+  }, [editingPostId, postId, postTempText, successfullySavedPostId]);
 
   const onDeleteButtonClick = () => {
     dispatch(deleteUserPost(postId));
+    dispatch(unEditPost());
+    setIsButtonSave(false);
   };
 
   const onButtonClick = () => {

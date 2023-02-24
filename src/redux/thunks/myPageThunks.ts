@@ -6,71 +6,92 @@ import {
   USER_POST_URL,
 } from '../../utils/constants';
 
-export const getUserPosts = createAsyncThunk('myPage/getUserPosts', async () => {
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
-  const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+export const getUserPosts = createAsyncThunk(
+  'myPage/getUserPosts',
+  async (_, { rejectWithValue }) => {
+    const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+    const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
 
-  const response = await fetch(`${USER_GET_POSTS_URL}/${USER_ID}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    credentials: 'include',
-  });
-
-  const data = await response.json();
-
-  return data;
-});
-
-export const postUserPost = createAsyncThunk('myPage/postUserPost', async (postText: string) => {
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
-  const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
-
-  const response = await fetch(USER_POST_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    credentials: 'include',
-    body: JSON.stringify({
-      userId: USER_ID,
-      post: {
-        text: postText,
+    const response = await fetch(`${USER_GET_POSTS_URL}/${USER_ID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
       },
-    }),
-  });
+      credentials: 'include',
+    });
 
-  const data = await response.json();
+    if (!response.ok) {
+      return rejectWithValue('Ошибка при загрузке постов');
+    }
 
-  return data;
-});
+    const data = await response.json();
 
-export const deleteUserPost = createAsyncThunk('myPage/deleteUserPost', async (postId: string) => {
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+    return data;
+  },
+);
 
-  const response = await fetch(USER_POST_URL, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    credentials: 'include',
-    body: JSON.stringify({
-      postId,
-    }),
-  });
+export const postUserPost = createAsyncThunk(
+  'myPage/postUserPost',
+  async (postText: string, { rejectWithValue }) => {
+    const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+    const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
 
-  const data = await response.json();
+    const response = await fetch(USER_POST_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        userId: USER_ID,
+        post: {
+          text: postText,
+        },
+      }),
+    });
 
-  return data;
-});
+    if (!response.ok) {
+      return rejectWithValue('Ошибка при создании поста');
+    }
+
+    const data = await response.json();
+
+    return data;
+  },
+);
+
+export const deleteUserPost = createAsyncThunk(
+  'myPage/deleteUserPost',
+  async (postId: string, { rejectWithValue }) => {
+    const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+
+    const response = await fetch(USER_POST_URL, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        postId,
+      }),
+    });
+
+    if (!response.ok) {
+      return rejectWithValue('Ошибка при удалении поста');
+    }
+
+    const data = await response.json();
+
+    return data;
+  },
+);
 
 export const editUserPost = createAsyncThunk(
   'myPage/editUserPost',
-  async ({ postId, newPostText }: { postId: string; newPostText: string }) => {
+  async ({ postId, newPostText }: { postId: string; newPostText: string }, { rejectWithValue }) => {
     const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
 
     const response = await fetch(USER_POST_URL, {
@@ -87,6 +108,10 @@ export const editUserPost = createAsyncThunk(
         },
       }),
     });
+
+    if (!response.ok) {
+      return rejectWithValue('Ошибка при редактировании поста');
+    }
 
     const data = await response.json();
 

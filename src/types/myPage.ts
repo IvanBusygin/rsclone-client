@@ -24,6 +24,8 @@ export interface IMyPageState {
   deletingPostId: string;
   editingPostId: string;
   savingPostId: string;
+  successfullySavedPostId: string;
+  error: string;
 }
 
 export interface IPostProps {
@@ -46,4 +48,10 @@ export interface ITextFieldProps {
   onButtonClick: (postText: string) => void;
   text?: string;
   placeholder?: string;
+}
+
+export interface IModalProps {
+  isOpen: boolean;
+  setModal: (isOpen: boolean) => void;
+  message: string;
 }

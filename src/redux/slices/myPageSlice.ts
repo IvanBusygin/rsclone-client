@@ -8,6 +8,8 @@ const initialState: IMyPageState = {
   deletingPostId: '',
   editingPostId: '',
   savingPostId: '',
+  successfullySavedPostId: '',
+  error: '',
 };
 
 const myPageSlice = createSlice({
@@ -16,9 +18,13 @@ const myPageSlice = createSlice({
   reducers: {
     editPost(state, action) {
       state.editingPostId = action.payload.postId;
+      state.successfullySavedPostId = '';
     },
     unEditPost(state) {
       state.editingPostId = '';
+    },
+    resetError(state) {
+      state.error = '';
     },
   },
   extraReducers: (builder) =>
@@ -31,6 +37,9 @@ const myPageSlice = createSlice({
           likes: structuredClone(post.likes),
           lastEdit: post.lastEdit,
         }));
+      })
+      .addCase(getUserPosts.rejected, (state, action) => {
+        state.error = action.payload as string;
       })
       .addCase(postUserPost.pending, (state) => {
         state.isPostLoading = true;
@@ -46,6 +55,10 @@ const myPageSlice = createSlice({
           likes,
         });
       })
+      .addCase(postUserPost.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.isPostLoading = false;
+      })
       .addCase(deleteUserPost.pending, (state, action) => {
         state.deletingPostId = action.meta.arg;
       })
@@ -59,12 +72,18 @@ const myPageSlice = createSlice({
           state.posts.splice(idx, 1);
         }
       })
+      .addCase(deleteUserPost.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.deletingPostId = '';
+      })
       .addCase(editUserPost.pending, (state, action) => {
         state.savingPostId = action.meta.arg.postId;
         state.editingPostId = '';
+        state.successfullySavedPostId = '';
       })
       .addCase(editUserPost.fulfilled, (state, action) => {
         state.savingPostId = '';
+        state.successfullySavedPostId = action.payload._id;
 
         const { _id: id, date, text, likes, lastEdit } = action.payload;
         const idx = state.posts.findIndex((post) => post.id === id);
@@ -80,9 +99,14 @@ const myPageSlice = createSlice({
         if (idx !== -1) {
           state.posts.splice(idx, 1, editedPost);
         }
+      })
+      .addCase(editUserPost.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.savingPostId = '';
+        state.successfullySavedPostId = '';
       }),
 });
 
-export const { editPost, unEditPost } = myPageSlice.actions;
+export const { editPost, unEditPost, resetError } = myPageSlice.actions;
 
 export default myPageSlice.reducer;

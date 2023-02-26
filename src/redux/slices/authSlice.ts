@@ -31,6 +31,9 @@ const authSlice = createSlice({
     resetError(state) {
       state.errorMsg = '';
     },
+    resetAuth(state) {
+      state.isAuth = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -52,17 +55,17 @@ const authSlice = createSlice({
         state.loading = false;
       })
 
-      .addCase(fetchReg.pending, (state) => {
+      .addCase(fetchRegistration.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchReg.fulfilled, (state, action) => {
+      .addCase(fetchRegistration.fulfilled, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
         localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
         state.user = action.payload;
         state.loading = false;
         state.isAuth = true;
       })
-      .addCase(fetchReg.rejected, (state, action) => {
+      .addCase(fetchRegistration.rejected, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, '');
         localStorage.setItem(LS_USER_ID, '');
         state.isAuth = false;
@@ -107,7 +110,7 @@ export const fetchLogin = createAsyncThunk<IUserData, IFormLogin, { rejectValue:
   },
 );
 
-export const fetchReg = createAsyncThunk<IUserData, IFormReg, { rejectValue: string }>(
+export const fetchRegistration = createAsyncThunk<IUserData, IFormReg, { rejectValue: string }>(
   'auth/reg',
   async (body, { rejectWithValue }) => {
     const response = await fetch(AUTH_URL, {
@@ -131,7 +134,7 @@ export const fetchReg = createAsyncThunk<IUserData, IFormReg, { rejectValue: str
   },
 );
 
-export const fetchRefresh = createAsyncThunk('auth/refresh', async () => {
+export const fetchRefresh = createAsyncThunk('auth/refresh', async (_, { rejectWithValue }) => {
   const response = await fetch(REFRESH_URL, {
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -140,12 +143,13 @@ export const fetchRefresh = createAsyncThunk('auth/refresh', async () => {
   if (response.ok) {
     return response.json();
   }
-  return 'Server Error!';
+  const res = await response.json();
+  return rejectWithValue(res.message);
 });
 
 function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
 
-export const { resetError } = authSlice.actions;
+export const { resetError, resetAuth } = authSlice.actions;
 export default authSlice.reducer;

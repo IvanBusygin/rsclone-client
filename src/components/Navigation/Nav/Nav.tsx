@@ -11,6 +11,8 @@ const Nav = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.navigation_light : style.navigation_dark;
 
+  const { dataInFriends } = useTypedSelector(({ friends }) => friends);
+
   return (
     <nav className={classNames(style.navigation, themeClass)}>
       <ul className={style.navigation__list}>
@@ -29,7 +31,7 @@ const Nav = () => {
           route="/friends"
           icon={friendsIcon}
           name="Друзья"
-          count={1}
+          count={dataInFriends.length}
         />
       </ul>
     </nav>

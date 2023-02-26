@@ -11,6 +11,7 @@ import SearchFriendsForm from './components/friends/SearchFriendsForm/SearchFrie
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import MessengerPage from './pages/MessengerPage/MessengerPage';
 import MyFriendsBox from './components/friends/FriendsBox/MyFriendsBox';
+import UserPage from './pages/UserPage/UserPage';
 
 function App() {
   return (
@@ -51,6 +52,10 @@ function App() {
         <Route
           path="messenger"
           element={<MessengerPage />}
+        />
+        <Route
+          path="user/:id"
+          element={<UserPage />}
         />
       </Route>
       <Route

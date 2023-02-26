@@ -3,6 +3,7 @@ import commonReducer from './slices/commonSlice';
 import myPageReducer from './slices/myPageSlice';
 import editPageReducer from './slices/editPageSlice';
 import authReducer from './slices/authSlice';
+import userPageReducer from './slices/userPageSlice';
 import friendsReducer from './slices/friendsSlice';
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   myPage: myPageReducer,
   editPage: editPageReducer,
   auth: authReducer,
+  userPage: userPageReducer,
   friends: friendsReducer,
 });
 

@@ -1,0 +1,19 @@
+@import '../../styles/variables';
+
+.userPage {
+  &__attention {
+    margin-top: 5rem;
+    padding: $size-padding;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 2.4rem;
+    text-align: center;
+  }
+
+  &_light {
+    color: $color-dark;
+  }
+
+  &_dark {
+    color: $color-main-light;
+  }
+}

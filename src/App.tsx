@@ -5,11 +5,12 @@ import LayoutLogin from './components/Layouts/LayoutLogin';
 import MyPage from './pages/MyPage/MyPage';
 import EditPage from './pages/EditPage/EditPage';
 import FriendsPage from './pages/FriendsPage/FriendsPage';
-import InboxFriends from './components/InboxFriends/InboxFriends';
-import OutboxFriends from './components/OutboxFriends/OutboxFriends';
-import SearchFriendsForm from './components/SearchFriendsForm/SearchFriendsForm';
+import InFriendsBox from './components/friends/FriendsBox/InFriendsBox';
+import OutFriendsBox from './components/friends/FriendsBox/OutFriendsBox';
+import SearchFriendsForm from './components/friends/SearchFriendsForm/SearchFriendsForm';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import MessengerPage from './pages/MessengerPage/MessengerPage';
+import MyFriendsBox from './components/friends/FriendsBox/MyFriendsBox';
 
 function App() {
   return (
@@ -31,12 +32,16 @@ function App() {
           element={<FriendsPage />}
         >
           <Route
+            index
+            element={<MyFriendsBox />}
+          />
+          <Route
             path="inbox"
-            element={<InboxFriends />}
+            element={<InFriendsBox />}
           />
           <Route
             path="outbox"
-            element={<OutboxFriends />}
+            element={<OutFriendsBox />}
           />
           <Route
             path="search"

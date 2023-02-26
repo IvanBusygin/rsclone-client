@@ -4,7 +4,7 @@ import style from './NavItem.scss';
 import { INavItemProps } from '../../../types/navigation';
 
 const NavItem: FC<INavItemProps> = (props) => {
-  const { route, icon, name, count } = props;
+  const { route, icon, name, count = '-' } = props;
 
   return (
     <Link
@@ -18,7 +18,7 @@ const NavItem: FC<INavItemProps> = (props) => {
         />
       </div>
       <span className={style.navItem__name}>{name}</span>
-      {count && <span className={style.navItem__count}>{count}</span>}
+      {count !== '-' && <span className={style.navItem__count}>{count}</span>}
     </Link>
   );
 };

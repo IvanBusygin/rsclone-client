@@ -1,5 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
 
 .searchForm {
   margin: 0 auto;
@@ -17,25 +17,24 @@
   }
 
   &__button {
-    padding: 1rem $size-padding;
+    height: $size-button-height;
+    width: 10rem;
     border-radius: $size-border-radius;
     font-family: Roboto-Regular, sans-serif;
     font-size: 1.4rem;
+    background-color: $color-button;
+    color: $color-main-light;
+
+    &:hover {
+      background-color: $color-button-hover;
+      border: none;
+    }
   }
 
   &_light {
     .searchForm__field {
       color: $color-dark;
       background-color: $color-main-light;
-    }
-
-    .searchForm__button {
-      color: $color-main-light;
-      background-color: $color-save-button;
-
-      &:hover {
-        background-color: darken($color-save-button, $size-hover-percent);
-      }
     }
   }
 
@@ -45,15 +44,12 @@
       background-color: $color-main-dark;
       border-color: $color-nav-count;
     }
+  }
+}
 
-    .searchForm__button {
-      color: $color-dark;
-      background-color: $color-main-light;
-
-      &:hover {
-        background-color: darken($color-main-light, $size-hover-percent);
-      }
-    }
+@media (max-width: 800px) {
+  .searchForm {
+    width: 90%;
   }
 }
 
@@ -61,6 +57,7 @@
   .searchForm {
     flex-direction: column;
     align-items: center;
+    width: 100%;
 
     &__field {
       width: 100%;

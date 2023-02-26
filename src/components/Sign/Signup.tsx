@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames';
 import style from './Sign.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { fetchReg, resetError } from '../../redux/slices/authSlice';
+import { fetchRegistration, resetError } from '../../redux/slices/authSlice';
 import logoIcon from '../../assets/img/svg/logo.svg';
 import { IFormReg } from '../../types/login';
 import Preloader from '../Preloader/Preloader';
@@ -70,7 +70,7 @@ function Signup() {
   };
 
   const onSubmitForm: SubmitHandler<IFormReg> = (data) => {
-    dispatch(fetchReg(data));
+    dispatch(fetchRegistration(data));
   };
 
   useEffect(() => {
@@ -202,7 +202,7 @@ function Signup() {
           {loading ? <Preloader /> : 'Зарегистрироваться'}
         </button>
 
-        {Boolean(errorMsg) && <p className={style.errorRequest}> {errorMsg} </p>}
+        {Boolean(errorMsg) && <p className={style.error__request}> {errorMsg} </p>}
       </form>
     </div>
   );

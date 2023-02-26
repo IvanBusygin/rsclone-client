@@ -6,7 +6,7 @@ import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import Select from '../../components/Select/Select';
 import Birthday from '../../components/Birthday/Birthday';
 import { updateUserInfo } from '../../redux/slices/editPageSlice';
-import { getUserInfo, postUserInfo } from '../../redux/thunks/editPageThunks';
+import { getPersonInfo, postPersonInfo } from '../../redux/thunks/editPageThunks';
 import { IUserInfo } from '../../types/editPage';
 import {
   MAX_LENGTH_NAME,
@@ -30,7 +30,7 @@ const EditPage = () => {
   const dispatch = useTypedDispatch();
 
   useEffect(() => {
-    dispatch(getUserInfo());
+    dispatch(getPersonInfo());
   }, [dispatch]);
 
   const options = [
@@ -75,7 +75,7 @@ const EditPage = () => {
   } = useForm<IUserInfo>({});
 
   const onSaveButtonClick: SubmitHandler<IUserInfo> = () => {
-    dispatch(postUserInfo());
+    dispatch(postPersonInfo());
   };
 
   return (

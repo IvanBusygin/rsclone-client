@@ -2,17 +2,17 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   LS_ACCESS_TOKEN,
   LS_USER_ID,
-  USER_GET_POSTS_URL,
-  USER_POST_URL,
+  PERSON_GET_POSTS_URL,
+  PERSON_POST_URL,
 } from '../../utils/constants';
 
-export const getUserPosts = createAsyncThunk(
+export const getPersonPosts = createAsyncThunk(
   'myPage/getUserPosts',
   async (_, { rejectWithValue }) => {
     const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
     const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
 
-    const response = await fetch(`${USER_GET_POSTS_URL}/${USER_ID}`, {
+    const response = await fetch(`${PERSON_GET_POSTS_URL}/${USER_ID}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -31,13 +31,13 @@ export const getUserPosts = createAsyncThunk(
   },
 );
 
-export const postUserPost = createAsyncThunk(
+export const postPersonPost = createAsyncThunk(
   'myPage/postUserPost',
   async (postText: string, { rejectWithValue }) => {
     const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
     const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
 
-    const response = await fetch(USER_POST_URL, {
+    const response = await fetch(PERSON_POST_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,12 +62,12 @@ export const postUserPost = createAsyncThunk(
   },
 );
 
-export const deleteUserPost = createAsyncThunk(
+export const deletePersonPost = createAsyncThunk(
   'myPage/deleteUserPost',
   async (postId: string, { rejectWithValue }) => {
     const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
 
-    const response = await fetch(USER_POST_URL, {
+    const response = await fetch(PERSON_POST_URL, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -89,12 +89,12 @@ export const deleteUserPost = createAsyncThunk(
   },
 );
 
-export const editUserPost = createAsyncThunk(
+export const editPersonPost = createAsyncThunk(
   'myPage/editUserPost',
   async ({ postId, newPostText }: { postId: string; newPostText: string }, { rejectWithValue }) => {
     const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
 
-    const response = await fetch(USER_POST_URL, {
+    const response = await fetch(PERSON_POST_URL, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

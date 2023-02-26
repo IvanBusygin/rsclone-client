@@ -4,7 +4,7 @@ import style from './Post.scss';
 import { IPostProps } from '../../types/myPage';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import getLocaleTimeString from '../../utils/myPage';
-import { deleteUserPost, editUserPost } from '../../redux/thunks/myPageThunks';
+import { deletePersonPost, editPersonPost } from '../../redux/thunks/myPageThunks';
 import { editPost, unEditPost } from '../../redux/slices/myPageSlice';
 import editIcon from '../../assets/img/svg/settings_icon.svg';
 import saveIcon from '../../assets/img/svg/save-button_icon.svg';
@@ -53,7 +53,7 @@ const Post: FC<IPostProps> = (props) => {
   }, [editingPostId, postId, postTempText, successfullySavedPostId]);
 
   const onDeleteButtonClick = () => {
-    dispatch(deleteUserPost(postId));
+    dispatch(deletePersonPost(postId));
     dispatch(unEditPost());
     setIsButtonSave(false);
   };
@@ -67,7 +67,7 @@ const Post: FC<IPostProps> = (props) => {
         setPostTempText(postRef.current.innerText);
       }
     } else if (editingPostId === postId && postRef.current) {
-      dispatch(editUserPost({ postId, newPostText: postRef.current.innerText }));
+      dispatch(editPersonPost({ postId, newPostText: postRef.current.innerText }));
       setIsButtonSave(false);
     }
   };

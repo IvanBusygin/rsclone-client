@@ -1,4 +1,4 @@
-export interface IForm {
+export interface IFormSearch {
   searchInput: string;
 }
 

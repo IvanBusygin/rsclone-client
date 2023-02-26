@@ -4,16 +4,20 @@ import FriendCardOut from '../FriendCards/FriendCardOut';
 import { useTypedDispatch, useTypedSelector } from '../../../redux/hooks';
 import Preloader from '../../Preloader/Preloader';
 import { fetchFriendOut } from '../../../redux/slices/friendsSlice';
+import useResetAuth from '../../../utils/useResetAuth';
 
 const OutFriendsBox = () => {
   const dispatch = useTypedDispatch();
   const { loadingCount, dataOutFriends } = useTypedSelector(({ friends }) => friends);
 
+  const resetAuth = useResetAuth();
+  useEffect(() => {
+    resetAuth();
+  }, [loadingCount, resetAuth]);
+
   useEffect(() => {
     dispatch(fetchFriendOut());
   }, [dispatch]);
-
-  console.log('dataFriendOut', dataOutFriends);
 
   const friendsOut = dataOutFriends.map((friend) => (
     <FriendCardOut

@@ -4,16 +4,20 @@ import { useTypedDispatch, useTypedSelector } from '../../../redux/hooks';
 import { fetchMyFriends } from '../../../redux/slices/friendsSlice';
 import Preloader from '../../Preloader/Preloader';
 import FriendCardMy from '../FriendCards/FriendCardMy';
+import useResetAuth from '../../../utils/useResetAuth';
 
 const InboxFriends = () => {
   const dispatch = useTypedDispatch();
   const { loadingMyFriends, dataMyFriends } = useTypedSelector(({ friends }) => friends);
 
+  const resetAuth = useResetAuth();
+  useEffect(() => {
+    resetAuth();
+  }, [loadingMyFriends, resetAuth]);
+
   useEffect(() => {
     dispatch(fetchMyFriends());
   }, [dispatch]);
-
-  console.log('dataMyFriends', dataMyFriends);
 
   const myFriends = dataMyFriends.map((friend) => (
     <FriendCardMy

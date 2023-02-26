@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './SearchFriendsForm.scss';
 import { useTypedDispatch, useTypedSelector } from '../../../redux/hooks';
 import { fetchSearch } from '../../../redux/slices/friendsSlice';
-import { IForm } from '../../../types/friends';
+import { IFormSearch } from '../../../types/friends';
 import Preloader from '../../Preloader/Preloader';
 import FriendCardFound from '../FriendCards/FriendCardFound';
 import useResetAuth from '../../../utils/useResetAuth';
@@ -21,16 +21,15 @@ const SearchFriendsForm = () => {
   const { loadingSearch, dataPeople } = useTypedSelector(({ friends }) => friends);
 
   const resetAuth = useResetAuth();
-
   useEffect(() => {
     resetAuth();
   }, [loadingSearch, resetAuth]);
 
-  const searchHandler: SubmitHandler<IForm> = (data) => {
+  const searchHandler: SubmitHandler<IFormSearch> = (data) => {
     dispatch(fetchSearch(data));
   };
 
-  const { register, handleSubmit, setFocus } = useForm<IForm>({});
+  const { register, handleSubmit, setFocus } = useForm<IFormSearch>({});
 
   useEffect(() => {
     setFocus('searchInput');

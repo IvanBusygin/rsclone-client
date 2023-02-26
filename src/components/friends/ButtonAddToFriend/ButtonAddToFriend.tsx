@@ -31,7 +31,14 @@ function ButtonAddToFriend(props: IProps) {
       type="button"
       onClick={addHandler}
     >
-      {stateLoading && loadingAdd ? <Preloader /> : 'Добавить в друзья'}
+      {stateLoading && loadingAdd ? (
+        <Preloader />
+      ) : (
+        <>
+          <span className={style.button__text}>Добавить</span>
+          <span className={style.button__sign}>+</span>
+        </>
+      )}
     </button>
   );
 }

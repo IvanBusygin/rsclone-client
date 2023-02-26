@@ -3,10 +3,9 @@
 
 .button {
   font-family: Roboto-Regular, sans-serif;
-  margin: 1rem 0 0;
   padding: 0 1.5rem;
   height: $size-button-height;
-  width: 17rem;
+  width: 10rem;
   border-radius: $size-border-radius;
   font-size: 1.4rem;
   background-color: $color-button;
@@ -16,5 +15,36 @@
   &:hover {
     background-color: $color-button-hover;
     border: none;
+  }
+
+  &__sign {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .button {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .button {
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .button {
+    width: 3rem;
+    border-radius: 0.5rem;
+
+    &__text {
+      display: none;
+    }
+
+    &__sign {
+      display: block;
+    }
   }
 }

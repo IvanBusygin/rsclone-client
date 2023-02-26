@@ -4,16 +4,49 @@
   &__attention {
     margin-top: 5rem;
     padding: $size-padding;
+    border-radius: $size-border-radius;
     font-family: Roboto-Regular, sans-serif;
-    font-size: 2.4rem;
-    text-align: center;
+    font-size: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__message {
+    margin-right: $size-padding;
   }
 
   &_light {
+    background-color: $color-main-light;
     color: $color-dark;
   }
 
   &_dark {
+    background-color: $color-main-dark;
     color: $color-main-light;
+  }
+}
+
+@media (max-width: 650px) {
+  .userPage {
+    &__messageLeft {
+      display: none;
+    }
+
+    &__messageRight {
+      display: block;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .userPage {
+    &__attention {
+      font-size: 1.4rem;
+    }
   }
 }

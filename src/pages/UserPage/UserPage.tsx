@@ -5,6 +5,7 @@ import style from './UserPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import getUserInfo from '../../redux/thunks/userPageThunks';
 import PageHeader from '../../components/PageHeader/PageHeader';
+import ButtonAddToFriend from '../../components/friends/ButtonAddToFriend/ButtonAddToFriend';
 
 const UserPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -28,9 +29,15 @@ const UserPage = () => {
         info={info}
         theme={isLightTheme}
       />
-      <p className={classNames(style.userPage__attention, themeClass)}>
-        Чтобы просматривать посты {`${info.firstName} ${info.lastName}`} добавьте его в друзья
-      </p>
+      <div className={classNames(style.userPage__attention, themeClass)}>
+        <p className={style.userPage__message}>
+          <span className={style.userPage__messageLeft}>Чтобы просматривать посты, </span>
+          <span className={style.userPage__messageRight}>
+            добавьте {`${info.firstName} ${info.lastName}`} в друзья
+          </span>
+        </p>
+        <ButtonAddToFriend id={id || ''} />
+      </div>
     </div>
   );
 };

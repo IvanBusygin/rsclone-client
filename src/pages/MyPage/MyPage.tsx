@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from './MyPage.scss';
-import MyPageHeader from '../../components/MyPageHeader/MyPageHeader';
+import PageHeaderContainer from '../../components/PageHeaderContainer/PageHeaderContainer';
 import Wall from '../../components/Wall/Wall';
 import FriendIconList from '../../components/FriendIconList/FriendIconList';
 import EditButton from '../../components/EditButton/EditButton';
@@ -31,7 +31,7 @@ const MyPage = () => {
 
   return (
     <div className={style.myPage}>
-      <MyPageHeader />
+      <PageHeaderContainer />
       <Wall />
       <Modal
         isOpen={modal}

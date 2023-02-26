@@ -24,7 +24,6 @@ interface IInitialState {
   loadingCount: boolean;
   loadingAccept: boolean;
   loadingMyFriends: boolean;
-  // fetched: boolean;
   dataPeople: IDataPeople[];
   dataOutFriends: IOutComming[];
   dataInFriends: IInComming[];
@@ -37,7 +36,6 @@ const initialState: IInitialState = {
   loadingCount: false,
   loadingAccept: false,
   loadingMyFriends: false,
-  // fetched: false,
   dataPeople: [],
   dataOutFriends: [],
   dataInFriends: [],
@@ -154,7 +152,6 @@ export const fetchSearch = createAsyncThunk<IDataPeople[], IForm, { rejectValue:
   'friends/search',
   async (data, { rejectWithValue, dispatch }) => {
     const response = await funFetch(SEARCH_URL, 'POST', { value: data.searchInput });
-
     if (response.ok) return response.json();
     if (response.status === 401) {
       await dispatch(await fetchRefresh());
@@ -170,15 +167,16 @@ export const fetchSearch = createAsyncThunk<IDataPeople[], IForm, { rejectValue:
 
 export const fetchAddFriend = createAsyncThunk<string, string>(
   'friends/add',
-  async (str, { rejectWithValue }) => {
-    const accessToken = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) || '');
-    const response = await fetch(FRIENDS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
-      credentials: 'include',
-      body: JSON.stringify({ friendId: str }),
-    });
+  async (str, { rejectWithValue, dispatch }) => {
+    const response = await funFetch(FRIENDS_URL, 'POST', { friendId: str });
     if (response.ok) return response.json();
+    if (response.status === 401) {
+      await dispatch(await fetchRefresh());
+      const responseNew = await funFetch(FRIENDS_URL, 'POST', { friendId: str });
+      if (responseNew.ok) return responseNew.json();
+      const res = await responseNew.json();
+      return rejectWithValue(res.message);
+    }
     const res = await response.json();
     return rejectWithValue(res.message);
   },
@@ -186,15 +184,16 @@ export const fetchAddFriend = createAsyncThunk<string, string>(
 
 export const fetchAcceptFriend = createAsyncThunk<string, string>(
   'friends/accept',
-  async (str, { rejectWithValue }) => {
-    const accessToken = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) || '');
-    const response = await fetch(FRIENDS_URL, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
-      credentials: 'include',
-      body: JSON.stringify({ friendId: str }),
-    });
+  async (str, { rejectWithValue, dispatch }) => {
+    const response = await funFetch(FRIENDS_URL, 'PUT', { friendId: str });
     if (response.ok) return response.json();
+    if (response.status === 401) {
+      await dispatch(await fetchRefresh());
+      const responseNew = await funFetch(FRIENDS_URL, 'PUT', { friendId: str });
+      if (responseNew.ok) return responseNew.json();
+      const res = await responseNew.json();
+      return rejectWithValue(res.message);
+    }
     const res = await response.json();
     return rejectWithValue(res.message);
   },
@@ -202,14 +201,16 @@ export const fetchAcceptFriend = createAsyncThunk<string, string>(
 
 export const fetchFriendOut = createAsyncThunk<IFriendsOut>(
   'friends/friendOut',
-  async (_, { rejectWithValue }) => {
-    const accessToken = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) || '');
-    const response = await fetch(OUT_FRIEND_URL, {
-      // method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
-      credentials: 'include',
-    });
+  async (_, { rejectWithValue, dispatch }) => {
+    const response = await funFetch(OUT_FRIEND_URL, 'GET');
     if (response.ok) return response.json();
+    if (response.status === 401) {
+      await dispatch(await fetchRefresh());
+      const responseNew = await funFetch(OUT_FRIEND_URL, 'GET');
+      if (responseNew.ok) return responseNew.json();
+      const res = await responseNew.json();
+      return rejectWithValue(res.message);
+    }
     const res = await response.json();
     return rejectWithValue(res.message);
   },
@@ -217,14 +218,15 @@ export const fetchFriendOut = createAsyncThunk<IFriendsOut>(
 
 export const fetchFriendIn = createAsyncThunk<IFriendsIn>(
   'friends/friendIn',
-  async (_, { rejectWithValue }) => {
-    const accessToken = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) || '');
-    const response = await fetch(IN_FRIEND_URL, {
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
-      credentials: 'include',
-    });
-    if (response.ok) {
-      return response.json();
+  async (_, { rejectWithValue, dispatch }) => {
+    const response = await funFetch(IN_FRIEND_URL, 'GET');
+    if (response.ok) return response.json();
+    if (response.status === 401) {
+      await dispatch(await fetchRefresh());
+      const responseNew = await funFetch(IN_FRIEND_URL, 'GET');
+      if (responseNew.ok) return responseNew.json();
+      const res = await responseNew.json();
+      return rejectWithValue(res.message);
     }
     const res = await response.json();
     return rejectWithValue(res.message);
@@ -233,15 +235,15 @@ export const fetchFriendIn = createAsyncThunk<IFriendsIn>(
 
 export const fetchMyFriends = createAsyncThunk(
   'friends/myFriends',
-  async (_, { rejectWithValue }) => {
-    const accessToken = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) || '');
-    const response = await fetch(FRIENDS_URL, {
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
-      credentials: 'include',
-    });
-
-    if (response.ok) {
-      return response.json();
+  async (_, { rejectWithValue, dispatch }) => {
+    const response = await funFetch(FRIENDS_URL, 'GET');
+    if (response.ok) return response.json();
+    if (response.status === 401) {
+      await dispatch(await fetchRefresh());
+      const responseNew = await funFetch(FRIENDS_URL, 'GET');
+      if (responseNew.ok) return responseNew.json();
+      const res = await responseNew.json();
+      return rejectWithValue(res.message);
     }
     const res = await response.json();
     return rejectWithValue(res.message);
@@ -270,9 +272,9 @@ const funFetch = async (url: string, method: string, data?: object) => {
 //     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
 //     credentials: 'include',
 //   });
-//
 //   if (res.ok) return res.json();
+//   return null;
 // };
 
-// export const { resetError } = authSlice.actions;
+// export const {  } = authSlice.actions;
 export default friendsSlice.reducer;

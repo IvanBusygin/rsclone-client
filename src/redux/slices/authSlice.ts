@@ -3,6 +3,7 @@ import { IFormLogin, IFormReg, IUserData } from '../../types/login';
 import {
   AUTH_URL,
   LOGIN_URL,
+  LOGOUT_URL,
   LS_ACCESS_TOKEN,
   LS_USER_ID,
   REFRESH_URL,
@@ -53,6 +54,12 @@ const authSlice = createSlice({
         state.errorMsg = action.payload || '';
         state.isAuth = false;
         state.loading = false;
+      })
+
+      .addCase(fetchLogout.fulfilled, (state) => {
+        localStorage.setItem(LS_ACCESS_TOKEN, '');
+        localStorage.setItem(LS_USER_ID, '');
+        state.isAuth = false;
       })
 
       .addCase(fetchRegistration.pending, (state) => {
@@ -109,6 +116,19 @@ export const fetchLogin = createAsyncThunk<IUserData, IFormLogin, { rejectValue:
     return rejectWithValue(res.message);
   },
 );
+
+export const fetchLogout = createAsyncThunk('auth/logout', async (body, { rejectWithValue }) => {
+  const response = await fetch(LOGOUT_URL, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+  });
+  if (response.ok) {
+    return response.json();
+  }
+  const res = await response.json();
+  return rejectWithValue(res.message);
+});
 
 export const fetchRegistration = createAsyncThunk<IUserData, IFormReg, { rejectValue: string }>(
   'auth/reg',

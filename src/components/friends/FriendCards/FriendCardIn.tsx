@@ -50,7 +50,7 @@ const FriendCardFound = ({ data }: IProps) => {
         type="button"
         onClick={addHandler}
       >
-        {stateLoading && loadingAdd ? <Preloader /> : 'Принять приглашение'}
+        {stateLoading && loadingAdd ? <Preloader /> : 'Принять'}
       </button>
     </div>
   );

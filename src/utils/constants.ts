@@ -4,6 +4,7 @@ export const PERSON_GET_INFO_URL = `${SERVER_URL}/info`;
 export const PERSON_POST_URL = `${SERVER_URL}/posts`;
 export const PERSON_GET_POSTS_URL = `${SERVER_URL}/posts/user`;
 export const LOGIN_URL = `${SERVER_URL}/auth/login`;
+export const LOGOUT_URL = `${SERVER_URL}/auth/logout`;
 export const AUTH_URL = `${SERVER_URL}/auth/registration`;
 export const REFRESH_URL = `${SERVER_URL}/auth/refresh`;
 export const USER_GET_INFO_URL = `${SERVER_URL}/user`;

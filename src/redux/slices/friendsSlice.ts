@@ -155,11 +155,11 @@ export const fetchSearch = createAsyncThunk<IDataPeople[], IFormSearch, { reject
     if (response.ok) return response.json();
     const res = await response.json();
     if (res.code === 401) {
-      await dispatch(await fetchRefresh());
+      await dispatch(fetchRefresh());
       const responseNew = await funFetch(SEARCH_URL, 'POST', { value: data.searchInput });
       if (responseNew.ok) return responseNew.json();
     }
-    return rejectWithValue(res);
+    return rejectWithValue(res.code);
   },
 );
 
@@ -170,7 +170,7 @@ export const fetchAddFriend = createAsyncThunk<string, string>(
     if (response.ok) return response.json();
     const res = await response.json();
     if (res.code === 401) {
-      await dispatch(await fetchRefresh());
+      await dispatch(fetchRefresh());
       const responseNew = await funFetch(FRIENDS_URL, 'POST', { friendId: str });
       if (responseNew.ok) return responseNew.json();
     }
@@ -185,7 +185,7 @@ export const fetchAcceptFriend = createAsyncThunk<string, string>(
     if (response.ok) return response.json();
     const res = await response.json();
     if (res.code === 401) {
-      await dispatch(await fetchRefresh());
+      await dispatch(fetchRefresh());
       const responseNew = await funFetch(FRIENDS_URL, 'PUT', { friendId: str });
       if (responseNew.ok) return responseNew.json();
     }
@@ -200,7 +200,7 @@ export const fetchFriendOut = createAsyncThunk<IFriendsOut>(
     if (response.ok) return response.json();
     const res = await response.json();
     if (res.code === 401) {
-      await dispatch(await fetchRefresh());
+      await dispatch(fetchRefresh());
       const responseNew = await funFetch(OUT_FRIEND_URL, 'GET');
       if (responseNew.ok) return responseNew.json();
     }
@@ -215,7 +215,7 @@ export const fetchFriendIn = createAsyncThunk<IFriendsIn>(
     if (response.ok) return response.json();
     const res = await response.json();
     if (res.code === 401) {
-      await dispatch(await fetchRefresh());
+      await dispatch(fetchRefresh());
       const responseNew = await funFetch(IN_FRIEND_URL, 'GET');
       if (responseNew.ok) return responseNew.json();
     }
@@ -230,7 +230,7 @@ export const fetchMyFriends = createAsyncThunk(
     if (response.ok) return response.json();
     const res = await response.json();
     if (res.code === 401) {
-      await dispatch(await fetchRefresh());
+      await dispatch(fetchRefresh());
       const responseNew = await funFetch(FRIENDS_URL, 'GET');
       if (responseNew.ok) return responseNew.json();
     }

@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState, IPostFromServer } from '../../types/myPage';
-import { deleteUserPost, editUserPost, getUserPosts, postUserPost } from '../thunks/myPageThunks';
+import {
+  deletePersonPost,
+  editPersonPost,
+  getPersonPosts,
+  postPersonPost,
+} from '../thunks/myPageThunks';
 
 const initialState: IMyPageState = {
   posts: [],
@@ -29,7 +34,7 @@ const myPageSlice = createSlice({
   },
   extraReducers: (builder) =>
     builder
-      .addCase(getUserPosts.fulfilled, (state, action) => {
+      .addCase(getPersonPosts.fulfilled, (state, action) => {
         state.posts = action.payload.map((post: IPostFromServer) => ({
           id: post._id,
           text: post.text,
@@ -38,13 +43,13 @@ const myPageSlice = createSlice({
           lastEdit: post.lastEdit,
         }));
       })
-      .addCase(getUserPosts.rejected, (state, action) => {
+      .addCase(getPersonPosts.rejected, (state, action) => {
         state.error = action.payload as string;
       })
-      .addCase(postUserPost.pending, (state) => {
+      .addCase(postPersonPost.pending, (state) => {
         state.isPostLoading = true;
       })
-      .addCase(postUserPost.fulfilled, (state, action) => {
+      .addCase(postPersonPost.fulfilled, (state, action) => {
         state.isPostLoading = false;
 
         const { _id: id, date, text, likes } = action.payload;
@@ -55,14 +60,14 @@ const myPageSlice = createSlice({
           likes,
         });
       })
-      .addCase(postUserPost.rejected, (state, action) => {
+      .addCase(postPersonPost.rejected, (state, action) => {
         state.error = action.payload as string;
         state.isPostLoading = false;
       })
-      .addCase(deleteUserPost.pending, (state, action) => {
+      .addCase(deletePersonPost.pending, (state, action) => {
         state.deletingPostId = action.meta.arg;
       })
-      .addCase(deleteUserPost.fulfilled, (state, action) => {
+      .addCase(deletePersonPost.fulfilled, (state, action) => {
         state.deletingPostId = '';
 
         const { _id: id } = action.payload.postData;
@@ -72,16 +77,16 @@ const myPageSlice = createSlice({
           state.posts.splice(idx, 1);
         }
       })
-      .addCase(deleteUserPost.rejected, (state, action) => {
+      .addCase(deletePersonPost.rejected, (state, action) => {
         state.error = action.payload as string;
         state.deletingPostId = '';
       })
-      .addCase(editUserPost.pending, (state, action) => {
+      .addCase(editPersonPost.pending, (state, action) => {
         state.savingPostId = action.meta.arg.postId;
         state.editingPostId = '';
         state.successfullySavedPostId = '';
       })
-      .addCase(editUserPost.fulfilled, (state, action) => {
+      .addCase(editPersonPost.fulfilled, (state, action) => {
         state.savingPostId = '';
         state.successfullySavedPostId = action.payload._id;
 
@@ -100,7 +105,7 @@ const myPageSlice = createSlice({
           state.posts.splice(idx, 1, editedPost);
         }
       })
-      .addCase(editUserPost.rejected, (state, action) => {
+      .addCase(editPersonPost.rejected, (state, action) => {
         state.error = action.payload as string;
         state.savingPostId = '';
         state.successfullySavedPostId = '';

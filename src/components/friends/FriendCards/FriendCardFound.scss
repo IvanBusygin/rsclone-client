@@ -2,8 +2,8 @@
 @import '../../../styles/mixins';
 
 .friendCard {
-  margin: 0 auto;
-  padding: $size-padding;
+  margin: 3rem auto 0;
+  padding: $size-padding 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -54,12 +54,18 @@
   }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 550px) {
   .friendCard__avatar {
     width: 5rem;
     height: 5rem;
   }
   .friendCard__btn {
     width: 10rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .friendCard__container {
+    flex-direction: column;
   }
 }

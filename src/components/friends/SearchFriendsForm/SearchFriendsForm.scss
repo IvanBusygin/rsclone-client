@@ -3,12 +3,14 @@
 
 .searchForm {
   margin: 0 auto;
-  width: 80%;
+  max-width: 45rem;
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: $size-gap;
 
   &__field {
+    flex-grow: 1;
     padding: 1rem $size-padding;
     border: 1px solid $color-background-light;
     border-radius: 0.5rem;

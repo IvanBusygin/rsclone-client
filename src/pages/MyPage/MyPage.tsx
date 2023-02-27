@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import style from './MyPage.scss';
-import MyPageHeader from '../../components/MyPageHeader/MyPageHeader';
+import PageHeaderContainer from '../../components/PageHeaderContainer/PageHeaderContainer';
 import Wall from '../../components/Wall/Wall';
 import FriendIconList from '../../components/FriendIconList/FriendIconList';
 import EditButton from '../../components/EditButton/EditButton';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { getUserInfo } from '../../redux/thunks/editPageThunks';
-import { getUserPosts } from '../../redux/thunks/myPageThunks';
+import { getPersonInfo } from '../../redux/thunks/editPageThunks';
+import { getPersonPosts } from '../../redux/thunks/myPageThunks';
 import { fetchFriendIn } from '../../redux/slices/friendsSlice';
 import Modal from '../../components/Modal/Modal';
 
@@ -18,8 +18,8 @@ const MyPage = () => {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    dispatch(getUserInfo());
-    dispatch(getUserPosts());
+    dispatch(getPersonInfo());
+    dispatch(getPersonPosts());
     dispatch(fetchFriendIn());
   }, [dispatch]);
 
@@ -31,7 +31,7 @@ const MyPage = () => {
 
   return (
     <div className={style.myPage}>
-      <MyPageHeader />
+      <PageHeaderContainer />
       <Wall />
       <Modal
         isOpen={modal}

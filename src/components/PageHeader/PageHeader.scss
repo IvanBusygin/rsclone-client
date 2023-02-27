@@ -1,6 +1,6 @@
 @import '../../styles/variables';
 
-.myPage {
+.page {
   &__header {
     height: 25rem;
     border-radius: $size-border-radius;
@@ -13,7 +13,7 @@
       color: $color-dark;
       background-color: $color-main-light;
 
-      .myPage__userCover {
+      .page__userCover {
         background: linear-gradient(90deg, #cce6ff, #7abfff, #52abff);
       }
     }
@@ -22,7 +22,7 @@
       color: $color-main-light;
       background-color: $color-main-dark;
 
-      .myPage__userCover {
+      .page__userCover {
         background: linear-gradient(90deg, #cce6ff, #6f6e99);
       }
     }
@@ -69,7 +69,7 @@
 }
 
 @media (max-width: 650px) {
-  .myPage {
+  .page {
     &__header {
       height: 15rem;
     }

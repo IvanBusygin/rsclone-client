@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IEditPageState } from '../../types/editPage';
-import { getUserInfo, postUserInfo } from '../thunks/editPageThunks';
+import { getPersonInfo, postPersonInfo } from '../thunks/editPageThunks';
 import { DEFAULT_DATE } from '../../utils/constants';
 
 const initialState: IEditPageState = {
@@ -34,16 +34,16 @@ const editPageSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserInfo.fulfilled, (state, action) => {
+      .addCase(getPersonInfo.fulfilled, (state, action) => {
         state.infoData = {
           ...state.infoData,
           ...action.payload,
         };
       })
-      .addCase(postUserInfo.pending, (state) => {
+      .addCase(postPersonInfo.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(postUserInfo.fulfilled, (state) => {
+      .addCase(postPersonInfo.fulfilled, (state) => {
         state.isLoading = false;
       });
   },

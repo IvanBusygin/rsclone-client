@@ -22,6 +22,7 @@ const InboxFriends = () => {
   const myFriends = dataMyFriends.map((friend) => (
     <FriendCardMy
       key={friend._id}
+      friendId={friend._id}
       data={friend}
     />
   ));

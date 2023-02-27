@@ -41,4 +41,22 @@
     color: $color-nav-count;
     font-size: 1.2rem;
   }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .comment__author,
+    .comment__text {
+      color: $color-main-dark;
+    }
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+
+    .comment__author,
+    .comment__text {
+      color: $color-main-light;
+    }
+  }
 }

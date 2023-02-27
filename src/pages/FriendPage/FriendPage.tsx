@@ -5,10 +5,16 @@ import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { getFriendInfo } from '../../redux/thunks/friendPageThunk';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Post from '../../components/Post/Post';
+import useResetAuth from '../../utils/useResetAuth';
 
 const FriendPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
-  const { info, posts } = useTypedSelector(({ friendPage }) => friendPage);
+  const { info, posts, loadingPost } = useTypedSelector(({ friendPage }) => friendPage);
+
+  const resetAuth = useResetAuth();
+  useEffect(() => {
+    resetAuth();
+  }, [loadingPost, resetAuth]);
 
   const { id } = useParams();
   const dispatch = useTypedDispatch();

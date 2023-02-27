@@ -1,46 +1,57 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LS_ACCESS_TOKEN, POST_COMMENT_URL, USER_GET_INFO_URL } from '../../utils/constants';
+import { POST_COMMENT_URL, USER_GET_INFO_URL } from '../../utils/constants';
 import { IFriendPostData } from '../../types/friendPage';
+import reFetch from '../../utils/reFetch';
+import { fetchRefresh } from '../slices/authSlice';
 
-export const getFriendInfo = createAsyncThunk('friendPage/getFriendInfo', async (id: string) => {
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+export const getFriendInfo = createAsyncThunk(
+  'friendPage/getFriendInfo',
+  async (id: string, { rejectWithValue, dispatch }) => {
+    const response = await reFetch(`${USER_GET_INFO_URL}/${id}`, 'GET');
 
-  const response = await fetch(`${USER_GET_INFO_URL}/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    credentials: 'include',
-  });
+    if (response.ok) {
+      return response.json();
+    }
 
-  const friendInfo = await response.json();
-  delete friendInfo.info.user;
+    const res = await response.json();
 
-  return friendInfo;
-});
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(`${USER_GET_INFO_URL}/${id}`, 'GET');
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);
 
 export const postComment = createAsyncThunk(
   'friendPage/postComment',
-  async (data: IFriendPostData) => {
-    const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+  async (data: IFriendPostData, { rejectWithValue, dispatch }) => {
     const { postId, comment } = data;
 
-    const response = await fetch(POST_COMMENT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        comment,
-        postId,
-      }),
-    });
+    const response = await reFetch(POST_COMMENT_URL, 'POST', { comment, postId });
 
-    const comments = await response.json();
+    if (response.ok) {
+      return response.json();
+    }
 
-    return comments;
+    const res = await response.json();
+
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(POST_COMMENT_URL, 'POST', { comment, postId });
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
   },
 );

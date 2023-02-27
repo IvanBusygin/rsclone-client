@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IFriendPageState } from '../../types/friendPage';
 import { getFriendInfo, postComment } from '../thunks/friendPageThunk';
 import { IPostComments, IPostFromServer } from '../../types/myPage';
+import { LS_ACCESS_TOKEN, LS_USER_ID } from '../../utils/constants';
 
 const initialState: IFriendPageState = {
   info: {
@@ -21,6 +22,7 @@ const initialState: IFriendPageState = {
     favoriteFilms: '',
   },
   posts: [],
+  loadingPost: false,
 };
 
 const friendPageSlice = createSlice({
@@ -29,9 +31,12 @@ const friendPageSlice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
+      .addCase(getFriendInfo.pending, (state) => {
+        state.loadingPost = true;
+      })
       .addCase(getFriendInfo.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.info = action.payload.info;
+
         state.posts = action.payload.posts.map((post: IPostFromServer) => ({
           id: post._id,
           text: post.text,
@@ -40,6 +45,19 @@ const friendPageSlice = createSlice({
           lastEdit: post.lastEdit,
           comments: [],
         }));
+
+        state.loadingPost = false;
+      })
+      .addCase(getFriendInfo.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_ACCESS_TOKEN, '');
+          localStorage.setItem(LS_USER_ID, '');
+        }
+
+        state.loadingPost = false;
+      })
+      .addCase(postComment.pending, (state) => {
+        state.loadingPost = true;
       })
       .addCase(postComment.fulfilled, (state, action) => {
         const comments = structuredClone(action.payload.post.comments);
@@ -58,6 +76,16 @@ const friendPageSlice = createSlice({
         if (post) {
           post.comments = formattedComments;
         }
+
+        state.loadingPost = false;
+      })
+      .addCase(postComment.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_ACCESS_TOKEN, '');
+          localStorage.setItem(LS_USER_ID, '');
+        }
+
+        state.loadingPost = false;
       }),
 });
 

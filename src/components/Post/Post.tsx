@@ -11,7 +11,7 @@ import saveIcon from '../../assets/img/svg/save-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
 
 const Post: FC<IPostProps> = (props) => {
-  const { postId, firstName, lastName, avatar, text, time, likes, editTime } = props;
+  const { postId, firstName, lastName, avatar, text, time, likes, editTime, canEdit } = props;
 
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.post_light : style.post_dark;
@@ -101,14 +101,16 @@ const Post: FC<IPostProps> = (props) => {
             )}
           </div>
         </div>
-        <button
-          className={style.post__deletePostButton}
-          type="button"
-          title="Удалить пост"
-          onClick={onDeleteButtonClick}
-        >
-          &times;
-        </button>
+        {canEdit && (
+          <button
+            className={style.post__deletePostButton}
+            type="button"
+            title="Удалить пост"
+            onClick={onDeleteButtonClick}
+          >
+            &times;
+          </button>
+        )}
       </header>
       <div className={style.post__textWrapper}>
         <div
@@ -120,25 +122,27 @@ const Post: FC<IPostProps> = (props) => {
           {text}
         </div>
         <div className={style.post__editButtons}>
-          <button
-            className={style.post__editPostButton}
-            type="button"
-            title={isButtonSave ? 'Сохранить пост' : 'Редактировать пост'}
-            aria-label="Edit post"
-            disabled={savingPostId === postId}
-            onClick={onButtonClick}
-          >
-            {savingPostId === postId ? (
-              <Preloader />
-            ) : (
-              <span className={style.post__buttonIcon}>
-                <img
-                  src={editingPostId === postId ? saveIcon : editIcon}
-                  alt="Save button icon"
-                />
-              </span>
-            )}
-          </button>
+          {canEdit && (
+            <button
+              className={style.post__editPostButton}
+              type="button"
+              title={isButtonSave ? 'Сохранить пост' : 'Редактировать пост'}
+              aria-label="Edit post"
+              disabled={savingPostId === postId}
+              onClick={onButtonClick}
+            >
+              {savingPostId === postId ? (
+                <Preloader />
+              ) : (
+                <span className={style.post__buttonIcon}>
+                  <img
+                    src={editingPostId === postId ? saveIcon : editIcon}
+                    alt="Save button icon"
+                  />
+                </span>
+              )}
+            </button>
+          )}
           {editingPostId === postId && (
             <button
               className={style.post__unEdit}
@@ -151,9 +155,19 @@ const Post: FC<IPostProps> = (props) => {
           )}
         </div>
       </div>
-      <div className={style.post__likes}>
-        <span className={style.post__likesIcon} />
-        <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
+      <div className={style.post__footer}>
+        <div className={style.post__likes}>
+          <span className={style.post__likesIcon} />
+          <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
+        </div>
+        <div className={style.post__comment}>
+          <button
+            className={style.post__commentButton}
+            type="button"
+            title="Комментировать"
+            aria-label="Comment post"
+          />
+        </div>
       </div>
     </div>
   );

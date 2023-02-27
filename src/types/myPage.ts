@@ -1,4 +1,4 @@
-interface IPost {
+export interface IPost {
   id: string;
   text: string;
   date: string;
@@ -37,6 +37,7 @@ export interface IPostProps {
   time: string;
   likes: [];
   editTime: string | undefined;
+  canEdit: boolean;
 }
 
 export interface IFriendProps {

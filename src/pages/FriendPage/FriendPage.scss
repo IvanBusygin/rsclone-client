@@ -1,0 +1,10 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.friendPage {
+  &__posts {
+    margin: $size-padding auto 0;
+    max-width: 67rem;
+    @extend %FlexColumn;
+  }
+}

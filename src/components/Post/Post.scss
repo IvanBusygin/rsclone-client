@@ -109,17 +109,29 @@
     color: $color-stop-editing-post;
   }
 
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
   &__likes {
     padding-top: $size-padding;
     display: flex;
     align-items: center;
   }
 
-  &__likesIcon {
-    width: 2.4rem;
-    height: 2.4rem;
-    background-image: url('../../assets/img/svg/likes_icon.svg');
+  &__likesIcon,
+  &__commentButton,
+  &__saveComment {
+    width: 2rem;
+    height: 2rem;
     @extend %BgImage;
+  }
+
+  &__likesIcon {
+    background-image: url('../../assets/img/svg/likes_icon.svg');
     display: inline-block;
 
     &:hover {
@@ -131,6 +143,37 @@
     margin-left: 0.5rem;
     font-family: Roboto-Regular, sans-serif;
     font-size: 1.4rem;
+  }
+
+  &__commentButton {
+    background-image: url('../../assets/img/svg/comment_button.svg');
+  }
+
+  &__commentField {
+    height: 4rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    & textarea {
+      padding: 0.5rem 3rem 0.5rem 0.5rem;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.5rem;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      font-family: Roboto-Regular, sans-serif;
+      font-size: 14px;
+      resize: none;
+    }
+  }
+
+  &__saveComment {
+    background-image: url('../../assets/img/svg/save-button_icon.svg');
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
   }
 
   &_remove {

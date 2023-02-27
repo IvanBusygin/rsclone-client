@@ -9,9 +9,25 @@ import { editPost, unEditPost } from '../../redux/slices/myPageSlice';
 import editIcon from '../../assets/img/svg/settings_icon.svg';
 import saveIcon from '../../assets/img/svg/save-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
+import { postComment } from '../../redux/thunks/friendPageThunk';
+import Comment from '../Comment/Comment';
 
 const Post: FC<IPostProps> = (props) => {
-  const { postId, firstName, lastName, avatar, text, time, likes, editTime, canEdit } = props;
+  const {
+    postId,
+    firstName,
+    lastName,
+    avatar,
+    text,
+    time,
+    likes,
+    editTime,
+    comments,
+    canEdit,
+    canComment,
+  } = props;
+
+  console.log(comments);
 
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.post_light : style.post_dark;
@@ -23,6 +39,7 @@ const Post: FC<IPostProps> = (props) => {
 
   const [isButtonSave, setIsButtonSave] = useState(false);
   const [postTempText, setPostTempText] = useState('');
+  const [commentText, setCommentText] = useState('');
 
   const dispatch = useTypedDispatch();
 
@@ -75,6 +92,11 @@ const Post: FC<IPostProps> = (props) => {
   const onUnEditPost = () => {
     dispatch(unEditPost());
     setIsButtonSave(false);
+  };
+
+  const onCommentButtonClick = () => {
+    dispatch(postComment({ postId, comment: commentText }));
+    setCommentText('');
   };
 
   return (
@@ -155,19 +177,46 @@ const Post: FC<IPostProps> = (props) => {
           )}
         </div>
       </div>
+      <div>
+        {comments.map(({ authorAvatar, date, authorFullName, text: postText }) => (
+          <Comment
+            avatar={authorAvatar}
+            date={date}
+            fullName={authorFullName}
+            text={postText}
+          />
+        ))}
+      </div>
       <div className={style.post__footer}>
         <div className={style.post__likes}>
           <span className={style.post__likesIcon} />
           <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
         </div>
-        <div className={style.post__comment}>
-          <button
-            className={style.post__commentButton}
-            type="button"
-            title="Комментировать"
-            aria-label="Comment post"
-          />
-        </div>
+        {canComment && (
+          <>
+            <div className={style.post__comment}>
+              <button
+                className={style.post__commentButton}
+                type="button"
+                title="Комментировать"
+                aria-label="Comment post"
+              />
+            </div>
+            <div className={style.post__commentField}>
+              <textarea
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+              />
+              <button
+                className={style.post__saveComment}
+                type="button"
+                title="Отправить комментарий"
+                aria-label="Save comment"
+                onClick={onCommentButtonClick}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

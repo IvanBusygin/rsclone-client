@@ -40,6 +40,7 @@ export interface IMyPageState {
   savingPostId: string;
   successfullySavedPostId: string;
   error: string;
+  loadingInfo: boolean;
 }
 
 export interface IPostProps {

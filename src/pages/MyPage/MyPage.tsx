@@ -9,13 +9,19 @@ import { getPersonInfo } from '../../redux/thunks/editPageThunks';
 import { getPersonPosts } from '../../redux/thunks/myPageThunks';
 import { fetchFriendIn } from '../../redux/slices/friendsSlice';
 import Modal from '../../components/Modal/Modal';
+import useResetAuth from '../../utils/useResetAuth';
 
 const MyPage = () => {
-  const { error } = useTypedSelector(({ myPage }) => myPage);
+  const { error, loadingInfo } = useTypedSelector(({ myPage }) => myPage);
 
   const dispatch = useTypedDispatch();
 
   const [modal, setModal] = useState(false);
+
+  const resetAuth = useResetAuth();
+  useEffect(() => {
+    resetAuth();
+  }, [loadingInfo, resetAuth]);
 
   useEffect(() => {
     dispatch(getPersonInfo());

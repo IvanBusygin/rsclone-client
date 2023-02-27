@@ -27,8 +27,6 @@ const Post: FC<IPostProps> = (props) => {
     canComment,
   } = props;
 
-  console.log(comments);
-
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.post_light : style.post_dark;
 

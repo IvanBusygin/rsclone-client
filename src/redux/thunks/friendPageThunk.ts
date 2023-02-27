@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LS_ACCESS_TOKEN, USER_GET_INFO_URL } from '../../utils/constants';
+import { LS_ACCESS_TOKEN, POST_COMMENT_URL, USER_GET_INFO_URL } from '../../utils/constants';
+import { IFriendPostData } from '../../types/friendPage';
 
-export default createAsyncThunk('friendPage/getFriendInfo', async (id: string) => {
+export const getFriendInfo = createAsyncThunk('friendPage/getFriendInfo', async (id: string) => {
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
-  console.log(id);
 
   const response = await fetch(`${USER_GET_INFO_URL}/${id}`, {
     method: 'GET',
@@ -19,3 +19,28 @@ export default createAsyncThunk('friendPage/getFriendInfo', async (id: string) =
 
   return friendInfo;
 });
+
+export const postComment = createAsyncThunk(
+  'friendPage/postComment',
+  async (data: IFriendPostData) => {
+    const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+    const { postId, comment } = data;
+
+    const response = await fetch(POST_COMMENT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        comment,
+        postId,
+      }),
+    });
+
+    const comments = await response.json();
+
+    return comments;
+  },
+);

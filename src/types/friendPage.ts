@@ -5,3 +5,8 @@ export interface IFriendPageState {
   info: IUserInfo;
   posts: IPost[];
 }
+
+export interface IFriendPostData {
+  postId: string;
+  comment: string;
+}

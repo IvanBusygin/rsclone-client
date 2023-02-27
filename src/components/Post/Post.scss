@@ -176,6 +176,10 @@
     transform: translateY(-50%);
   }
 
+  &__footer {
+    border-top: 1px solid $color-nav-count;
+  }
+
   &_remove {
     filter: blur(1px);
     opacity: 0.5;

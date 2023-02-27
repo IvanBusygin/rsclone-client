@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IMyPageState, IPostFromServer } from '../../types/myPage';
+import { IMyPageState, IPostComments, IPostFromServer } from '../../types/myPage';
 import {
   deletePersonPost,
   editPersonPost,
@@ -41,7 +41,23 @@ const myPageSlice = createSlice({
           date: post.date,
           likes: structuredClone(post.likes),
           lastEdit: post.lastEdit,
+          comments: [],
         }));
+
+        action.payload.forEach((post: { comments: IPostComments[]; _id: string }) => {
+          const postComments = post.comments.map((c) => ({
+            date: c.date,
+            text: c.text,
+            authorAvatar: c.user.info.avatar,
+            authorFullName: c.user.info.fullName,
+          }));
+
+          const x = state.posts.find((p) => p.id === post._id);
+
+          if (x) {
+            x.comments = postComments;
+          }
+        });
       })
       .addCase(getPersonPosts.rejected, (state, action) => {
         state.error = action.payload as string;

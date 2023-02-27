@@ -1,0 +1,44 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.comment {
+  padding: $size-padding;
+  max-width: 67rem;
+  font-family: Roboto-Regular, sans-serif;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $color-nav-count;
+  }
+
+  &__header {
+    padding-bottom: $size-padding;
+    position: relative;
+    display: flex;
+  }
+
+  &__avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    margin-left: $size-padding;
+  }
+
+  &__author {
+    font-size: 1.4rem;
+  }
+
+  &__time {
+    color: $color-nav-count;
+    font-size: 1.2rem;
+  }
+}

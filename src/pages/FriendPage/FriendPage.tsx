@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import style from './FriendPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import getFriendInfo from '../../redux/thunks/friendPageThunk';
+import { getFriendInfo } from '../../redux/thunks/friendPageThunk';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Post from '../../components/Post/Post';
 
@@ -37,7 +37,9 @@ const FriendPage = () => {
             time={post.date}
             editTime={post.lastEdit}
             likes={post.likes}
+            comments={post.comments}
             canEdit={false}
+            canComment
           />
         ))}
       </div>

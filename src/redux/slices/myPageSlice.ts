@@ -58,6 +58,7 @@ const myPageSlice = createSlice({
           date,
           text,
           likes,
+          comments: [],
         });
       })
       .addCase(postPersonPost.rejected, (state, action) => {
@@ -99,6 +100,7 @@ const myPageSlice = createSlice({
           text,
           likes,
           lastEdit,
+          comments: [],
         };
 
         if (idx !== -1) {

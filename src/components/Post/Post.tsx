@@ -4,7 +4,12 @@ import style from './Post.scss';
 import { IPostProps } from '../../types/myPage';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import getLocaleTimeString from '../../utils/myPage';
-import { addLike, deletePersonPost, editPersonPost } from '../../redux/thunks/myPageThunks';
+import {
+  addLike,
+  deletePersonPost,
+  editPersonPost,
+  removeLike,
+} from '../../redux/thunks/myPageThunks';
 import { editPost, unEditPost } from '../../redux/slices/myPageSlice';
 import editIcon from '../../assets/img/svg/settings_icon.svg';
 import saveIcon from '../../assets/img/svg/save-button_icon.svg';
@@ -14,6 +19,7 @@ import Comment from '../Comment/Comment';
 import { setCommentedPostId } from '../../redux/slices/friendPageSlice';
 import userDefaultAvatar from '../../assets/img/svg/user_default_icon.svg';
 import LikeItem from '../LikeItem/LikeItem';
+import { LS_USER_ID } from '../../utils/constants';
 
 const Post: FC<IPostProps> = (props) => {
   const {
@@ -46,6 +52,7 @@ const Post: FC<IPostProps> = (props) => {
   const [commentText, setCommentText] = useState('');
   const [showTextarea, setShowTextarea] = useState(false);
   const [showLikes, setShowLikes] = useState(false);
+  const [isLikeAdded, setIsLikeAdded] = useState(false);
 
   const dispatch = useTypedDispatch();
 
@@ -89,6 +96,15 @@ const Post: FC<IPostProps> = (props) => {
       setShowTextarea(false);
     }
   }, [commentPostId, postId]);
+
+  useEffect(() => {
+    const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+    const isLike = likes.some((like) => like.userId === USER_ID);
+
+    if (isLike) {
+      setIsLikeAdded(true);
+    }
+  }, [likes]);
 
   const onDeleteButtonClick = () => {
     dispatch(deletePersonPost(postId));
@@ -134,8 +150,12 @@ const Post: FC<IPostProps> = (props) => {
     setCommentText('');
   };
 
-  const onAddLike = () => {
-    dispatch(addLike(postId));
+  const onLikeClick = () => {
+    if (!isLikeAdded) {
+      dispatch(addLike(postId));
+    } else {
+      dispatch(removeLike(postId));
+    }
   };
 
   const onShowLikeUsers = () => {
@@ -250,7 +270,7 @@ const Post: FC<IPostProps> = (props) => {
             className={style.post__likesIcon}
             type="button"
             aria-label="Add like"
-            onClick={onAddLike}
+            onClick={onLikeClick}
             onMouseOver={onShowLikeUsers}
             onMouseOut={onShowHideUsers}
             onFocus={() => {}}
@@ -258,7 +278,7 @@ const Post: FC<IPostProps> = (props) => {
           />
           <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
         </div>
-        {showLikes && (
+        {showLikes && likes.length && (
           <div className={style.post__likes}>
             {likes.map((like) => (
               <LikeItem

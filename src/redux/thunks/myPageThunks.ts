@@ -156,3 +156,32 @@ export const addLike = createAsyncThunk(
     return rejectWithValue(res.code);
   },
 );
+
+export const removeLike = createAsyncThunk(
+  'myPage/removeLike',
+  async (postId: string, { rejectWithValue, dispatch }) => {
+    const body = {
+      postId,
+    };
+
+    const response = await reFetch(POST_LIKE_URL, 'DELETE', body);
+
+    if (response.ok) {
+      return response.json();
+    }
+
+    const res = await response.json();
+
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(POST_LIKE_URL, 'POST', body);
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);

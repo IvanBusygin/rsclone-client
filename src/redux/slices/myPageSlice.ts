@@ -6,6 +6,7 @@ import {
   editPersonPost,
   getPersonPosts,
   postPersonPost,
+  removeLike,
 } from '../thunks/myPageThunks';
 import { LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
 
@@ -41,7 +42,6 @@ const myPageSlice = createSlice({
         state.loadingInfo = true;
       })
       .addCase(getPersonPosts.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.posts = action.payload.map((p: IPostFromServer) => {
           const post = {
             id: p._id,
@@ -211,6 +211,29 @@ const myPageSlice = createSlice({
             userId,
           });
         }
+      })
+      .addCase(removeLike.pending, (state) => {
+        state.loadingInfo = true;
+      })
+      .addCase(removeLike.fulfilled, (state, action) => {
+        const post = state.posts.find((p) => p.id === action.payload.like.post);
+
+        if (post) {
+          const likeIdx = post.likes.findIndex((l) => l.id === action.payload.like._id);
+
+          if (likeIdx !== -1) {
+            post.likes.splice(likeIdx, 1);
+          }
+        }
+
+        state.loadingInfo = false;
+      })
+      .addCase(removeLike.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+
+        state.loadingInfo = false;
       }),
 });
 

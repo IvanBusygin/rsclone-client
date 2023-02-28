@@ -12,6 +12,7 @@ import Preloader from '../Preloader/Preloader';
 import { postComment } from '../../redux/thunks/friendPageThunk';
 import Comment from '../Comment/Comment';
 import { setCommentedPostId } from '../../redux/slices/friendPageSlice';
+import userDefaultAvatar from '../../assets/img/svg/user_default_icon.svg';
 
 const Post: FC<IPostProps> = (props) => {
   const {
@@ -136,7 +137,7 @@ const Post: FC<IPostProps> = (props) => {
       <header className={style.post__header}>
         <div className={style.post__avatar}>
           <img
-            src={avatar}
+            src={avatar || userDefaultAvatar}
             alt="Avatar"
           />
         </div>

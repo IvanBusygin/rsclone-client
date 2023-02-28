@@ -53,7 +53,7 @@ const EditPage = () => {
 
     if (file) {
       if (file[0].size > MAX_SIZE_FILE) {
-        setButtonName('Не больше 5Mb');
+        setButtonName('Не больше 1Mb');
       } else {
         setButtonName('Выберите файл');
         const image = file[0];

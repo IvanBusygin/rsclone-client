@@ -37,14 +37,16 @@ const friendPageSlice = createSlice({
       .addCase(getFriendInfo.fulfilled, (state, action) => {
         state.info = action.payload.info;
 
-        state.posts = action.payload.posts.map((post: IPostFromServer) => ({
-          id: post._id,
-          text: post.text,
-          date: post.date,
-          likes: structuredClone(post.likes),
-          lastEdit: post.lastEdit,
-          comments: [],
-        }));
+        state.posts = action.payload.posts
+          .map((post: IPostFromServer) => ({
+            id: post._id,
+            text: post.text,
+            date: post.date,
+            likes: structuredClone(post.likes),
+            lastEdit: post.lastEdit,
+            comments: [],
+          }))
+          .reverse();
 
         state.loadingPost = false;
       })

@@ -213,13 +213,16 @@ const Post: FC<IPostProps> = (props) => {
             <Preloader />
           </div>
         ) : (
-          comments.map(({ authorAvatar, date, authorFullName, text: postText }) => (
+          comments.map(({ id, authorAvatar, date, authorFullName, text: postText, canDelete }) => (
             <Comment
-              key={date}
+              key={id}
+              id={id}
+              postId={postId}
               avatar={authorAvatar}
               date={date}
               fullName={authorFullName}
               text={postText}
+              canDelete={canDelete}
             />
           ))
         )}
@@ -272,6 +275,7 @@ const Post: FC<IPostProps> = (props) => {
                   type="button"
                   title="Закрыть поле ввода"
                   aria-label="Close"
+                  disabled={isCommentLoading}
                   onClick={onCloseFieldButtonClick}
                 >
                   &times;

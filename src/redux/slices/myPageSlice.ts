@@ -49,12 +49,16 @@ const myPageSlice = createSlice({
           comments: [],
         }));
 
+        const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+
         action.payload.forEach((post: { comments: IPostComments[]; _id: string }) => {
           const postComments = post.comments.map((c) => ({
+            id: c._id,
             date: c.date,
             text: c.text,
             authorAvatar: c.user.info.avatar,
             authorFullName: c.user.info.fullName,
+            canDelete: USER_ID === c.user._id,
           }));
 
           const oldPost = state.posts.find((p) => p.id === post._id);

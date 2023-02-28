@@ -1,14 +1,17 @@
 export interface IPostComments {
+  _id: string;
   date: string;
   text: string;
-  user: { info: { fullName: string; avatar: string } };
+  user: { info: { fullName: string; avatar: string }; _id: string };
 }
 
 interface IComment {
+  id: string;
   date: string;
   text: string;
   authorAvatar: string;
   authorFullName: string;
+  canDelete: boolean;
 }
 
 export interface IPost {

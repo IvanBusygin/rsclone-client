@@ -80,3 +80,34 @@ export const postComment = createAsyncThunk(
     return rejectWithValue(res.code);
   },
 );
+
+export const deleteComment = createAsyncThunk(
+  'friendPage/deleteComment',
+  async (data: { commentId: string; postId: string }, { rejectWithValue, dispatch }) => {
+    const { commentId, postId } = data;
+    const body = {
+      commentId,
+      postId,
+    };
+
+    const response = await reFetch(POST_COMMENT_URL, 'DELETE', body);
+
+    if (response.ok) {
+      return response.json();
+    }
+
+    const res = await response.json();
+
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(POST_COMMENT_URL, 'DELETE', body);
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);

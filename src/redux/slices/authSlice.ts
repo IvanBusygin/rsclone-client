@@ -82,7 +82,6 @@ const authSlice = createSlice({
 
       .addCase(fetchRefresh.fulfilled, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
-        localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
         state.user = action.payload;
         state.isAuth = true;
       })

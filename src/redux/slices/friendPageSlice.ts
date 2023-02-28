@@ -7,7 +7,7 @@ import {
   postComment,
 } from '../thunks/friendPageThunk';
 import { IPostComments, IPostFromServer } from '../../types/myPage';
-import { LS_USER_IS_AUTH } from '../../utils/constants';
+import { LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
 
 const initialState: IFriendPageState = {
   info: {
@@ -105,8 +105,7 @@ const friendPageSlice = createSlice({
       })
       .addCase(getFriendPosts.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingPost = false;

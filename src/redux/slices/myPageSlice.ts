@@ -6,7 +6,7 @@ import {
   getPersonPosts,
   postPersonPost,
 } from '../thunks/myPageThunks';
-import { LS_USER_IS_AUTH } from '../../utils/constants';
+import { LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
 
 const initialState: IMyPageState = {
   posts: [],

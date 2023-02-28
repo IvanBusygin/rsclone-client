@@ -1,8 +1,22 @@
-interface IPost {
+export interface IPostComments {
+  date: string;
+  text: string;
+  user: { info: { fullName: string; avatar: string } };
+}
+
+interface IComment {
+  date: string;
+  text: string;
+  authorAvatar: string;
+  authorFullName: string;
+}
+
+export interface IPost {
   id: string;
   text: string;
   date: string;
   likes: [];
+  comments: IComment[];
   lastEdit?: string;
 }
 
@@ -26,6 +40,7 @@ export interface IMyPageState {
   savingPostId: string;
   successfullySavedPostId: string;
   error: string;
+  loadingInfo: boolean;
 }
 
 export interface IPostProps {
@@ -37,6 +52,9 @@ export interface IPostProps {
   time: string;
   likes: [];
   editTime: string | undefined;
+  comments: IComment[];
+  canEdit: boolean;
+  canComment: boolean;
 }
 
 export interface IFriendProps {

@@ -9,9 +9,24 @@ import { editPost, unEditPost } from '../../redux/slices/myPageSlice';
 import editIcon from '../../assets/img/svg/settings_icon.svg';
 import saveIcon from '../../assets/img/svg/save-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
+import { postComment } from '../../redux/thunks/friendPageThunk';
+import Comment from '../Comment/Comment';
+import { commentPost } from '../../redux/slices/friendPageSlice';
 
 const Post: FC<IPostProps> = (props) => {
-  const { postId, firstName, lastName, avatar, text, time, likes, editTime } = props;
+  const {
+    postId,
+    firstName,
+    lastName,
+    avatar,
+    text,
+    time,
+    likes,
+    editTime,
+    comments,
+    canEdit,
+    canComment,
+  } = props;
 
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.post_light : style.post_dark;
@@ -19,14 +34,18 @@ const Post: FC<IPostProps> = (props) => {
   const { deletingPostId, editingPostId, savingPostId, successfullySavedPostId } = useTypedSelector(
     ({ myPage }) => myPage,
   );
+  const { commentPostId } = useTypedSelector(({ friendPage }) => friendPage);
   const postClass = deletingPostId === postId ? style.post_remove : null;
 
   const [isButtonSave, setIsButtonSave] = useState(false);
   const [postTempText, setPostTempText] = useState('');
+  const [commentText, setCommentText] = useState('');
+  const [showTextarea, setShowTextarea] = useState(false);
 
   const dispatch = useTypedDispatch();
 
   const postRef = useRef<HTMLDivElement>(null);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (isButtonSave) {
@@ -51,6 +70,18 @@ const Post: FC<IPostProps> = (props) => {
       setPostTempText('');
     }
   }, [editingPostId, postId, postTempText, successfullySavedPostId]);
+
+  useEffect(() => {
+    if (commentRef.current) {
+      commentRef.current.focus();
+    }
+  }, [showTextarea]);
+
+  useEffect(() => {
+    if (commentPostId === postId) {
+      setShowTextarea(true);
+    }
+  }, [commentPostId, postId]);
 
   const onDeleteButtonClick = () => {
     dispatch(deletePersonPost(postId));
@@ -77,6 +108,21 @@ const Post: FC<IPostProps> = (props) => {
     setIsButtonSave(false);
   };
 
+  const onShowTextFieldButtonClick = () => {
+    if (!showTextarea) {
+      dispatch(commentPost({ postId }));
+    }
+  };
+
+  const onCommentButtonClick = () => {
+    if (commentText) {
+      dispatch(postComment({ postId, comment: commentText }));
+    }
+
+    setCommentText('');
+    setShowTextarea(false);
+  };
+
   return (
     <div className={classNames(style.post, postClass, themeClass)}>
       <header className={style.post__header}>
@@ -101,14 +147,16 @@ const Post: FC<IPostProps> = (props) => {
             )}
           </div>
         </div>
-        <button
-          className={style.post__deletePostButton}
-          type="button"
-          title="Удалить пост"
-          onClick={onDeleteButtonClick}
-        >
-          &times;
-        </button>
+        {canEdit && (
+          <button
+            className={style.post__deletePostButton}
+            type="button"
+            title="Удалить пост"
+            onClick={onDeleteButtonClick}
+          >
+            &times;
+          </button>
+        )}
       </header>
       <div className={style.post__textWrapper}>
         <div
@@ -120,25 +168,27 @@ const Post: FC<IPostProps> = (props) => {
           {text}
         </div>
         <div className={style.post__editButtons}>
-          <button
-            className={style.post__editPostButton}
-            type="button"
-            title={isButtonSave ? 'Сохранить пост' : 'Редактировать пост'}
-            aria-label="Edit post"
-            disabled={savingPostId === postId}
-            onClick={onButtonClick}
-          >
-            {savingPostId === postId ? (
-              <Preloader />
-            ) : (
-              <span className={style.post__buttonIcon}>
-                <img
-                  src={editingPostId === postId ? saveIcon : editIcon}
-                  alt="Save button icon"
-                />
-              </span>
-            )}
-          </button>
+          {canEdit && (
+            <button
+              className={style.post__editPostButton}
+              type="button"
+              title={isButtonSave ? 'Сохранить пост' : 'Редактировать пост'}
+              aria-label="Edit post"
+              disabled={savingPostId === postId}
+              onClick={onButtonClick}
+            >
+              {savingPostId === postId ? (
+                <Preloader />
+              ) : (
+                <span className={style.post__buttonIcon}>
+                  <img
+                    src={editingPostId === postId ? saveIcon : editIcon}
+                    alt="Save button icon"
+                  />
+                </span>
+              )}
+            </button>
+          )}
           {editingPostId === postId && (
             <button
               className={style.post__unEdit}
@@ -151,9 +201,51 @@ const Post: FC<IPostProps> = (props) => {
           )}
         </div>
       </div>
-      <div className={style.post__likes}>
-        <span className={style.post__likesIcon} />
-        <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
+      <div>
+        {comments.map(({ authorAvatar, date, authorFullName, text: postText }) => (
+          <Comment
+            key={date}
+            avatar={authorAvatar}
+            date={date}
+            fullName={authorFullName}
+            text={postText}
+          />
+        ))}
+      </div>
+      <div className={style.post__footer}>
+        <div className={style.post__likes}>
+          <span className={style.post__likesIcon} />
+          <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
+        </div>
+        {canComment && (
+          <>
+            <div className={style.post__comment}>
+              <button
+                className={style.post__commentButton}
+                type="button"
+                title="Комментировать"
+                aria-label="Comment post"
+                onClick={onShowTextFieldButtonClick}
+              />
+            </div>
+            {showTextarea && (
+              <div className={style.post__commentField}>
+                <textarea
+                  ref={commentRef}
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                />
+                <button
+                  className={style.post__saveComment}
+                  type="button"
+                  title="Отправить комментарий"
+                  aria-label="Save comment"
+                  onClick={onCommentButtonClick}
+                />
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

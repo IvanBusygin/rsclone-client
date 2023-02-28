@@ -1,20 +1,29 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LS_ACCESS_TOKEN, USER_GET_INFO_URL } from '../../utils/constants';
+import { USER_GET_INFO_URL } from '../../utils/constants';
+import reFetch from '../../utils/reFetch';
+import { fetchRefresh } from '../slices/authSlice';
 
-export default createAsyncThunk('userPage/getUserInfo', async (id: string) => {
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem(LS_ACCESS_TOKEN) ?? '');
+export default createAsyncThunk(
+  'userPage/getUserInfo',
+  async (id: string, { rejectWithValue, dispatch }) => {
+    const response = await reFetch(`${USER_GET_INFO_URL}/${id}`, 'GET');
 
-  const response = await fetch(`${USER_GET_INFO_URL}/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    credentials: 'include',
-  });
+    if (response.ok) {
+      return response.json();
+    }
 
-  const userInfo = await response.json();
-  delete userInfo.info.user;
+    const res = await response.json();
 
-  return userInfo;
-});
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(`${USER_GET_INFO_URL}/${id}`, 'GET');
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);

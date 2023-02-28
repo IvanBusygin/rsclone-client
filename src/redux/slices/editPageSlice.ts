@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IEditPageState } from '../../types/editPage';
 import { getPersonInfo, postPersonInfo } from '../thunks/editPageThunks';
-import { DEFAULT_DATE } from '../../utils/constants';
+import { DEFAULT_DATE, LS_ACCESS_TOKEN, LS_USER_ID } from '../../utils/constants';
 
 const initialState: IEditPageState = {
   userId: '',
@@ -22,6 +22,7 @@ const initialState: IEditPageState = {
     favoriteFilms: '',
   },
   isLoading: false,
+  loadingInfo: false,
 };
 
 const editPageSlice = createSlice({
@@ -34,17 +35,43 @@ const editPageSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getPersonInfo.pending, (state) => {
+        state.loadingInfo = true;
+      })
       .addCase(getPersonInfo.fulfilled, (state, action) => {
+        const data = { ...action.payload };
+        delete data.user;
+
         state.infoData = {
           ...state.infoData,
-          ...action.payload,
+          ...data,
         };
+
+        state.loadingInfo = false;
+      })
+      .addCase(getPersonInfo.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_ACCESS_TOKEN, '');
+          localStorage.setItem(LS_USER_ID, '');
+        }
+
+        state.loadingInfo = false;
       })
       .addCase(postPersonInfo.pending, (state) => {
         state.isLoading = true;
+        state.loadingInfo = true;
       })
       .addCase(postPersonInfo.fulfilled, (state) => {
         state.isLoading = false;
+        state.loadingInfo = false;
+      })
+      .addCase(postPersonInfo.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_ACCESS_TOKEN, '');
+          localStorage.setItem(LS_USER_ID, '');
+        }
+
+        state.loadingInfo = false;
       });
   },
 });

@@ -12,6 +12,7 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import MessengerPage from './pages/MessengerPage/MessengerPage';
 import MyFriendsBox from './components/friends/FriendsBox/MyFriendsBox';
 import UserPage from './pages/UserPage/UserPage';
+import FriendPage from './pages/FriendPage/FriendPage';
 
 function App() {
   return (
@@ -56,6 +57,10 @@ function App() {
         <Route
           path="user/:id"
           element={<UserPage />}
+        />
+        <Route
+          path="friend/:id"
+          element={<FriendPage />}
         />
       </Route>
       <Route

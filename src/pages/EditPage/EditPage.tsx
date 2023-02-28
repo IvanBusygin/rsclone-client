@@ -18,12 +18,13 @@ import {
   ERROR_MESSAGES,
 } from '../../utils/constants';
 import Preloader from '../../components/Preloader/Preloader';
+import useResetAuth from '../../utils/useResetAuth';
 
 const EditPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.editPage_light : style.editPage_dark;
 
-  const { infoData, isLoading } = useTypedSelector(({ editPage }) => editPage);
+  const { infoData, isLoading, loadingInfo } = useTypedSelector(({ editPage }) => editPage);
 
   const [buttonName, setButtonName] = useState('Выберите файл');
 
@@ -32,6 +33,11 @@ const EditPage = () => {
   useEffect(() => {
     dispatch(getPersonInfo());
   }, [dispatch]);
+
+  const resetAuth = useResetAuth();
+  useEffect(() => {
+    resetAuth();
+  }, [loadingInfo, resetAuth]);
 
   const options = [
     'Есть семья',

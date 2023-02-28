@@ -5,6 +5,7 @@ import editPageReducer from './slices/editPageSlice';
 import authReducer from './slices/authSlice';
 import userPageReducer from './slices/userPageSlice';
 import friendsReducer from './slices/friendsSlice';
+import friendPageReducer from './slices/friendPageSlice';
 
 const rootReducer = combineReducers({
   common: commonReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   userPage: userPageReducer,
   friends: friendsReducer,
+  friendPage: friendPageReducer,
 });
 
 export const store = configureStore({

@@ -20,6 +20,9 @@ const PostsList = () => {
           time={post.date}
           editTime={post.lastEdit}
           likes={post.likes}
+          comments={post.comments}
+          canEdit
+          canComment={false}
         />
       ))}
     </section>

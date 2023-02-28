@@ -3,7 +3,6 @@ import {
   FRIENDS_URL,
   IN_FRIEND_URL,
   LS_ACCESS_TOKEN,
-  LS_USER_ID,
   LS_USER_IS_AUTH,
   OUT_FRIEND_URL,
   SEARCH_URL,
@@ -59,8 +58,6 @@ const friendsSlice = createSlice({
       .addCase(fetchSearch.rejected, (state, action) => {
         state.dataPeople = [];
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingSearch = false;
@@ -74,8 +71,6 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchAddFriend.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingAdd = false;
@@ -90,8 +85,6 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchFriendOut.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingCount = false;
@@ -106,8 +99,6 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchFriendIn.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingCount = false;
@@ -121,8 +112,6 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchAcceptFriend.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingAccept = false;
@@ -137,8 +126,6 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchMyFriends.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingMyFriends = false;

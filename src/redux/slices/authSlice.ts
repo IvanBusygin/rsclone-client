@@ -38,9 +38,6 @@ const authSlice = createSlice({
     resetAuth(state) {
       state.isAuth = false;
     },
-    setAuth(state) {
-      state.isAuth = true;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -56,8 +53,6 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchLogin.rejected, (state, action) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
         localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         state.errorMsg = action.payload || '';
         state.isAuth = false;
@@ -77,13 +72,12 @@ const authSlice = createSlice({
       .addCase(fetchRegistration.fulfilled, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
         localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(true));
         state.user = action.payload;
         state.loading = false;
         state.isAuth = true;
       })
       .addCase(fetchRegistration.rejected, (state, action) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
         localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         state.isAuth = false;
         state.errorMsg = action.payload || '';
@@ -96,8 +90,7 @@ const authSlice = createSlice({
         state.isAuth = true;
       })
       .addCase(fetchRefresh.rejected, (state) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         state.isAuth = false;
       })
       .addMatcher(isError, (state) => {
@@ -181,5 +174,5 @@ function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
 
-export const { resetError, resetAuth, setAuth } = authSlice.actions;
+export const { resetError, resetAuth } = authSlice.actions;
 export default authSlice.reducer;

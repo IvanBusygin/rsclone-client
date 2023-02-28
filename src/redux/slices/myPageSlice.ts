@@ -6,7 +6,7 @@ import {
   getPersonPosts,
   postPersonPost,
 } from '../thunks/myPageThunks';
-import { LS_ACCESS_TOKEN, LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
+import { LS_USER_IS_AUTH } from '../../utils/constants';
 
 const initialState: IMyPageState = {
   posts: [],
@@ -70,8 +70,6 @@ const myPageSlice = createSlice({
         state.error = action.payload as string;
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
 
@@ -99,8 +97,6 @@ const myPageSlice = createSlice({
         state.isPostLoading = false;
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
 
@@ -127,8 +123,6 @@ const myPageSlice = createSlice({
         state.deletingPostId = '';
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
 
@@ -175,8 +169,6 @@ const myPageSlice = createSlice({
         state.successfullySavedPostId = '';
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_ACCESS_TOKEN, '');
-          localStorage.setItem(LS_USER_ID, '');
           localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
 

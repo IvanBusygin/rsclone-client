@@ -34,7 +34,9 @@ const Post: FC<IPostProps> = (props) => {
   const { deletingPostId, editingPostId, savingPostId, successfullySavedPostId } = useTypedSelector(
     ({ myPage }) => myPage,
   );
-  const { commentPostId, isCommentLoading } = useTypedSelector(({ friendPage }) => friendPage);
+  const { loadingComments, commentPostId, isCommentLoading } = useTypedSelector(
+    ({ friendPage }) => friendPage,
+  );
   const postClass = deletingPostId === postId ? style.post_remove : null;
 
   const [isButtonSave, setIsButtonSave] = useState(false);
@@ -208,7 +210,7 @@ const Post: FC<IPostProps> = (props) => {
         </div>
       </div>
       <div>
-        {!comments.length ? (
+        {loadingComments ? (
           <div className={style.post__preloader}>
             <Preloader />
           </div>

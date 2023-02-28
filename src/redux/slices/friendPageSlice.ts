@@ -28,6 +28,7 @@ const initialState: IFriendPageState = {
   },
   posts: [],
   loadingPost: false,
+  loadingComments: false,
   commentPostId: '',
   deletingCommentId: '',
   isCommentLoading: false,
@@ -75,6 +76,7 @@ const friendPageSlice = createSlice({
       })
       .addCase(getFriendPosts.pending, (state) => {
         state.loadingPost = true;
+        state.loadingComments = true;
       })
       .addCase(getFriendPosts.fulfilled, (state, action) => {
         const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
@@ -98,6 +100,7 @@ const friendPageSlice = createSlice({
           }
 
           state.loadingPost = false;
+          state.loadingComments = false;
         });
       })
       .addCase(getFriendPosts.rejected, (state, action) => {
@@ -107,6 +110,7 @@ const friendPageSlice = createSlice({
         }
 
         state.loadingPost = false;
+        state.loadingComments = false;
       })
       .addCase(postComment.pending, (state) => {
         state.loadingPost = true;

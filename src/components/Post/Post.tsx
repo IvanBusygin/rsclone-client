@@ -11,6 +11,7 @@ import saveIcon from '../../assets/img/svg/save-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
 import { postComment } from '../../redux/thunks/friendPageThunk';
 import Comment from '../Comment/Comment';
+import { commentPost } from '../../redux/slices/friendPageSlice';
 
 const Post: FC<IPostProps> = (props) => {
   const {
@@ -33,15 +34,18 @@ const Post: FC<IPostProps> = (props) => {
   const { deletingPostId, editingPostId, savingPostId, successfullySavedPostId } = useTypedSelector(
     ({ myPage }) => myPage,
   );
+  const { commentPostId } = useTypedSelector(({ friendPage }) => friendPage);
   const postClass = deletingPostId === postId ? style.post_remove : null;
 
   const [isButtonSave, setIsButtonSave] = useState(false);
   const [postTempText, setPostTempText] = useState('');
   const [commentText, setCommentText] = useState('');
+  const [showTextarea, setShowTextarea] = useState(false);
 
   const dispatch = useTypedDispatch();
 
   const postRef = useRef<HTMLDivElement>(null);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (isButtonSave) {
@@ -66,6 +70,18 @@ const Post: FC<IPostProps> = (props) => {
       setPostTempText('');
     }
   }, [editingPostId, postId, postTempText, successfullySavedPostId]);
+
+  useEffect(() => {
+    if (commentRef.current) {
+      commentRef.current.focus();
+    }
+  }, [showTextarea]);
+
+  useEffect(() => {
+    if (commentPostId === postId) {
+      setShowTextarea(true);
+    }
+  }, [commentPostId, postId]);
 
   const onDeleteButtonClick = () => {
     dispatch(deletePersonPost(postId));
@@ -92,9 +108,19 @@ const Post: FC<IPostProps> = (props) => {
     setIsButtonSave(false);
   };
 
+  const onShowTextFieldButtonClick = () => {
+    if (!showTextarea) {
+      dispatch(commentPost({ postId }));
+    }
+  };
+
   const onCommentButtonClick = () => {
-    dispatch(postComment({ postId, comment: commentText }));
+    if (commentText) {
+      dispatch(postComment({ postId, comment: commentText }));
+    }
+
     setCommentText('');
+    setShowTextarea(false);
   };
 
   return (
@@ -199,21 +225,25 @@ const Post: FC<IPostProps> = (props) => {
                 type="button"
                 title="Комментировать"
                 aria-label="Comment post"
+                onClick={onShowTextFieldButtonClick}
               />
             </div>
-            <div className={style.post__commentField}>
-              <textarea
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-              />
-              <button
-                className={style.post__saveComment}
-                type="button"
-                title="Отправить комментарий"
-                aria-label="Save comment"
-                onClick={onCommentButtonClick}
-              />
-            </div>
+            {showTextarea && (
+              <div className={style.post__commentField}>
+                <textarea
+                  ref={commentRef}
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                />
+                <button
+                  className={style.post__saveComment}
+                  type="button"
+                  title="Отправить комментарий"
+                  aria-label="Save comment"
+                  onClick={onCommentButtonClick}
+                />
+              </div>
+            )}
           </>
         )}
       </div>

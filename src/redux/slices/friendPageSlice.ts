@@ -23,12 +23,17 @@ const initialState: IFriendPageState = {
   },
   posts: [],
   loadingPost: false,
+  commentPostId: '',
 };
 
 const friendPageSlice = createSlice({
   name: 'friendPage',
   initialState,
-  reducers: {},
+  reducers: {
+    commentPost(state, action) {
+      state.commentPostId = action.payload.postId;
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(getFriendInfo.pending, (state) => {
@@ -79,6 +84,7 @@ const friendPageSlice = createSlice({
           post.comments = formattedComments;
         }
 
+        state.commentPostId = '';
         state.loadingPost = false;
       })
       .addCase(postComment.rejected, (state, action) => {
@@ -90,5 +96,7 @@ const friendPageSlice = createSlice({
         state.loadingPost = false;
       }),
 });
+
+export const { commentPost } = friendPageSlice.actions;
 
 export default friendPageSlice.reducer;

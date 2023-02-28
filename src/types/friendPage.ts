@@ -5,6 +5,7 @@ export interface IFriendPageState {
   info: IUserInfo;
   posts: IPost[];
   loadingPost: boolean;
+  commentPostId: string;
 }
 
 export interface IFriendPostData {

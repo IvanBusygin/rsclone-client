@@ -53,17 +53,14 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchLogin.rejected, (state, action) => {
-        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+        localStorage.setItem(LS_USER_IS_AUTH, '');
         state.errorMsg = action.payload || '';
         state.isAuth = false;
         state.loading = false;
       })
 
-      .addCase(fetchLogout.fulfilled, (state) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
-        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
-        state.isAuth = false;
+      .addCase(fetchLogout.fulfilled, () => {
+        localStorage.setItem(LS_USER_IS_AUTH, '');
       })
 
       .addCase(fetchRegistration.pending, (state) => {
@@ -78,7 +75,7 @@ const authSlice = createSlice({
         state.isAuth = true;
       })
       .addCase(fetchRegistration.rejected, (state, action) => {
-        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+        localStorage.setItem(LS_USER_IS_AUTH, '');
         state.isAuth = false;
         state.errorMsg = action.payload || '';
       })
@@ -90,7 +87,7 @@ const authSlice = createSlice({
         state.isAuth = true;
       })
       .addCase(fetchRefresh.rejected, (state) => {
-        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+        localStorage.setItem(LS_USER_IS_AUTH, '');
         state.isAuth = false;
       })
       .addMatcher(isError, (state) => {

@@ -38,7 +38,7 @@ const userPageSlice = createSlice({
       })
       .addCase(getUserInfo.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingInfo = false;

@@ -58,7 +58,7 @@ const friendsSlice = createSlice({
       .addCase(fetchSearch.rejected, (state, action) => {
         state.dataPeople = [];
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
         state.loadingSearch = false;
       })
@@ -71,7 +71,7 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchAddFriend.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
         state.loadingAdd = false;
       })
@@ -85,7 +85,7 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchFriendOut.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
         state.loadingCount = false;
       })
@@ -99,7 +99,7 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchFriendIn.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
         state.loadingCount = false;
       })
@@ -112,7 +112,7 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchAcceptFriend.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
         state.loadingAccept = false;
       })
@@ -126,7 +126,7 @@ const friendsSlice = createSlice({
       })
       .addCase(fetchMyFriends.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
         state.loadingMyFriends = false;
       })

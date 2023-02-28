@@ -57,7 +57,7 @@ const friendPageSlice = createSlice({
       })
       .addCase(getFriendInfo.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingPost = false;
@@ -88,7 +88,7 @@ const friendPageSlice = createSlice({
       })
       .addCase(postComment.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingPost = false;

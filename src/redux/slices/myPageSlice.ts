@@ -70,7 +70,7 @@ const myPageSlice = createSlice({
         state.error = action.payload as string;
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingInfo = false;
@@ -97,7 +97,7 @@ const myPageSlice = createSlice({
         state.isPostLoading = false;
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingInfo = false;
@@ -123,7 +123,7 @@ const myPageSlice = createSlice({
         state.deletingPostId = '';
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingInfo = false;
@@ -169,7 +169,7 @@ const myPageSlice = createSlice({
         state.successfullySavedPostId = '';
 
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingInfo = false;

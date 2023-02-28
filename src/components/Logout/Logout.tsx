@@ -13,8 +13,9 @@ function Logout() {
   const resetAuth = useResetAuth();
 
   const clickHandler = () => {
-    resetAuth();
-    dispatch(fetchLogout());
+    dispatch(fetchLogout()).then(() => {
+      resetAuth();
+    });
   };
 
   return (

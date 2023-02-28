@@ -51,7 +51,7 @@ const editPageSlice = createSlice({
       })
       .addCase(getPersonInfo.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingInfo = false;
@@ -66,7 +66,7 @@ const editPageSlice = createSlice({
       })
       .addCase(postPersonInfo.rejected, (state, action) => {
         if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
+          localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
         state.loadingInfo = false;

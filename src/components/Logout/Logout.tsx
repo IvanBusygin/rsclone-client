@@ -4,14 +4,18 @@ import exit from '../../assets/img/svg/exit.svg';
 import exitWhite from '../../assets/img/svg/exit-white.svg';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { fetchLogout } from '../../redux/slices/authSlice';
+import useResetAuth from '../../utils/useResetAuth';
 
 function Logout() {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
 
   const dispatch = useTypedDispatch();
+  const resetAuth = useResetAuth();
 
   const clickHandler = () => {
-    dispatch(fetchLogout());
+    dispatch(fetchLogout()).then(() => {
+      resetAuth();
+    });
   };
 
   return (

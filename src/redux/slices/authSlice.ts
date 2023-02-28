@@ -6,6 +6,7 @@ import {
   LOGOUT_URL,
   LS_ACCESS_TOKEN,
   LS_USER_ID,
+  LS_USER_IS_AUTH,
   REFRESH_URL,
 } from '../../utils/constants';
 
@@ -17,10 +18,12 @@ interface IInitialState {
   loading: boolean;
 }
 
+const initAuth = localStorage.getItem(LS_USER_IS_AUTH) === 'true';
+
 const initialState: IInitialState = {
   user: {},
   accessToken: '',
-  isAuth: false,
+  isAuth: initAuth,
   errorMsg: '',
   loading: false,
 };
@@ -44,22 +47,20 @@ const authSlice = createSlice({
       .addCase(fetchLogin.fulfilled, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
         localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(true));
         state.user = action.payload;
         state.isAuth = true;
         state.loading = false;
       })
       .addCase(fetchLogin.rejected, (state, action) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
+        localStorage.setItem(LS_USER_IS_AUTH, '');
         state.errorMsg = action.payload || '';
         state.isAuth = false;
         state.loading = false;
       })
 
-      .addCase(fetchLogout.fulfilled, (state) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
-        state.isAuth = false;
+      .addCase(fetchLogout.fulfilled, () => {
+        localStorage.setItem(LS_USER_IS_AUTH, '');
       })
 
       .addCase(fetchRegistration.pending, (state) => {
@@ -68,13 +69,13 @@ const authSlice = createSlice({
       .addCase(fetchRegistration.fulfilled, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
         localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(true));
         state.user = action.payload;
         state.loading = false;
         state.isAuth = true;
       })
       .addCase(fetchRegistration.rejected, (state, action) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
+        localStorage.setItem(LS_USER_IS_AUTH, '');
         state.isAuth = false;
         state.errorMsg = action.payload || '';
       })
@@ -86,8 +87,7 @@ const authSlice = createSlice({
         state.isAuth = true;
       })
       .addCase(fetchRefresh.rejected, (state) => {
-        localStorage.setItem(LS_ACCESS_TOKEN, '');
-        localStorage.setItem(LS_USER_ID, '');
+        localStorage.setItem(LS_USER_IS_AUTH, '');
         state.isAuth = false;
       })
       .addMatcher(isError, (state) => {

@@ -24,9 +24,11 @@ const MyPage = () => {
   }, [loadingInfo, resetAuth]);
 
   useEffect(() => {
-    dispatch(getPersonInfo());
-    dispatch(getPersonPosts());
-    dispatch(fetchFriendIn());
+    dispatch(getPersonInfo()).then(() => {
+      dispatch(getPersonPosts()).then(() => {
+        dispatch(fetchFriendIn());
+      });
+    });
   }, [dispatch]);
 
   useEffect(() => {

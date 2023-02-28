@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { POST_COMMENT_URL, USER_GET_INFO_URL } from '../../utils/constants';
+import { PERSON_GET_POSTS_URL, POST_COMMENT_URL, USER_GET_INFO_URL } from '../../utils/constants';
 import { IFriendPostData } from '../../types/friendPage';
 import reFetch from '../../utils/reFetch';
 import { fetchRefresh } from '../slices/authSlice';
@@ -19,6 +19,31 @@ export const getFriendInfo = createAsyncThunk(
       await dispatch(fetchRefresh());
 
       const responseNew = await reFetch(`${USER_GET_INFO_URL}/${id}`, 'GET');
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);
+
+export const getFriendPosts = createAsyncThunk(
+  'friendPage/getFriendPosts',
+  async (friendId: string, { rejectWithValue, dispatch }) => {
+    const response = await reFetch(`${PERSON_GET_POSTS_URL}/${friendId}`, 'GET');
+
+    if (response.ok) {
+      return response.json();
+    }
+
+    const res = await response.json();
+
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(`${PERSON_GET_POSTS_URL}/${friendId}`, 'GET');
 
       if (responseNew.ok) {
         return responseNew.json();

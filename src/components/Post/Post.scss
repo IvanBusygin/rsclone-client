@@ -109,6 +109,12 @@
     color: $color-stop-editing-post;
   }
 
+  &__preloader {
+    margin: 0 auto;
+    width: 3rem;
+    height: 3rem;
+  }
+
   &__footer {
     display: flex;
     justify-content: space-between;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import style from './FriendPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
-import { getFriendInfo } from '../../redux/thunks/friendPageThunk';
+import { getFriendInfo, getFriendPosts } from '../../redux/thunks/friendPageThunk';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Post from '../../components/Post/Post';
 import useResetAuth from '../../utils/useResetAuth';
@@ -22,6 +22,7 @@ const FriendPage = () => {
   useEffect(() => {
     if (id) {
       dispatch(getFriendInfo(id));
+      dispatch(getFriendPosts(id));
     }
   }, [id, dispatch]);
 

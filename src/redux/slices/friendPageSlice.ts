@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IFriendPageState } from '../../types/friendPage';
-import { getFriendInfo, postComment } from '../thunks/friendPageThunk';
+import { getFriendInfo, getFriendPosts, postComment } from '../thunks/friendPageThunk';
 import { IPostComments, IPostFromServer } from '../../types/myPage';
 import { LS_USER_IS_AUTH } from '../../utils/constants';
 
@@ -58,6 +58,37 @@ const friendPageSlice = createSlice({
       .addCase(getFriendInfo.rejected, (state, action) => {
         if (action.payload === '401') {
           localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+
+        state.loadingPost = false;
+      })
+      .addCase(getFriendPosts.pending, (state) => {
+        state.loadingPost = true;
+      })
+      .addCase(getFriendPosts.fulfilled, (state, action) => {
+        action.payload.forEach((post: { comments: IPostComments[]; _id: string }) => {
+          const id = post._id;
+
+          const postComments = post.comments.map((comment) => ({
+            date: comment.date,
+            text: comment.text,
+            authorAvatar: comment.user.info.avatar,
+            authorFullName: comment.user.info.fullName,
+          }));
+
+          const oldPost = state.posts.find((p) => p.id === id);
+
+          if (oldPost) {
+            oldPost.comments = postComments;
+          }
+
+          state.loadingPost = false;
+        });
+      })
+      .addCase(getFriendPosts.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_ACCESS_TOKEN, '');
+          localStorage.setItem(LS_USER_ID, '');
         }
 
         state.loadingPost = false;

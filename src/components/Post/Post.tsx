@@ -202,15 +202,21 @@ const Post: FC<IPostProps> = (props) => {
         </div>
       </div>
       <div>
-        {comments.map(({ authorAvatar, date, authorFullName, text: postText }) => (
-          <Comment
-            key={date}
-            avatar={authorAvatar}
-            date={date}
-            fullName={authorFullName}
-            text={postText}
-          />
-        ))}
+        {!comments.length ? (
+          <div className={style.post__preloader}>
+            <Preloader />
+          </div>
+        ) : (
+          comments.map(({ authorAvatar, date, authorFullName, text: postText }) => (
+            <Comment
+              key={date}
+              avatar={authorAvatar}
+              date={date}
+              fullName={authorFullName}
+              text={postText}
+            />
+          ))
+        )}
       </div>
       <div className={style.post__footer}>
         <div className={style.post__likes}>

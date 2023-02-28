@@ -24,13 +24,14 @@ const initialState: IFriendPageState = {
   posts: [],
   loadingPost: false,
   commentPostId: '',
+  isCommentLoading: false,
 };
 
 const friendPageSlice = createSlice({
   name: 'friendPage',
   initialState,
   reducers: {
-    commentPost(state, action) {
+    setCommentedPostId(state, action) {
       state.commentPostId = action.payload.postId;
     },
   },
@@ -95,6 +96,7 @@ const friendPageSlice = createSlice({
       })
       .addCase(postComment.pending, (state) => {
         state.loadingPost = true;
+        state.isCommentLoading = true;
       })
       .addCase(postComment.fulfilled, (state, action) => {
         const comments = structuredClone(action.payload.post.comments);
@@ -115,6 +117,7 @@ const friendPageSlice = createSlice({
         }
 
         state.commentPostId = '';
+        state.isCommentLoading = false;
         state.loadingPost = false;
       })
       .addCase(postComment.rejected, (state, action) => {
@@ -122,10 +125,12 @@ const friendPageSlice = createSlice({
           localStorage.setItem(LS_USER_IS_AUTH, '');
         }
 
+        state.commentPostId = '';
+        state.isCommentLoading = false;
         state.loadingPost = false;
       }),
 });
 
-export const { commentPost } = friendPageSlice.actions;
+export const { setCommentedPostId } = friendPageSlice.actions;
 
 export default friendPageSlice.reducer;

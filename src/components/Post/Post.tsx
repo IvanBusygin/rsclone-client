@@ -11,7 +11,7 @@ import saveIcon from '../../assets/img/svg/save-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
 import { postComment } from '../../redux/thunks/friendPageThunk';
 import Comment from '../Comment/Comment';
-import { commentPost } from '../../redux/slices/friendPageSlice';
+import { setCommentedPostId } from '../../redux/slices/friendPageSlice';
 
 const Post: FC<IPostProps> = (props) => {
   const {
@@ -34,7 +34,7 @@ const Post: FC<IPostProps> = (props) => {
   const { deletingPostId, editingPostId, savingPostId, successfullySavedPostId } = useTypedSelector(
     ({ myPage }) => myPage,
   );
-  const { commentPostId } = useTypedSelector(({ friendPage }) => friendPage);
+  const { commentPostId, isCommentLoading } = useTypedSelector(({ friendPage }) => friendPage);
   const postClass = deletingPostId === postId ? style.post_remove : null;
 
   const [isButtonSave, setIsButtonSave] = useState(false);
@@ -80,6 +80,8 @@ const Post: FC<IPostProps> = (props) => {
   useEffect(() => {
     if (commentPostId === postId) {
       setShowTextarea(true);
+    } else {
+      setShowTextarea(false);
     }
   }, [commentPostId, postId]);
 
@@ -109,8 +111,10 @@ const Post: FC<IPostProps> = (props) => {
   };
 
   const onShowTextFieldButtonClick = () => {
+    setCommentText('');
+
     if (!showTextarea) {
-      dispatch(commentPost({ postId }));
+      dispatch(setCommentedPostId({ postId }));
     }
   };
 
@@ -118,9 +122,11 @@ const Post: FC<IPostProps> = (props) => {
     if (commentText) {
       dispatch(postComment({ postId, comment: commentText }));
     }
+  };
 
+  const onCloseFieldButtonClick = () => {
+    dispatch(setCommentedPostId({ postId: '' }));
     setCommentText('');
-    setShowTextarea(false);
   };
 
   return (
@@ -237,6 +243,7 @@ const Post: FC<IPostProps> = (props) => {
             {showTextarea && (
               <div className={style.post__commentField}>
                 <textarea
+                  className={style.post__commentTextarea}
                   ref={commentRef}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
@@ -246,8 +253,29 @@ const Post: FC<IPostProps> = (props) => {
                   type="button"
                   title="Отправить комментарий"
                   aria-label="Save comment"
+                  disabled={!commentText}
                   onClick={onCommentButtonClick}
-                />
+                >
+                  {isCommentLoading ? (
+                    <Preloader />
+                  ) : (
+                    <span className={style.post__buttonIcon}>
+                      <img
+                        src={saveIcon}
+                        alt="Comment button icon"
+                      />
+                    </span>
+                  )}
+                </button>
+                <button
+                  className={style.post__closeTextarea}
+                  type="button"
+                  title="Закрыть поле ввода"
+                  aria-label="Close"
+                  onClick={onCloseFieldButtonClick}
+                >
+                  &times;
+                </button>
               </div>
             )}
           </>

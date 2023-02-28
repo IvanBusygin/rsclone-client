@@ -6,6 +6,7 @@ export interface IFriendPageState {
   posts: IPost[];
   loadingPost: boolean;
   commentPostId: string;
+  isCommentLoading: boolean;
 }
 
 export interface IFriendPostData {

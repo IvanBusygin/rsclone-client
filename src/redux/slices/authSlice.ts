@@ -18,12 +18,12 @@ interface IInitialState {
   loading: boolean;
 }
 
-const IsAuth = JSON.parse(localStorage.getItem(LS_USER_IS_AUTH) || '');
+const initAuth = localStorage.getItem(LS_USER_IS_AUTH) === 'true';
 
 const initialState: IInitialState = {
   user: {},
   accessToken: '',
-  isAuth: IsAuth,
+  isAuth: initAuth,
   errorMsg: '',
   loading: false,
 };

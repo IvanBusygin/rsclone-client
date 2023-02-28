@@ -4,6 +4,7 @@ import {
   IN_FRIEND_URL,
   LS_ACCESS_TOKEN,
   LS_USER_ID,
+  LS_USER_IS_AUTH,
   OUT_FRIEND_URL,
   SEARCH_URL,
 } from '../../utils/constants';
@@ -60,6 +61,7 @@ const friendsSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingSearch = false;
       })
@@ -74,6 +76,7 @@ const friendsSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingAdd = false;
       })
@@ -89,6 +92,7 @@ const friendsSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingCount = false;
       })
@@ -104,6 +108,7 @@ const friendsSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingCount = false;
       })
@@ -118,6 +123,7 @@ const friendsSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingAccept = false;
       })
@@ -133,6 +139,7 @@ const friendsSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
         state.loadingMyFriends = false;
       })

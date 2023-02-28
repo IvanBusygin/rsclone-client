@@ -6,6 +6,7 @@ import {
   LOGOUT_URL,
   LS_ACCESS_TOKEN,
   LS_USER_ID,
+  LS_USER_IS_AUTH,
   REFRESH_URL,
 } from '../../utils/constants';
 
@@ -17,10 +18,12 @@ interface IInitialState {
   loading: boolean;
 }
 
+const IsAuth = JSON.parse(localStorage.getItem(LS_USER_IS_AUTH) || '');
+
 const initialState: IInitialState = {
   user: {},
   accessToken: '',
-  isAuth: false,
+  isAuth: IsAuth,
   errorMsg: '',
   loading: false,
 };
@@ -35,6 +38,9 @@ const authSlice = createSlice({
     resetAuth(state) {
       state.isAuth = false;
     },
+    setAuth(state) {
+      state.isAuth = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -44,6 +50,7 @@ const authSlice = createSlice({
       .addCase(fetchLogin.fulfilled, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
         localStorage.setItem(LS_USER_ID, JSON.stringify(action.payload.user._id));
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(true));
         state.user = action.payload;
         state.isAuth = true;
         state.loading = false;
@@ -51,6 +58,7 @@ const authSlice = createSlice({
       .addCase(fetchLogin.rejected, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, '');
         localStorage.setItem(LS_USER_ID, '');
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         state.errorMsg = action.payload || '';
         state.isAuth = false;
         state.loading = false;
@@ -59,6 +67,7 @@ const authSlice = createSlice({
       .addCase(fetchLogout.fulfilled, (state) => {
         localStorage.setItem(LS_ACCESS_TOKEN, '');
         localStorage.setItem(LS_USER_ID, '');
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         state.isAuth = false;
       })
 
@@ -75,6 +84,7 @@ const authSlice = createSlice({
       .addCase(fetchRegistration.rejected, (state, action) => {
         localStorage.setItem(LS_ACCESS_TOKEN, '');
         localStorage.setItem(LS_USER_ID, '');
+        localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         state.isAuth = false;
         state.errorMsg = action.payload || '';
       })
@@ -171,5 +181,5 @@ function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
 
-export const { resetError, resetAuth } = authSlice.actions;
+export const { resetError, resetAuth, setAuth } = authSlice.actions;
 export default authSlice.reducer;

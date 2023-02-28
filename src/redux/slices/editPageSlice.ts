@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IEditPageState } from '../../types/editPage';
 import { getPersonInfo, postPersonInfo } from '../thunks/editPageThunks';
-import { DEFAULT_DATE, LS_ACCESS_TOKEN, LS_USER_ID } from '../../utils/constants';
+import { DEFAULT_DATE, LS_ACCESS_TOKEN, LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
 
 const initialState: IEditPageState = {
   userId: '',
@@ -53,6 +53,7 @@ const editPageSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
 
         state.loadingInfo = false;
@@ -69,6 +70,7 @@ const editPageSlice = createSlice({
         if (action.payload === '401') {
           localStorage.setItem(LS_ACCESS_TOKEN, '');
           localStorage.setItem(LS_USER_ID, '');
+          localStorage.setItem(LS_USER_IS_AUTH, JSON.stringify(false));
         }
 
         state.loadingInfo = false;

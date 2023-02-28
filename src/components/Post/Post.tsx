@@ -178,6 +178,7 @@ const Post: FC<IPostProps> = (props) => {
       <div>
         {comments.map(({ authorAvatar, date, authorFullName, text: postText }) => (
           <Comment
+            key={date}
             avatar={authorAvatar}
             date={date}
             fullName={authorFullName}

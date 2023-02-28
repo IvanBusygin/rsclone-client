@@ -190,6 +190,9 @@ const myPageSlice = createSlice({
 
         state.loadingInfo = false;
       })
+      .addCase(addLike.pending, (state) => {
+        state.loadingInfo = true;
+      })
       .addCase(addLike.fulfilled, (state, action) => {
         const post = state.posts.find((p) => p.id === action.payload.post);
 
@@ -211,6 +214,15 @@ const myPageSlice = createSlice({
             userId,
           });
         }
+
+        state.loadingInfo = false;
+      })
+      .addCase(addLike.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+
+        state.loadingInfo = false;
       })
       .addCase(removeLike.pending, (state) => {
         state.loadingInfo = true;

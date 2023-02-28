@@ -4,7 +4,7 @@ import style from './Post.scss';
 import { IPostProps } from '../../types/myPage';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import getLocaleTimeString from '../../utils/myPage';
-import { deletePersonPost, editPersonPost } from '../../redux/thunks/myPageThunks';
+import { addLike, deletePersonPost, editPersonPost } from '../../redux/thunks/myPageThunks';
 import { editPost, unEditPost } from '../../redux/slices/myPageSlice';
 import editIcon from '../../assets/img/svg/settings_icon.svg';
 import saveIcon from '../../assets/img/svg/save-button_icon.svg';
@@ -13,6 +13,7 @@ import { postComment } from '../../redux/thunks/friendPageThunk';
 import Comment from '../Comment/Comment';
 import { setCommentedPostId } from '../../redux/slices/friendPageSlice';
 import userDefaultAvatar from '../../assets/img/svg/user_default_icon.svg';
+import LikeItem from '../LikeItem/LikeItem';
 
 const Post: FC<IPostProps> = (props) => {
   const {
@@ -44,6 +45,7 @@ const Post: FC<IPostProps> = (props) => {
   const [postTempText, setPostTempText] = useState('');
   const [commentText, setCommentText] = useState('');
   const [showTextarea, setShowTextarea] = useState(false);
+  const [showLikes, setShowLikes] = useState(false);
 
   const dispatch = useTypedDispatch();
 
@@ -130,6 +132,18 @@ const Post: FC<IPostProps> = (props) => {
   const onCloseFieldButtonClick = () => {
     dispatch(setCommentedPostId({ postId: '' }));
     setCommentText('');
+  };
+
+  const onAddLike = () => {
+    dispatch(addLike(postId));
+  };
+
+  const onShowLikeUsers = () => {
+    setShowLikes(true);
+  };
+
+  const onShowHideUsers = () => {
+    setShowLikes(false);
   };
 
   return (
@@ -231,10 +245,30 @@ const Post: FC<IPostProps> = (props) => {
         )}
       </div>
       <div className={style.post__footer}>
-        <div className={style.post__likes}>
-          <span className={style.post__likesIcon} />
+        <div className={style.post__likesButton}>
+          <button
+            className={style.post__likesIcon}
+            type="button"
+            aria-label="Add like"
+            onClick={onAddLike}
+            onMouseOver={onShowLikeUsers}
+            onMouseOut={onShowHideUsers}
+            onFocus={() => {}}
+            onBlur={() => {}}
+          />
           <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
         </div>
+        {showLikes && (
+          <div className={style.post__likes}>
+            {likes.map((like) => (
+              <LikeItem
+                key={like.id}
+                avatar={like.userAvatar}
+                userFullName={like.userFullName}
+              />
+            ))}
+          </div>
+        )}
         {canComment && (
           <>
             <div className={style.post__comment}>

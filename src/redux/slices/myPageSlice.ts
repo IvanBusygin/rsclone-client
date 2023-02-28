@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState, IPostComments, IPostFromServer } from '../../types/myPage';
 import {
+  addLike,
   deletePersonPost,
   editPersonPost,
   getPersonPosts,
@@ -40,14 +41,25 @@ const myPageSlice = createSlice({
         state.loadingInfo = true;
       })
       .addCase(getPersonPosts.fulfilled, (state, action) => {
-        state.posts = action.payload.map((post: IPostFromServer) => ({
-          id: post._id,
-          text: post.text,
-          date: post.date,
-          likes: structuredClone(post.likes),
-          lastEdit: post.lastEdit,
-          comments: [],
-        }));
+        console.log(action.payload);
+        state.posts = action.payload.map((p: IPostFromServer) => {
+          const post = {
+            id: p._id,
+            text: p.text,
+            date: p.date,
+            likes: p.likes.map((l) => ({
+              id: l._id,
+              postId: l.post,
+              userAvatar: l.user.info.avatar,
+              userFullName: l.user.info.fullName,
+              userId: l.user._id,
+            })),
+            lastEdit: p.lastEdit,
+            comments: [],
+          };
+
+          return post;
+        });
 
         const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
 
@@ -177,6 +189,28 @@ const myPageSlice = createSlice({
         }
 
         state.loadingInfo = false;
+      })
+      .addCase(addLike.fulfilled, (state, action) => {
+        const post = state.posts.find((p) => p.id === action.payload.post);
+
+        if (post) {
+          const {
+            _id: id,
+            post: postId,
+            user: {
+              info: { avatar, fullName },
+              _id: userId,
+            },
+          } = action.payload;
+
+          post.likes.push({
+            id,
+            postId,
+            userAvatar: avatar,
+            userFullName: fullName,
+            userId,
+          });
+        }
       }),
 });
 

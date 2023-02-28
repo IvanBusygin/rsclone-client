@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LS_USER_ID, PERSON_GET_POSTS_URL, PERSON_POST_URL } from '../../utils/constants';
+import {
+  LS_USER_ID,
+  PERSON_GET_POSTS_URL,
+  PERSON_POST_URL,
+  POST_LIKE_URL,
+} from '../../utils/constants';
 import reFetch from '../../utils/reFetch';
 import { fetchRefresh } from '../slices/authSlice';
 
@@ -113,6 +118,35 @@ export const editPersonPost = createAsyncThunk(
       await dispatch(fetchRefresh());
 
       const responseNew = await reFetch(PERSON_POST_URL, 'PATCH', body);
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);
+
+export const addLike = createAsyncThunk(
+  'myPage/addLike',
+  async (postId: string, { rejectWithValue, dispatch }) => {
+    const body = {
+      postId,
+    };
+
+    const response = await reFetch(POST_LIKE_URL, 'POST', body);
+
+    if (response.ok) {
+      return response.json();
+    }
+
+    const res = await response.json();
+
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(POST_LIKE_URL, 'POST', body);
 
       if (responseNew.ok) {
         return responseNew.json();

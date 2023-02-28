@@ -1,8 +1,13 @@
+interface IUserInfo {
+  info: { fullName: string; avatar: string };
+  _id: string;
+}
+
 export interface IPostComments {
   _id: string;
   date: string;
   text: string;
-  user: { info: { fullName: string; avatar: string }; _id: string };
+  user: IUserInfo;
 }
 
 interface IComment {
@@ -18,15 +23,29 @@ export interface IPost {
   id: string;
   text: string;
   date: string;
-  likes: [];
+  likes: IPostLike[];
   comments: IComment[];
   lastEdit?: string;
+}
+
+interface ILikeFromServer {
+  _id: string;
+  post: string;
+  user: IUserInfo;
+}
+
+interface IPostLike {
+  id: string;
+  postId: string;
+  userAvatar: string;
+  userFullName: string;
+  userId: string;
 }
 
 export interface IPostFromServer {
   date: string;
   text: string;
-  likes: string[];
+  likes: ILikeFromServer[];
   user: string;
   comments: string[];
   files: string[];
@@ -53,7 +72,7 @@ export interface IPostProps {
   avatar: string;
   text: string;
   time: string;
-  likes: [];
+  likes: IPostLike[];
   editTime: string | undefined;
   comments: IComment[];
   canEdit: boolean;
@@ -75,4 +94,9 @@ export interface IModalProps {
   isOpen: boolean;
   setModal: (isOpen: boolean) => void;
   message: string;
+}
+
+export interface ILikeItemProps {
+  avatar: string;
+  userFullName: string;
 }

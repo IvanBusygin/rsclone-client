@@ -39,9 +39,12 @@ const editPageSlice = createSlice({
         state.loadingInfo = true;
       })
       .addCase(getPersonInfo.fulfilled, (state, action) => {
+        const data = { ...action.payload };
+        delete data.user;
+
         state.infoData = {
           ...state.infoData,
-          ...action.payload,
+          ...data,
         };
 
         state.loadingInfo = false;

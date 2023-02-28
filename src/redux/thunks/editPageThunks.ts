@@ -5,7 +5,7 @@ import reFetch from '../../utils/reFetch';
 import { fetchRefresh } from '../slices/authSlice';
 
 export const getPersonInfo = createAsyncThunk(
-  'editPage/getUserInfo',
+  'editPage/getPersonInfo',
   async (_, { rejectWithValue, dispatch }) => {
     const response = await reFetch(PERSON_GET_INFO_URL, 'GET');
 
@@ -30,7 +30,7 @@ export const getPersonInfo = createAsyncThunk(
 );
 
 export const postPersonInfo = createAsyncThunk(
-  'editPage/postUserInfo',
+  'editPage/postPersonInfo',
   async (_, { rejectWithValue, dispatch, getState }) => {
     const {
       editPage: { infoData },

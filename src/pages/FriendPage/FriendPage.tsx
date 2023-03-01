@@ -56,6 +56,10 @@ const FriendPage = () => {
         dispatch(removeLikeBySocket({ like }));
       });
     }
+
+    return () => {
+      socket.emit('visit out', { userId: id, visitorId: USER_ID });
+    };
   }, [id, dispatch]);
 
   return (

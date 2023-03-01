@@ -47,6 +47,22 @@ const friendPageSlice = createSlice({
     setDeletingCommentId(state, action) {
       state.deletingCommentId = action.payload.commentId;
     },
+    socketAddPost(state, action) {
+      const { _id: postId, text, date } = action.payload.post;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx === -1) {
+        state.posts.unshift({
+          id: postId,
+          text,
+          date,
+          likes: [],
+          lastEdit: '',
+          comments: [],
+        });
+      }
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -243,6 +259,6 @@ const friendPageSlice = createSlice({
       }),
 });
 
-export const { setCommentedPostId, setDeletingCommentId } = friendPageSlice.actions;
+export const { setCommentedPostId, setDeletingCommentId, socketAddPost } = friendPageSlice.actions;
 
 export default friendPageSlice.reducer;

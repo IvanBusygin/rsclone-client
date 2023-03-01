@@ -6,7 +6,11 @@ import { getFriendInfo, getFriendPosts } from '../../redux/thunks/friendPageThun
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Post from '../../components/Post/Post';
 import useResetAuth from '../../utils/useResetAuth';
-import { addPostBySocket, removePostBySocket } from '../../redux/slices/friendPageSlice';
+import {
+  addLikeBySocket,
+  addPostBySocket,
+  removePostBySocket,
+} from '../../redux/slices/friendPageSlice';
 import socket from '../../utils/socket';
 import { LS_USER_ID } from '../../utils/constants';
 
@@ -39,6 +43,9 @@ const FriendPage = () => {
       });
       socket.on('remove post', (post) => {
         dispatch(removePostBySocket({ post }));
+      });
+      socket.on('add like', (like) => {
+        dispatch(addLikeBySocket({ like }));
       });
     }
   }, [id, dispatch]);

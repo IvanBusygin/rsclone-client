@@ -70,6 +70,32 @@ const friendPageSlice = createSlice({
         state.posts.splice(postIdx, 1);
       }
     },
+    addLikeBySocket(state, action) {
+      const {
+        _id: id,
+        post: postId,
+        user: {
+          _id: userId,
+          info: { avatar, fullName },
+        },
+      } = action.payload.like;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const likeIdx = state.posts[postIdx].likes.findIndex((like) => like.id === id);
+
+        if (likeIdx === -1) {
+          state.posts[postIdx].likes.push({
+            id,
+            postId,
+            userAvatar: avatar,
+            userFullName: fullName,
+            userId,
+          });
+        }
+      }
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -266,7 +292,12 @@ const friendPageSlice = createSlice({
       }),
 });
 
-export const { setCommentedPostId, setDeletingCommentId, addPostBySocket, removePostBySocket } =
-  friendPageSlice.actions;
+export const {
+  setCommentedPostId,
+  setDeletingCommentId,
+  addPostBySocket,
+  removePostBySocket,
+  addLikeBySocket,
+} = friendPageSlice.actions;
 
 export default friendPageSlice.reducer;

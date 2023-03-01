@@ -54,6 +54,13 @@
   }
 }
 
+.sent {
+  font-family: Roboto-Regular, sans-serif;
+  border-radius: $size-border-radius;
+  height: $size-button-height;
+  transition: all 0.2s;
+}
+
 @media (max-width: 550px) {
   .friendCard__avatar {
     width: 5rem;
@@ -62,10 +69,19 @@
   .friendCard__btn {
     width: 10rem;
   }
+
+  .sent {
+    height: 2.5rem;
+  }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .friendCard__container {
     flex-direction: column;
+  }
+
+  .sent {
+    width: 3rem;
+    border-radius: 0.5rem;
   }
 }

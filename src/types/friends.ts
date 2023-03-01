@@ -3,18 +3,21 @@ export interface IFormSearch {
 }
 
 interface IInfo {
-  firstName: string;
   fullName: string;
-  lastName: string;
-  user: string;
   avatar?: string;
+  hometown?: string;
 }
 
-export interface IDataPeople {
+interface IFoundUser {
   info: IInfo;
   _id: string;
   isOnline: boolean;
   username: string;
+}
+
+export interface IFoundPeople {
+  user: IFoundUser;
+  friendStatus: number;
 }
 
 export interface IOutComming {

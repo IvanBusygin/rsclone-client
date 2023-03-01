@@ -8,6 +8,7 @@ import { IFormSearch } from '../../../types/friends';
 import Preloader from '../../Preloader/Preloader';
 import FriendCardFound from '../FriendCards/FriendCardFound';
 import useResetAuth from '../../../utils/useResetAuth';
+import { LS_USER_ID } from '../../../utils/constants';
 
 enum ErrorMsg {
   searchInput = 'Введите строку поиска',
@@ -18,7 +19,7 @@ const SearchFriendsForm = () => {
   const themeClass = isLightTheme ? style.searchForm_light : style.searchForm_dark;
 
   const dispatch = useTypedDispatch();
-  const { loadingSearch, dataPeople } = useTypedSelector(({ friends }) => friends);
+  const { loadingSearch, dataPeoples } = useTypedSelector(({ friends }) => friends);
 
   const resetAuth = useResetAuth();
   useEffect(() => {
@@ -34,6 +35,12 @@ const SearchFriendsForm = () => {
   useEffect(() => {
     setFocus('searchInput');
   }, [setFocus]);
+
+  const ownID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+
+  const dataUsers = dataPeoples.filter((user) => {
+    return user.friendStatus !== 0 && user.user._id !== ownID;
+  });
 
   return (
     <>
@@ -56,9 +63,9 @@ const SearchFriendsForm = () => {
           {loadingSearch ? <Preloader /> : 'Найти'}
         </button>
       </form>
-      {dataPeople.map((human) => (
+      {dataUsers.map((human) => (
         <FriendCardFound
-          key={human._id}
+          key={human.user._id}
           {...human}
         />
       ))}

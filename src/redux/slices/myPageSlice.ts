@@ -35,6 +35,55 @@ const myPageSlice = createSlice({
     resetError(state) {
       state.error = '';
     },
+    addCommentBySocket(state, action) {
+      const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+
+      const {
+        post: { _id: postId },
+        comment: {
+          _id: commentId,
+          date,
+          text,
+          user: {
+            info: { avatar, fullName },
+            _id: userId,
+          },
+        },
+      } = action.payload.comment;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const commentIdx = state.posts[postIdx].comments.findIndex((c) => c.id === commentId);
+
+        if (commentIdx === -1) {
+          state.posts[postIdx].comments.push({
+            id: commentId,
+            date,
+            text,
+            authorAvatar: avatar,
+            authorFullName: fullName,
+            canDelete: USER_ID === userId,
+          });
+        }
+      }
+    },
+    removeCommentBySocket(state, action) {
+      const {
+        post: { _id: postId },
+        comment: { _id: commentId },
+      } = action.payload;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const commentIdx = state.posts[postIdx].comments.findIndex((c) => c.id === commentId);
+
+        if (commentIdx !== -1) {
+          state.posts[postIdx].comments.splice(commentIdx, 1);
+        }
+      }
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -249,6 +298,12 @@ const myPageSlice = createSlice({
       }),
 });
 
-export const { editPost, unEditPost, resetError } = myPageSlice.actions;
+export const {
+  editPost,
+  unEditPost,
+  resetError,
+  addCommentBySocket,
+  removeCommentBySocket,
+} = myPageSlice.actions;
 
 export default myPageSlice.reducer;

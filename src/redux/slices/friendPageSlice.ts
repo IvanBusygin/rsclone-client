@@ -243,7 +243,7 @@ const friendPageSlice = createSlice({
         if (post) {
           const idx = post.comments.findIndex((c) => c.id === action.payload.comment._id);
 
-          if (idx) {
+          if (idx !== -1) {
             post.comments.splice(idx, 1);
           }
         }

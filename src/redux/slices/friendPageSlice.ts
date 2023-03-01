@@ -47,7 +47,7 @@ const friendPageSlice = createSlice({
     setDeletingCommentId(state, action) {
       state.deletingCommentId = action.payload.commentId;
     },
-    socketAddPost(state, action) {
+    addPostBySocket(state, action) {
       const { _id: postId, text, date } = action.payload.post;
 
       const postIdx = state.posts.findIndex((p) => p.id === postId);
@@ -61,6 +61,13 @@ const friendPageSlice = createSlice({
           lastEdit: '',
           comments: [],
         });
+      }
+    },
+    removePostBySocket(state, action) {
+      const postIdx = state.posts.findIndex((p) => p.id === action.payload.post._id);
+
+      if (postIdx !== -1) {
+        state.posts.splice(postIdx, 1);
       }
     },
   },
@@ -259,6 +266,7 @@ const friendPageSlice = createSlice({
       }),
 });
 
-export const { setCommentedPostId, setDeletingCommentId, socketAddPost } = friendPageSlice.actions;
+export const { setCommentedPostId, setDeletingCommentId, addPostBySocket, removePostBySocket } =
+  friendPageSlice.actions;
 
 export default friendPageSlice.reducer;

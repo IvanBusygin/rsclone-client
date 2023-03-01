@@ -21,6 +21,7 @@ const initialState: IUserPageState = {
     favoriteFilms: '',
   },
   loadingInfo: false,
+  friendStatus: undefined,
 };
 
 const userPageSlice = createSlice({
@@ -33,7 +34,8 @@ const userPageSlice = createSlice({
         state.loadingInfo = true;
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
-        state.info = action.payload.info;
+        state.info = action.payload.user.info;
+        state.friendStatus = action.payload.friendStatus;
         state.loadingInfo = false;
       })
       .addCase(getUserInfo.rejected, (state, action) => {

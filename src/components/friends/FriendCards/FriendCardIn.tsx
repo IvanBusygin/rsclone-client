@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import style from './FriendCardFound.scss';
 import { useTypedDispatch, useTypedSelector } from '../../../redux/hooks';
@@ -12,37 +13,40 @@ interface IProps {
 }
 
 const FriendCardFound = ({ data }: IProps) => {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { info, _id } = data.requester;
+  const { requester } = data;
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.friendsPage_light : style.friendsPage_dark;
 
   const dispatch = useTypedDispatch();
-  const { loadingAdd } = useTypedSelector(({ friends }) => friends);
+  const { loadingAccept } = useTypedSelector(({ friends }) => friends);
 
   const [stateLoading, setStateLoading] = useState(false);
 
   useEffect(() => {
-    if (loadingAdd === false) setStateLoading(false);
-  }, [loadingAdd]);
+    if (loadingAccept === false) setStateLoading(false);
+  }, [loadingAccept]);
 
   const addHandler = () => {
     setStateLoading(true);
-    dispatch(fetchAcceptFriend(_id));
+    dispatch(fetchAcceptFriend(requester._id));
   };
 
   return (
-    <div className={classNames(style.friendCard, themeClass)}>
+    <Link
+      to={`/user/${requester._id}`}
+      target="_blank"
+      className={classNames(style.friendCard, themeClass)}
+    >
       <div className={style.friendCard__container}>
         <div className={style.friendCard__avatar}>
           <img
             className={style.friendCard__avatar}
-            src={info.avatar || userDefaultAvatar}
+            src={requester.info.avatar || userDefaultAvatar}
             alt="Avatar"
           />
         </div>
         <div className={style.friendCard__info}>
-          <p className={style.friendCard__name}>{info.fullName}</p>
+          <p className={style.friendCard__name}>{requester.info.fullName}</p>
         </div>
       </div>
       <button
@@ -50,9 +54,9 @@ const FriendCardFound = ({ data }: IProps) => {
         type="button"
         onClick={addHandler}
       >
-        {stateLoading && loadingAdd ? <Preloader /> : 'Принять'}
+        {stateLoading && loadingAccept ? <Preloader /> : 'Принять'}
       </button>
-    </div>
+    </Link>
   );
 };
 

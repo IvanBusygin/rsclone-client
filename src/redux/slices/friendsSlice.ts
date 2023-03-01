@@ -9,7 +9,7 @@ import {
 } from '../../utils/constants';
 import {
   IOutComming,
-  IDataPeople,
+  IFoundPeople,
   IFormSearch,
   IFriendsIn,
   IFriendsOut,
@@ -24,7 +24,7 @@ interface IInitialState {
   loadingCount: boolean;
   loadingAccept: boolean;
   loadingMyFriends: boolean;
-  dataPeople: IDataPeople[];
+  dataPeoples: IFoundPeople[];
   dataOutFriends: IOutComming[];
   dataInFriends: IInComming[];
   dataMyFriends: IDataMyFriends[];
@@ -36,7 +36,7 @@ const initialState: IInitialState = {
   loadingCount: false,
   loadingAccept: false,
   loadingMyFriends: false,
-  dataPeople: [],
+  dataPeoples: [],
   dataOutFriends: [],
   dataInFriends: [],
   dataMyFriends: [],
@@ -52,11 +52,12 @@ const friendsSlice = createSlice({
         state.loadingSearch = true;
       })
       .addCase(fetchSearch.fulfilled, (state, action) => {
-        state.dataPeople = action.payload;
+        console.log('fetchSearch.fulfilled', action.payload);
+        state.dataPeoples = action.payload;
         state.loadingSearch = false;
       })
       .addCase(fetchSearch.rejected, (state, action) => {
-        state.dataPeople = [];
+        state.dataPeoples = [];
         if (action.payload === '401') {
           localStorage.setItem(LS_USER_IS_AUTH, '');
         }
@@ -142,7 +143,7 @@ const friendsSlice = createSlice({
   },
 });
 
-export const fetchSearch = createAsyncThunk<IDataPeople[], IFormSearch, { rejectValue: string }>(
+export const fetchSearch = createAsyncThunk<IFoundPeople[], IFormSearch, { rejectValue: string }>(
   'friends/search',
   async (data, { rejectWithValue, dispatch }) => {
     const response = await funFetch(SEARCH_URL, 'POST', { value: data.searchInput });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import style from './FriendCardFound.scss';
 import { useTypedSelector } from '../../../redux/hooks';
@@ -10,25 +11,29 @@ interface IProps {
 }
 
 const FriendCardFound = ({ data }: IProps) => {
-  const { info } = data.recipient;
+  const { recipient } = data;
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.friendsPage_light : style.friendsPage_dark;
 
   return (
-    <div className={classNames(style.friendCard, themeClass)}>
+    <Link
+      to={`/user/${recipient._id}`}
+      target="_blank"
+      className={classNames(style.friendCard, themeClass)}
+    >
       <div className={style.friendCard__container}>
         <div className={style.friendCard__avatar}>
           <img
             className={style.friendCard__avatar}
-            src={info.avatar || userDefaultAvatar}
+            src={recipient.info.avatar || userDefaultAvatar}
             alt="Avatar"
           />
         </div>
         <div className={style.friendCard__info}>
-          <p className={style.friendCard__name}>{info.fullName}</p>
+          <p className={style.friendCard__name}>{recipient.info.fullName}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

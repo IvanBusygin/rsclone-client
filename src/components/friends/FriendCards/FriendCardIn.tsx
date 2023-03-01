@@ -18,13 +18,13 @@ const FriendCardFound = ({ data }: IProps) => {
   const themeClass = isLightTheme ? style.friendsPage_light : style.friendsPage_dark;
 
   const dispatch = useTypedDispatch();
-  const { loadingAdd } = useTypedSelector(({ friends }) => friends);
+  const { loadingAccept } = useTypedSelector(({ friends }) => friends);
 
   const [stateLoading, setStateLoading] = useState(false);
 
   useEffect(() => {
-    if (loadingAdd === false) setStateLoading(false);
-  }, [loadingAdd]);
+    if (loadingAccept === false) setStateLoading(false);
+  }, [loadingAccept]);
 
   const addHandler = () => {
     setStateLoading(true);
@@ -54,7 +54,7 @@ const FriendCardFound = ({ data }: IProps) => {
         type="button"
         onClick={addHandler}
       >
-        {stateLoading && loadingAdd ? <Preloader /> : 'Принять'}
+        {stateLoading && loadingAccept ? <Preloader /> : 'Принять'}
       </button>
     </Link>
   );

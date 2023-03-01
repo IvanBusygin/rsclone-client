@@ -6,7 +6,6 @@ import { useTypedSelector } from '../../../redux/hooks';
 import { IFoundPeople } from '../../../types/friends';
 import userDefaultAvatar from '../../../assets/img/svg/user_default_icon.svg';
 import ButtonAddToFriend from '../ButtonAddToFriend/ButtonAddToFriend';
-import sent from '../../../assets/img/svg/sent.svg';
 
 const FriendCardFound = (props: IFoundPeople) => {
   const { user, friendStatus } = props;
@@ -31,15 +30,10 @@ const FriendCardFound = (props: IFoundPeople) => {
           <p className={style.friendCard__name}>{user.info.fullName}</p>
         </div>
       </div>
-      {friendStatus !== 1 ? (
-        <ButtonAddToFriend id={user._id} />
-      ) : (
-        <img
-          className={style.sent}
-          src={sent}
-          alt="sent"
-        />
-      )}
+      <ButtonAddToFriend
+        id={user._id}
+        friendStatus={friendStatus}
+      />
     </Link>
   );
 };

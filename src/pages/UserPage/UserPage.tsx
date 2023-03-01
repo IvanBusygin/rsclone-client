@@ -10,7 +10,7 @@ import useResetAuth from '../../utils/useResetAuth';
 
 const UserPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
-  const { info, loadingInfo } = useTypedSelector(({ userPage }) => userPage);
+  const { info, loadingInfo, friendStatus } = useTypedSelector(({ userPage }) => userPage);
 
   const themeClass = isLightTheme ? style.userPage_light : style.userPage_dark;
 
@@ -35,14 +35,29 @@ const UserPage = () => {
         info={info}
         theme={isLightTheme}
       />
+
       <div className={classNames(style.userPage__attention, themeClass)}>
-        <p className={style.userPage__message}>
-          <span className={style.userPage__messageLeft}>Чтобы просматривать посты, </span>
-          <span className={style.userPage__messageRight}>
-            добавьте {`${info.firstName} ${info.lastName}`} в друзья
-          </span>
-        </p>
-        <ButtonAddToFriend id={id || ''} />
+        {friendStatus === 1 ? (
+          <p className={style.userPage__message}>
+            <span className={style.userPage__messageLeft}>Заявка отправлена, </span>
+            <span className={style.userPage__messageRight}>
+              дождитесь когда {`${info.firstName} ${info.lastName}`} примет вашу заявку
+            </span>
+          </p>
+        ) : (
+          <>
+            <p className={style.userPage__message}>
+              <span className={style.userPage__messageLeft}>Чтобы просматривать посты, </span>
+              <span className={style.userPage__messageRight}>
+                добавьте {`${info.firstName} ${info.lastName}`} в друзья
+              </span>
+            </p>
+            <ButtonAddToFriend
+              id={id || ''}
+              friendStatus={friendStatus}
+            />
+          </>
+        )}
       </div>
     </div>
   );

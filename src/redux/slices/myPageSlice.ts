@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState, IPostComments, IPostFromServer } from '../../types/myPage';
 import {
+  addLike,
   deletePersonPost,
   editPersonPost,
   getPersonPosts,
   postPersonPost,
+  removeLike,
 } from '../thunks/myPageThunks';
-import { LS_USER_IS_AUTH } from '../../utils/constants';
+import { LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
 
 const initialState: IMyPageState = {
   posts: [],
@@ -40,21 +42,35 @@ const myPageSlice = createSlice({
         state.loadingInfo = true;
       })
       .addCase(getPersonPosts.fulfilled, (state, action) => {
-        state.posts = action.payload.map((post: IPostFromServer) => ({
-          id: post._id,
-          text: post.text,
-          date: post.date,
-          likes: structuredClone(post.likes),
-          lastEdit: post.lastEdit,
-          comments: [],
-        }));
+        state.posts = action.payload.map((p: IPostFromServer) => {
+          const post = {
+            id: p._id,
+            text: p.text,
+            date: p.date,
+            likes: p.likes.map((l) => ({
+              id: l._id,
+              postId: l.post,
+              userAvatar: l.user.info.avatar,
+              userFullName: l.user.info.fullName,
+              userId: l.user._id,
+            })),
+            lastEdit: p.lastEdit,
+            comments: [],
+          };
+
+          return post;
+        });
+
+        const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
 
         action.payload.forEach((post: { comments: IPostComments[]; _id: string }) => {
           const postComments = post.comments.map((c) => ({
+            id: c._id,
             date: c.date,
             text: c.text,
             authorAvatar: c.user.info.avatar,
             authorFullName: c.user.info.fullName,
+            canDelete: USER_ID === c.user._id,
           }));
 
           const oldPost = state.posts.find((p) => p.id === post._id);
@@ -168,6 +184,63 @@ const myPageSlice = createSlice({
         state.savingPostId = '';
         state.successfullySavedPostId = '';
 
+        if (action.payload === '401') {
+          localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+
+        state.loadingInfo = false;
+      })
+      .addCase(addLike.pending, (state) => {
+        state.loadingInfo = true;
+      })
+      .addCase(addLike.fulfilled, (state, action) => {
+        const post = state.posts.find((p) => p.id === action.payload.post);
+
+        if (post) {
+          const {
+            _id: id,
+            post: postId,
+            user: {
+              info: { avatar, fullName },
+              _id: userId,
+            },
+          } = action.payload;
+
+          post.likes.push({
+            id,
+            postId,
+            userAvatar: avatar,
+            userFullName: fullName,
+            userId,
+          });
+        }
+
+        state.loadingInfo = false;
+      })
+      .addCase(addLike.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+
+        state.loadingInfo = false;
+      })
+      .addCase(removeLike.pending, (state) => {
+        state.loadingInfo = true;
+      })
+      .addCase(removeLike.fulfilled, (state, action) => {
+        const post = state.posts.find((p) => p.id === action.payload.like.post);
+
+        if (post) {
+          const likeIdx = post.likes.findIndex((l) => l.id === action.payload.like._id);
+
+          if (likeIdx !== -1) {
+            post.likes.splice(likeIdx, 1);
+          }
+        }
+
+        state.loadingInfo = false;
+      })
+      .addCase(removeLike.rejected, (state, action) => {
         if (action.payload === '401') {
           localStorage.setItem(LS_USER_IS_AUTH, '');
         }

@@ -2,7 +2,7 @@
 @import '../../styles/mixins';
 
 .comment {
-  padding: $size-padding;
+  padding: $size-padding $size-padding 0.5rem;
   max-width: 67rem;
   font-family: Roboto-Regular, sans-serif;
 
@@ -17,8 +17,8 @@
   }
 
   &__avatar {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     overflow: hidden;
 
@@ -34,11 +34,29 @@
   }
 
   &__author {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   &__time {
     color: $color-nav-count;
+    font-size: 1rem;
+  }
+
+  &__deleteWrapper {
+    width: 1.8rem;
+    height: 1.8rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__deleteButton {
+    width: 100%;
+    height: 100%;
+    font-size: 1.8rem;
+  }
+
+  &__text {
     font-size: 1.2rem;
   }
 
@@ -46,7 +64,8 @@
     background-color: $color-main-light;
 
     .comment__author,
-    .comment__text {
+    .comment__text,
+    .comment__deleteButton {
       color: $color-main-dark;
     }
   }
@@ -55,7 +74,8 @@
     background-color: $color-main-dark;
 
     .comment__author,
-    .comment__text {
+    .comment__text,
+    .comment__deleteButton {
       color: $color-main-light;
     }
   }

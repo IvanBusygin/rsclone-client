@@ -4,14 +4,22 @@ import style from './Post.scss';
 import { IPostProps } from '../../types/myPage';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import getLocaleTimeString from '../../utils/myPage';
-import { deletePersonPost, editPersonPost } from '../../redux/thunks/myPageThunks';
+import {
+  addLike,
+  deletePersonPost,
+  editPersonPost,
+  removeLike,
+} from '../../redux/thunks/myPageThunks';
 import { editPost, unEditPost } from '../../redux/slices/myPageSlice';
 import editIcon from '../../assets/img/svg/settings_icon.svg';
 import saveIcon from '../../assets/img/svg/save-button_icon.svg';
 import Preloader from '../Preloader/Preloader';
 import { postComment } from '../../redux/thunks/friendPageThunk';
 import Comment from '../Comment/Comment';
-import { commentPost } from '../../redux/slices/friendPageSlice';
+import { setCommentedPostId } from '../../redux/slices/friendPageSlice';
+import userDefaultAvatar from '../../assets/img/svg/user_default_icon.svg';
+import LikeItem from '../LikeItem/LikeItem';
+import { LS_USER_ID } from '../../utils/constants';
 
 const Post: FC<IPostProps> = (props) => {
   const {
@@ -34,13 +42,17 @@ const Post: FC<IPostProps> = (props) => {
   const { deletingPostId, editingPostId, savingPostId, successfullySavedPostId } = useTypedSelector(
     ({ myPage }) => myPage,
   );
-  const { commentPostId } = useTypedSelector(({ friendPage }) => friendPage);
+  const { loadingComments, commentPostId, isCommentLoading } = useTypedSelector(
+    ({ friendPage }) => friendPage,
+  );
   const postClass = deletingPostId === postId ? style.post_remove : null;
 
   const [isButtonSave, setIsButtonSave] = useState(false);
   const [postTempText, setPostTempText] = useState('');
   const [commentText, setCommentText] = useState('');
   const [showTextarea, setShowTextarea] = useState(false);
+  const [showLikes, setShowLikes] = useState(false);
+  const [isLikeAdded, setIsLikeAdded] = useState(false);
 
   const dispatch = useTypedDispatch();
 
@@ -80,8 +92,19 @@ const Post: FC<IPostProps> = (props) => {
   useEffect(() => {
     if (commentPostId === postId) {
       setShowTextarea(true);
+    } else {
+      setShowTextarea(false);
     }
   }, [commentPostId, postId]);
+
+  useEffect(() => {
+    const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+    const isLike = likes.some((like) => like.userId === USER_ID);
+
+    if (isLike) {
+      setIsLikeAdded(true);
+    }
+  }, [likes]);
 
   const onDeleteButtonClick = () => {
     dispatch(deletePersonPost(postId));
@@ -109,8 +132,10 @@ const Post: FC<IPostProps> = (props) => {
   };
 
   const onShowTextFieldButtonClick = () => {
+    setCommentText('');
+
     if (!showTextarea) {
-      dispatch(commentPost({ postId }));
+      dispatch(setCommentedPostId({ postId }));
     }
   };
 
@@ -118,9 +143,27 @@ const Post: FC<IPostProps> = (props) => {
     if (commentText) {
       dispatch(postComment({ postId, comment: commentText }));
     }
+  };
 
+  const onCloseFieldButtonClick = () => {
+    dispatch(setCommentedPostId({ postId: '' }));
     setCommentText('');
-    setShowTextarea(false);
+  };
+
+  const onLikeClick = () => {
+    if (!isLikeAdded) {
+      dispatch(addLike(postId));
+    } else {
+      dispatch(removeLike(postId));
+    }
+  };
+
+  const onShowLikeUsers = () => {
+    setShowLikes(true);
+  };
+
+  const onShowHideUsers = () => {
+    setShowLikes(false);
   };
 
   return (
@@ -128,7 +171,7 @@ const Post: FC<IPostProps> = (props) => {
       <header className={style.post__header}>
         <div className={style.post__avatar}>
           <img
-            src={avatar}
+            src={avatar || userDefaultAvatar}
             alt="Avatar"
           />
         </div>
@@ -202,21 +245,50 @@ const Post: FC<IPostProps> = (props) => {
         </div>
       </div>
       <div>
-        {comments.map(({ authorAvatar, date, authorFullName, text: postText }) => (
-          <Comment
-            key={date}
-            avatar={authorAvatar}
-            date={date}
-            fullName={authorFullName}
-            text={postText}
-          />
-        ))}
+        {loadingComments ? (
+          <div className={style.post__preloader}>
+            <Preloader />
+          </div>
+        ) : (
+          comments.map(({ id, authorAvatar, date, authorFullName, text: postText, canDelete }) => (
+            <Comment
+              key={id}
+              id={id}
+              postId={postId}
+              avatar={authorAvatar}
+              date={date}
+              fullName={authorFullName}
+              text={postText}
+              canDelete={canDelete}
+            />
+          ))
+        )}
       </div>
       <div className={style.post__footer}>
-        <div className={style.post__likes}>
-          <span className={style.post__likesIcon} />
+        <div className={style.post__likesButton}>
+          <button
+            className={style.post__likesIcon}
+            type="button"
+            aria-label="Add like"
+            onClick={onLikeClick}
+            onMouseOver={onShowLikeUsers}
+            onMouseOut={onShowHideUsers}
+            onFocus={() => {}}
+            onBlur={() => {}}
+          />
           <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
         </div>
+        {showLikes && likes.length && (
+          <div className={style.post__likes}>
+            {likes.map((like) => (
+              <LikeItem
+                key={like.id}
+                avatar={like.userAvatar}
+                userFullName={like.userFullName}
+              />
+            ))}
+          </div>
+        )}
         {canComment && (
           <>
             <div className={style.post__comment}>
@@ -231,6 +303,7 @@ const Post: FC<IPostProps> = (props) => {
             {showTextarea && (
               <div className={style.post__commentField}>
                 <textarea
+                  className={style.post__commentTextarea}
                   ref={commentRef}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
@@ -240,8 +313,30 @@ const Post: FC<IPostProps> = (props) => {
                   type="button"
                   title="Отправить комментарий"
                   aria-label="Save comment"
+                  disabled={!commentText}
                   onClick={onCommentButtonClick}
-                />
+                >
+                  {isCommentLoading ? (
+                    <Preloader />
+                  ) : (
+                    <span className={style.post__buttonIcon}>
+                      <img
+                        src={saveIcon}
+                        alt="Comment button icon"
+                      />
+                    </span>
+                  )}
+                </button>
+                <button
+                  className={style.post__closeTextarea}
+                  type="button"
+                  title="Закрыть поле ввода"
+                  aria-label="Close"
+                  disabled={isCommentLoading}
+                  onClick={onCloseFieldButtonClick}
+                >
+                  &times;
+                </button>
               </div>
             )}
           </>

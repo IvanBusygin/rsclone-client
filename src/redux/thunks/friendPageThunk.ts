@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { PERSON_GET_POSTS_URL, POST_COMMENT_URL, USER_GET_INFO_URL } from '../../utils/constants';
+import {
+  PERSON_GET_POSTS_URL,
+  POST_COMMENT_URL,
+  POST_LIKE_URL,
+  USER_GET_INFO_URL,
+} from '../../utils/constants';
 import { IFriendPostData } from '../../types/friendPage';
 import reFetch from '../../utils/reFetch';
 import { fetchRefresh } from '../slices/authSlice';
@@ -102,6 +107,64 @@ export const deleteComment = createAsyncThunk(
       await dispatch(fetchRefresh());
 
       const responseNew = await reFetch(POST_COMMENT_URL, 'DELETE', body);
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);
+
+export const addLike = createAsyncThunk(
+  'myPage/addLike',
+  async (postId: string, { rejectWithValue, dispatch }) => {
+    const body = {
+      postId,
+    };
+
+    const response = await reFetch(POST_LIKE_URL, 'POST', body);
+
+    if (response.ok) {
+      return response.json();
+    }
+
+    const res = await response.json();
+
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(POST_LIKE_URL, 'POST', body);
+
+      if (responseNew.ok) {
+        return responseNew.json();
+      }
+    }
+
+    return rejectWithValue(res.code);
+  },
+);
+
+export const removeLike = createAsyncThunk(
+  'myPage/removeLike',
+  async (postId: string, { rejectWithValue, dispatch }) => {
+    const body = {
+      postId,
+    };
+
+    const response = await reFetch(POST_LIKE_URL, 'DELETE', body);
+
+    if (response.ok) {
+      return response.json();
+    }
+
+    const res = await response.json();
+
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+
+      const responseNew = await reFetch(POST_LIKE_URL, 'POST', body);
 
       if (responseNew.ok) {
         return responseNew.json();

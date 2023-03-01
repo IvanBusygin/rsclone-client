@@ -1,5 +1,5 @@
 import { IUserInfo } from './editPage';
-import { IPost } from './myPage';
+import { ILikeFromServer, IPost, IPostComments } from './myPage';
 
 export interface IFriendPageState {
   info: IUserInfo;
@@ -15,4 +15,10 @@ export interface IFriendPageState {
 export interface IFriendPostData {
   postId: string;
   comment: string;
+}
+
+export interface IFriendPost {
+  _id: string;
+  comments: IPostComments[];
+  likes: ILikeFromServer[];
 }

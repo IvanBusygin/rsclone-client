@@ -28,7 +28,7 @@ export interface IPost {
   lastEdit?: string;
 }
 
-interface ILikeFromServer {
+export interface ILikeFromServer {
   _id: string;
   post: string;
   user: IUserInfo;

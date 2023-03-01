@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IFriendPageState } from '../../types/friendPage';
+import { IFriendPageState, IFriendPost } from '../../types/friendPage';
 import {
+  addLike,
   deleteComment,
   getFriendInfo,
   getFriendPosts,
   postComment,
+  removeLike,
 } from '../thunks/friendPageThunk';
 import { IPostComments, IPostFromServer } from '../../types/myPage';
 import { LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
@@ -59,7 +61,7 @@ const friendPageSlice = createSlice({
             id: post._id,
             text: post.text,
             date: post.date,
-            likes: structuredClone(post.likes),
+            likes: [],
             lastEdit: post.lastEdit,
             comments: [],
           }))
@@ -81,7 +83,7 @@ const friendPageSlice = createSlice({
       .addCase(getFriendPosts.fulfilled, (state, action) => {
         const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
 
-        action.payload.forEach((post: { comments: IPostComments[]; _id: string }) => {
+        action.payload.forEach((post: IFriendPost) => {
           const id = post._id;
 
           const postComments = post.comments.map((comment) => ({
@@ -93,10 +95,19 @@ const friendPageSlice = createSlice({
             canDelete: USER_ID === comment.user._id,
           }));
 
+          const postLikes = post.likes.map((like) => ({
+            id: like._id,
+            postId: like.post,
+            userAvatar: like.user.info.avatar,
+            userFullName: like.user.info.fullName,
+            userId: like.user._id,
+          }));
+
           const oldPost = state.posts.find((p) => p.id === id);
 
           if (oldPost) {
             oldPost.comments = postComments;
+            oldPost.likes = postLikes;
           }
 
           state.loadingPost = false;
@@ -171,6 +182,64 @@ const friendPageSlice = createSlice({
       .addCase(deleteComment.rejected, (state) => {
         state.isCommentDeleting = false;
         state.deletingCommentId = '';
+      })
+      .addCase(addLike.pending, (state) => {
+        state.loadingPost = true;
+      })
+      .addCase(addLike.fulfilled, (state, action) => {
+        console.log(action.payload);
+        const post = state.posts.find((p) => p.id === action.payload.post);
+
+        if (post) {
+          const {
+            _id: id,
+            post: postId,
+            user: {
+              info: { avatar, fullName },
+              _id: userId,
+            },
+          } = action.payload;
+
+          post.likes.push({
+            id,
+            postId,
+            userAvatar: avatar,
+            userFullName: fullName,
+            userId,
+          });
+        }
+
+        state.loadingPost = false;
+      })
+      .addCase(addLike.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+
+        state.loadingPost = false;
+      })
+      .addCase(removeLike.pending, (state) => {
+        state.loadingPost = true;
+      })
+      .addCase(removeLike.fulfilled, (state, action) => {
+        const post = state.posts.find((p) => p.id === action.payload.like.post);
+
+        if (post) {
+          const likeIdx = post.likes.findIndex((l) => l.id === action.payload.like._id);
+
+          if (likeIdx !== -1) {
+            post.likes.splice(likeIdx, 1);
+          }
+        }
+
+        state.loadingPost = false;
+      })
+      .addCase(removeLike.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+
+        state.loadingPost = false;
       }),
 });
 

@@ -9,6 +9,7 @@ import useResetAuth from '../../utils/useResetAuth';
 import {
   addLikeBySocket,
   addPostBySocket,
+  removeLikeBySocket,
   removePostBySocket,
 } from '../../redux/slices/friendPageSlice';
 import socket from '../../utils/socket';
@@ -46,6 +47,9 @@ const FriendPage = () => {
       });
       socket.on('add like', (like) => {
         dispatch(addLikeBySocket({ like }));
+      });
+      socket.on('remove like', (like) => {
+        dispatch(removeLikeBySocket({ like }));
       });
     }
   }, [id, dispatch]);

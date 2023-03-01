@@ -96,6 +96,19 @@ const friendPageSlice = createSlice({
         }
       }
     },
+    removeLikeBySocket(state, action) {
+      const { _id: id, post: postId } = action.payload.like;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const likeIdx = state.posts[postIdx].likes.findIndex((like) => like.id === id);
+
+        if (likeIdx !== -1) {
+          state.posts[postIdx].likes.splice(likeIdx, 1);
+        }
+      }
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -298,6 +311,7 @@ export const {
   addPostBySocket,
   removePostBySocket,
   addLikeBySocket,
+  removeLikeBySocket,
 } = friendPageSlice.actions;
 
 export default friendPageSlice.reducer;

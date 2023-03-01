@@ -162,7 +162,7 @@ const Post: FC<IPostProps> = (props) => {
     setShowLikes(true);
   };
 
-  const onShowHideUsers = () => {
+  const onHideLikeUsers = () => {
     setShowLikes(false);
   };
 
@@ -272,13 +272,13 @@ const Post: FC<IPostProps> = (props) => {
             aria-label="Add like"
             onClick={onLikeClick}
             onMouseOver={onShowLikeUsers}
-            onMouseOut={onShowHideUsers}
+            onMouseOut={onHideLikeUsers}
             onFocus={() => {}}
             onBlur={() => {}}
           />
           <span className={style.post__likesCount}>{likes.length ? likes.length : null}</span>
         </div>
-        {showLikes && likes.length && (
+        {showLikes && !!likes.length && (
           <div className={style.post__likes}>
             {likes.map((like) => (
               <LikeItem

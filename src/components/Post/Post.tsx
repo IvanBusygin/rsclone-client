@@ -103,6 +103,8 @@ const Post: FC<IPostProps> = (props) => {
 
     if (isLike) {
       setIsLikeAdded(true);
+    } else {
+      setIsLikeAdded(false);
     }
   }, [likes]);
 

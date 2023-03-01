@@ -63,6 +63,16 @@ const friendPageSlice = createSlice({
         });
       }
     },
+    editPostBySocket(state, action) {
+      const { _id: id, text, lastEdit } = action.payload.post;
+
+      const postIdx = state.posts.findIndex((p) => p.id === id);
+
+      if (postIdx !== -1) {
+        state.posts[postIdx].lastEdit = lastEdit;
+        state.posts[postIdx].text = text;
+      }
+    },
     removePostBySocket(state, action) {
       const postIdx = state.posts.findIndex((p) => p.id === action.payload.post._id);
 
@@ -249,7 +259,6 @@ const friendPageSlice = createSlice({
         state.loadingPost = true;
       })
       .addCase(addLike.fulfilled, (state, action) => {
-        console.log(action.payload);
         const post = state.posts.find((p) => p.id === action.payload.post);
 
         if (post) {
@@ -311,6 +320,7 @@ export const {
   addPostBySocket,
   removePostBySocket,
   addLikeBySocket,
+  editPostBySocket,
   removeLikeBySocket,
 } = friendPageSlice.actions;
 

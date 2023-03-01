@@ -54,9 +54,9 @@ const friendPageSlice = createSlice({
         state.loadingPost = true;
       })
       .addCase(getFriendInfo.fulfilled, (state, action) => {
-        state.info = action.payload.info;
+        state.info = action.payload.user.info;
 
-        state.posts = action.payload.posts
+        state.posts = action.payload.user.posts
           .map((post: IPostFromServer) => ({
             id: post._id,
             text: post.text,

@@ -9,6 +9,7 @@ import {
   LS_USER_IS_AUTH,
   REFRESH_URL,
 } from '../../utils/constants';
+import socket from '../../utils/socket';
 
 interface IInitialState {
   user: IUserData | object;
@@ -51,6 +52,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isAuth = true;
         state.loading = false;
+        socket.emit('login', action.payload.accessToken);
       })
       .addCase(fetchLogin.rejected, (state, action) => {
         localStorage.setItem(LS_USER_IS_AUTH, '');
@@ -61,6 +63,7 @@ const authSlice = createSlice({
 
       .addCase(fetchLogout.fulfilled, () => {
         localStorage.setItem(LS_USER_IS_AUTH, '');
+        socket.emit('logout');
       })
 
       .addCase(fetchRegistration.pending, (state) => {
@@ -83,6 +86,7 @@ const authSlice = createSlice({
         localStorage.setItem(LS_ACCESS_TOKEN, JSON.stringify(action.payload.accessToken));
         state.user = action.payload;
         state.isAuth = true;
+        socket.emit('login', action.payload.accessToken);
       })
       .addCase(fetchRefresh.rejected, (state) => {
         localStorage.setItem(LS_USER_IS_AUTH, '');

@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IMyPageState, IPostComments, IPostFromServer } from '../../types/myPage';
 import {
-  addLike,
   deletePersonPost,
   editPersonPost,
   getPersonPosts,
   postPersonPost,
-  removeLike,
 } from '../thunks/myPageThunks';
 import { LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
 
@@ -81,6 +79,45 @@ const myPageSlice = createSlice({
 
         if (commentIdx !== -1) {
           state.posts[postIdx].comments.splice(commentIdx, 1);
+        }
+      }
+    },
+    addLikeBySocket(state, action) {
+      const {
+        _id: id,
+        post: postId,
+        user: {
+          _id: userId,
+          info: { avatar, fullName },
+        },
+      } = action.payload.like;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const likeIdx = state.posts[postIdx].likes.findIndex((like) => like.id === id);
+
+        if (likeIdx === -1) {
+          state.posts[postIdx].likes.push({
+            id,
+            postId,
+            userAvatar: avatar,
+            userFullName: fullName,
+            userId,
+          });
+        }
+      }
+    },
+    removeLikeBySocket(state, action) {
+      const { _id: id, post: postId } = action.payload.like;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const likeIdx = state.posts[postIdx].likes.findIndex((like) => like.id === id);
+
+        if (likeIdx !== -1) {
+          state.posts[postIdx].likes.splice(likeIdx, 1);
         }
       }
     },
@@ -238,63 +275,6 @@ const myPageSlice = createSlice({
         }
 
         state.loadingInfo = false;
-      })
-      .addCase(addLike.pending, (state) => {
-        state.loadingInfo = true;
-      })
-      .addCase(addLike.fulfilled, (state, action) => {
-        const post = state.posts.find((p) => p.id === action.payload.post);
-
-        if (post) {
-          const {
-            _id: id,
-            post: postId,
-            user: {
-              info: { avatar, fullName },
-              _id: userId,
-            },
-          } = action.payload;
-
-          post.likes.push({
-            id,
-            postId,
-            userAvatar: avatar,
-            userFullName: fullName,
-            userId,
-          });
-        }
-
-        state.loadingInfo = false;
-      })
-      .addCase(addLike.rejected, (state, action) => {
-        if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, '');
-        }
-
-        state.loadingInfo = false;
-      })
-      .addCase(removeLike.pending, (state) => {
-        state.loadingInfo = true;
-      })
-      .addCase(removeLike.fulfilled, (state, action) => {
-        const post = state.posts.find((p) => p.id === action.payload.like.post);
-
-        if (post) {
-          const likeIdx = post.likes.findIndex((l) => l.id === action.payload.like._id);
-
-          if (likeIdx !== -1) {
-            post.likes.splice(likeIdx, 1);
-          }
-        }
-
-        state.loadingInfo = false;
-      })
-      .addCase(removeLike.rejected, (state, action) => {
-        if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, '');
-        }
-
-        state.loadingInfo = false;
       }),
 });
 
@@ -304,6 +284,8 @@ export const {
   resetError,
   addCommentBySocket,
   removeCommentBySocket,
+  addLikeBySocket,
+  removeLikeBySocket,
 } = myPageSlice.actions;
 
 export default myPageSlice.reducer;

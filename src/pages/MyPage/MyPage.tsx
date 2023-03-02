@@ -13,7 +13,9 @@ import useResetAuth from '../../utils/useResetAuth';
 import socket from '../../utils/socket';
 import {
   addCommentBySocket,
+  addLikeBySocket,
   removeCommentBySocket,
+  removeLikeBySocket,
 } from '../../redux/slices/myPageSlice';
 
 const MyPage = () => {
@@ -48,6 +50,12 @@ const MyPage = () => {
     });
     socket.on('remove comment', (comment) => {
       dispatch(removeCommentBySocket(comment));
+    });
+    socket.on('add like', (like) => {
+      dispatch(addLikeBySocket({ like }));
+    });
+    socket.on('remove like', (like) => {
+      dispatch(removeLikeBySocket({ like }));
     });
   }, [dispatch]);
 

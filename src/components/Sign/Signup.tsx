@@ -206,6 +206,9 @@ function Signup() {
           {Boolean(errorMsg) && <p className={style.error__request}> {errorMsg} </p>}
         </div>
       </form>
+      <div className={style.note}>
+        После регистрации подтвердите почту, перейдя по ссылке в отправленном вам письме.
+      </div>
     </div>
   );
 }

@@ -25,7 +25,7 @@ const Nav = () => {
           route="/messenger"
           icon={messengerIcon}
           name="Мессенджер"
-          count={chats.map((chat) => !chat.chatOwner).length}
+          count={chats.reduce((acc, chat) => (!chat.chatOwner ? acc + 1 : acc + 0), 0)}
         />
         <NavItem
           route="/friends"

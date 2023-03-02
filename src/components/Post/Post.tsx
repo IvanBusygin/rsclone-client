@@ -285,7 +285,7 @@ const Post: FC<IPostProps> = (props) => {
             {likes.map((like) => (
               <LikeItem
                 key={like.id}
-                avatar={like.userAvatar}
+                avatar={like.userAvatar || userDefaultAvatar}
                 userFullName={like.userFullName}
               />
             ))}

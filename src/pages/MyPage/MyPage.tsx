@@ -7,7 +7,7 @@ import EditButton from '../../components/EditButton/EditButton';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { getPersonInfo } from '../../redux/thunks/editPageThunks';
 import { getPersonPosts } from '../../redux/thunks/myPageThunks';
-import { fetchFriendIn } from '../../redux/slices/friendsSlice';
+import { fetchFriendIn, fetchMyFriends } from '../../redux/slices/friendsSlice';
 import Modal from '../../components/Modal/Modal';
 import useResetAuth from '../../utils/useResetAuth';
 import socket from '../../utils/socket';
@@ -33,7 +33,7 @@ const MyPage = () => {
   useEffect(() => {
     dispatch(getPersonInfo()).then(() => {
       dispatch(getPersonPosts()).then(() => {
-        dispatch(fetchFriendIn());
+        dispatch(fetchMyFriends()).then(() => dispatch(fetchFriendIn()));
       });
     });
   }, [dispatch]);

@@ -82,6 +82,7 @@ export interface IPostProps {
 export interface IFriendProps {
   image: string;
   name: string;
+  friendId: string;
 }
 
 export interface ITextFieldProps {

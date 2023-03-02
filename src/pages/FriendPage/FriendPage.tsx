@@ -6,6 +6,15 @@ import { getFriendInfo, getFriendPosts } from '../../redux/thunks/friendPageThun
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Post from '../../components/Post/Post';
 import useResetAuth from '../../utils/useResetAuth';
+import {
+  addLikeBySocket,
+  addPostBySocket,
+  editPostBySocket,
+  removeLikeBySocket,
+  removePostBySocket,
+} from '../../redux/slices/friendPageSlice';
+import socket from '../../utils/socket';
+import { LS_USER_ID } from '../../utils/constants';
 
 const FriendPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -24,6 +33,33 @@ const FriendPage = () => {
       dispatch(getFriendInfo(id));
       dispatch(getFriendPosts(id));
     }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+
+    if (id) {
+      socket.emit('visit in', { userId: id, visitorId: USER_ID });
+      socket.on('add post', (post) => {
+        dispatch(addPostBySocket({ post }));
+      });
+      socket.on('edit post', (post) => {
+        dispatch(editPostBySocket({ post }));
+      });
+      socket.on('remove post', (post) => {
+        dispatch(removePostBySocket({ post }));
+      });
+      socket.on('add like', (like) => {
+        dispatch(addLikeBySocket({ like }));
+      });
+      socket.on('remove like', (like) => {
+        dispatch(removeLikeBySocket({ like }));
+      });
+    }
+
+    return () => {
+      socket.emit('visit out', { userId: id, visitorId: USER_ID });
+    };
   }, [id, dispatch]);
 
   return (

@@ -103,6 +103,8 @@ const Post: FC<IPostProps> = (props) => {
 
     if (isLike) {
       setIsLikeAdded(true);
+    } else {
+      setIsLikeAdded(false);
     }
   }, [likes]);
 
@@ -283,7 +285,7 @@ const Post: FC<IPostProps> = (props) => {
             {likes.map((like) => (
               <LikeItem
                 key={like.id}
-                avatar={like.userAvatar}
+                avatar={like.userAvatar || userDefaultAvatar}
                 userFullName={like.userFullName}
               />
             ))}

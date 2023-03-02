@@ -10,6 +10,13 @@ import { getPersonPosts } from '../../redux/thunks/myPageThunks';
 import { fetchFriendIn } from '../../redux/slices/friendsSlice';
 import Modal from '../../components/Modal/Modal';
 import useResetAuth from '../../utils/useResetAuth';
+import socket from '../../utils/socket';
+import {
+  addCommentBySocket,
+  addLikeBySocket,
+  removeCommentBySocket,
+  removeLikeBySocket,
+} from '../../redux/slices/myPageSlice';
 
 const MyPage = () => {
   const { error, loadingInfo } = useTypedSelector(({ myPage }) => myPage);
@@ -36,6 +43,21 @@ const MyPage = () => {
       setModal(true);
     }
   }, [error]);
+
+  useEffect(() => {
+    socket.on('add comment', (comment) => {
+      dispatch(addCommentBySocket({ comment }));
+    });
+    socket.on('remove comment', (comment) => {
+      dispatch(removeCommentBySocket(comment));
+    });
+    socket.on('add like', (like) => {
+      dispatch(addLikeBySocket({ like }));
+    });
+    socket.on('remove like', (like) => {
+      dispatch(removeLikeBySocket({ like }));
+    });
+  }, [dispatch]);
 
   return (
     <div className={style.myPage}>

@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IFriendPageState, IFriendPost } from '../../types/friendPage';
 import {
-  addLike,
   deleteComment,
   getFriendInfo,
   getFriendPosts,
   postComment,
-  removeLike,
 } from '../thunks/friendPageThunk';
 import { IPostComments, IPostFromServer } from '../../types/myPage';
 import { LS_USER_ID, LS_USER_IS_AUTH } from '../../utils/constants';
@@ -47,6 +45,78 @@ const friendPageSlice = createSlice({
     setDeletingCommentId(state, action) {
       state.deletingCommentId = action.payload.commentId;
     },
+    addPostBySocket(state, action) {
+      const { _id: postId, text, date } = action.payload.post;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx === -1) {
+        state.posts.unshift({
+          id: postId,
+          text,
+          date,
+          likes: [],
+          lastEdit: '',
+          comments: [],
+        });
+      }
+    },
+    editPostBySocket(state, action) {
+      const { _id: id, text, lastEdit } = action.payload.post;
+
+      const postIdx = state.posts.findIndex((p) => p.id === id);
+
+      if (postIdx !== -1) {
+        state.posts[postIdx].lastEdit = lastEdit;
+        state.posts[postIdx].text = text;
+      }
+    },
+    removePostBySocket(state, action) {
+      const postIdx = state.posts.findIndex((p) => p.id === action.payload.post._id);
+
+      if (postIdx !== -1) {
+        state.posts.splice(postIdx, 1);
+      }
+    },
+    addLikeBySocket(state, action) {
+      const {
+        _id: id,
+        post: postId,
+        user: {
+          _id: userId,
+          info: { avatar, fullName },
+        },
+      } = action.payload.like;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const likeIdx = state.posts[postIdx].likes.findIndex((like) => like.id === id);
+
+        if (likeIdx === -1) {
+          state.posts[postIdx].likes.push({
+            id,
+            postId,
+            userAvatar: avatar,
+            userFullName: fullName,
+            userId,
+          });
+        }
+      }
+    },
+    removeLikeBySocket(state, action) {
+      const { _id: id, post: postId } = action.payload.like;
+
+      const postIdx = state.posts.findIndex((p) => p.id === postId);
+
+      if (postIdx !== -1) {
+        const likeIdx = state.posts[postIdx].likes.findIndex((like) => like.id === id);
+
+        if (likeIdx !== -1) {
+          state.posts[postIdx].likes.splice(likeIdx, 1);
+        }
+      }
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -54,9 +124,9 @@ const friendPageSlice = createSlice({
         state.loadingPost = true;
       })
       .addCase(getFriendInfo.fulfilled, (state, action) => {
-        state.info = action.payload.info;
+        state.info = action.payload.user.info;
 
-        state.posts = action.payload.posts
+        state.posts = action.payload.user.posts
           .map((post: IPostFromServer) => ({
             id: post._id,
             text: post.text,
@@ -171,7 +241,7 @@ const friendPageSlice = createSlice({
         if (post) {
           const idx = post.comments.findIndex((c) => c.id === action.payload.comment._id);
 
-          if (idx) {
+          if (idx !== -1) {
             post.comments.splice(idx, 1);
           }
         }
@@ -182,67 +252,17 @@ const friendPageSlice = createSlice({
       .addCase(deleteComment.rejected, (state) => {
         state.isCommentDeleting = false;
         state.deletingCommentId = '';
-      })
-      .addCase(addLike.pending, (state) => {
-        state.loadingPost = true;
-      })
-      .addCase(addLike.fulfilled, (state, action) => {
-        console.log(action.payload);
-        const post = state.posts.find((p) => p.id === action.payload.post);
-
-        if (post) {
-          const {
-            _id: id,
-            post: postId,
-            user: {
-              info: { avatar, fullName },
-              _id: userId,
-            },
-          } = action.payload;
-
-          post.likes.push({
-            id,
-            postId,
-            userAvatar: avatar,
-            userFullName: fullName,
-            userId,
-          });
-        }
-
-        state.loadingPost = false;
-      })
-      .addCase(addLike.rejected, (state, action) => {
-        if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, '');
-        }
-
-        state.loadingPost = false;
-      })
-      .addCase(removeLike.pending, (state) => {
-        state.loadingPost = true;
-      })
-      .addCase(removeLike.fulfilled, (state, action) => {
-        const post = state.posts.find((p) => p.id === action.payload.like.post);
-
-        if (post) {
-          const likeIdx = post.likes.findIndex((l) => l.id === action.payload.like._id);
-
-          if (likeIdx !== -1) {
-            post.likes.splice(likeIdx, 1);
-          }
-        }
-
-        state.loadingPost = false;
-      })
-      .addCase(removeLike.rejected, (state, action) => {
-        if (action.payload === '401') {
-          localStorage.setItem(LS_USER_IS_AUTH, '');
-        }
-
-        state.loadingPost = false;
       }),
 });
 
-export const { setCommentedPostId, setDeletingCommentId } = friendPageSlice.actions;
+export const {
+  setCommentedPostId,
+  setDeletingCommentId,
+  addPostBySocket,
+  removePostBySocket,
+  addLikeBySocket,
+  editPostBySocket,
+  removeLikeBySocket,
+} = friendPageSlice.actions;
 
 export default friendPageSlice.reducer;

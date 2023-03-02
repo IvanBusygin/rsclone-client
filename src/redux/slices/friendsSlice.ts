@@ -20,8 +20,9 @@ import { fetchRefresh } from './authSlice';
 
 interface IInitialState {
   loadingSearch: boolean;
-  loadingAdd: boolean;
   loadingCount: boolean;
+  loadingAdd: boolean;
+  loadingDelete: boolean;
   loadingAccept: boolean;
   loadingMyFriends: boolean;
   dataPeoples: IFoundPeople[];
@@ -32,8 +33,9 @@ interface IInitialState {
 
 const initialState: IInitialState = {
   loadingSearch: false,
-  loadingAdd: false,
   loadingCount: false,
+  loadingAdd: false,
+  loadingDelete: false,
   loadingAccept: false,
   loadingMyFriends: false,
   dataPeoples: [],
@@ -52,7 +54,6 @@ const friendsSlice = createSlice({
         state.loadingSearch = true;
       })
       .addCase(fetchSearch.fulfilled, (state, action) => {
-        console.log('fetchSearch.fulfilled', action.payload);
         state.dataPeoples = action.payload;
         state.loadingSearch = false;
       })
@@ -116,6 +117,19 @@ const friendsSlice = createSlice({
           localStorage.setItem(LS_USER_IS_AUTH, '');
         }
         state.loadingAccept = false;
+      })
+
+      .addCase(fetchDeleteFriend.pending, (state) => {
+        state.loadingDelete = true;
+      })
+      .addCase(fetchDeleteFriend.fulfilled, (state) => {
+        state.loadingDelete = false;
+      })
+      .addCase(fetchDeleteFriend.rejected, (state, action) => {
+        if (action.payload === '401') {
+          localStorage.setItem(LS_USER_IS_AUTH, '');
+        }
+        state.loadingDelete = false;
       })
 
       .addCase(fetchMyFriends.pending, (state) => {
@@ -182,6 +196,21 @@ export const fetchAcceptFriend = createAsyncThunk<string, string>(
     if (res.code === 401) {
       await dispatch(fetchRefresh());
       const responseNew = await funFetch(FRIENDS_URL, 'PUT', { friendId: str });
+      if (responseNew.ok) return responseNew.json();
+    }
+    return rejectWithValue(res.code);
+  },
+);
+
+export const fetchDeleteFriend = createAsyncThunk<string, string>(
+  'friends/delete',
+  async (str, { rejectWithValue, dispatch }) => {
+    const response = await funFetch(FRIENDS_URL, 'DELETE', { friendId: str });
+    if (response.ok) return response.json();
+    const res = await response.json();
+    if (res.code === 401) {
+      await dispatch(fetchRefresh());
+      const responseNew = await funFetch(FRIENDS_URL, 'DELETE', { friendId: str });
       if (responseNew.ok) return responseNew.json();
     }
     return rejectWithValue(res.code);

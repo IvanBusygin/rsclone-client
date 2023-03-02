@@ -202,7 +202,9 @@ function Signup() {
           {loading ? <Preloader /> : 'Зарегистрироваться'}
         </button>
 
-        {Boolean(errorMsg) && <p className={style.error__request}> {errorMsg} </p>}
+        <div className={style.error}>
+          {Boolean(errorMsg) && <p className={style.error__request}> {errorMsg} </p>}
+        </div>
       </form>
     </div>
   );

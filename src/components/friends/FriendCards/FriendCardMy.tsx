@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import style from './FriendCardFound.scss';
+import style from './FriendCard.scss';
 import { useTypedSelector } from '../../../redux/hooks';
 import { IDataMyFriends } from '../../../types/friends';
 import userDefaultAvatar from '../../../assets/img/svg/user_default_icon.svg';
+import ButtonAddToFriend from '../ButtonAddToFriend/ButtonAddToFriend';
 
 interface IProps {
   friendId: string;
   data: IDataMyFriends;
 }
 
-const FriendCardFound = (props: IProps) => {
+const FriendCardMy = (props: IProps) => {
   const {
     data: { info },
     friendId,
@@ -20,12 +21,12 @@ const FriendCardFound = (props: IProps) => {
   const themeClass = isLightTheme ? style.friendsPage_light : style.friendsPage_dark;
 
   return (
-    <Link
-      to={`/friend/${friendId}`}
-      target="_blank"
-      className={classNames(style.friendCard, themeClass)}
-    >
-      <div className={style.friendCard__container}>
+    <div className={classNames(style.friendCard, themeClass)}>
+      <Link
+        to={`/friend/${friendId}`}
+        target="_blank"
+        className={style.friendCard__container}
+      >
         <div className={style.friendCard__avatar}>
           <img
             className={style.friendCard__avatar}
@@ -36,9 +37,16 @@ const FriendCardFound = (props: IProps) => {
         <div className={style.friendCard__info}>
           <p className={style.friendCard__name}>{info.fullName}</p>
         </div>
+      </Link>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+      <div onClick={(e) => e.stopPropagation()}>
+        <ButtonAddToFriend
+          id={friendId}
+          friendStatus={0}
+        />
       </div>
-    </Link>
+    </div>
   );
 };
 
-export default FriendCardFound;
+export default FriendCardMy;

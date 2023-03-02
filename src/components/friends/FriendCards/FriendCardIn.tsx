@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import style from './FriendCardFound.scss';
+import style from './FriendCard.scss';
 import { useTypedDispatch, useTypedSelector } from '../../../redux/hooks';
 import { IInComming } from '../../../types/friends';
-import { fetchAcceptFriend } from '../../../redux/slices/friendsSlice';
+import { fetchAcceptFriend, fetchFriendIn } from '../../../redux/slices/friendsSlice';
 import userDefaultAvatar from '../../../assets/img/svg/user_default_icon.svg';
 import Preloader from '../../Preloader/Preloader';
 
@@ -12,7 +12,7 @@ interface IProps {
   data: IInComming;
 }
 
-const FriendCardFound = ({ data }: IProps) => {
+const FriendCardIn = ({ data }: IProps) => {
   const { requester } = data;
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.friendsPage_light : style.friendsPage_dark;
@@ -26,18 +26,18 @@ const FriendCardFound = ({ data }: IProps) => {
     if (loadingAccept === false) setStateLoading(false);
   }, [loadingAccept]);
 
-  const addHandler = () => {
+  const acceptHandler = () => {
     setStateLoading(true);
-    dispatch(fetchAcceptFriend(requester._id));
+    dispatch(fetchAcceptFriend(requester._id)).then(() => dispatch(fetchFriendIn()));
   };
 
   return (
-    <Link
-      to={`/user/${requester._id}`}
-      target="_blank"
-      className={classNames(style.friendCard, themeClass)}
-    >
-      <div className={style.friendCard__container}>
+    <div className={classNames(style.friendCard, themeClass)}>
+      <Link
+        to={`/user/${requester._id}`}
+        target="_blank"
+        className={style.friendCard__container}
+      >
         <div className={style.friendCard__avatar}>
           <img
             className={style.friendCard__avatar}
@@ -48,16 +48,16 @@ const FriendCardFound = ({ data }: IProps) => {
         <div className={style.friendCard__info}>
           <p className={style.friendCard__name}>{requester.info.fullName}</p>
         </div>
-      </div>
+      </Link>
       <button
         className={style.friendCard__btn}
         type="button"
-        onClick={addHandler}
+        onClick={acceptHandler}
       >
         {stateLoading && loadingAccept ? <Preloader /> : 'Принять'}
       </button>
-    </Link>
+    </div>
   );
 };
 
-export default FriendCardFound;
+export default FriendCardIn;

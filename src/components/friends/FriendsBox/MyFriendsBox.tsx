@@ -29,7 +29,7 @@ const InboxFriends = () => {
 
   return (
     <div>
-      {loadingMyFriends ? (
+      {loadingMyFriends && dataMyFriends.length === 0 ? (
         <div className={style.preloader}>
           <Preloader />
         </div>

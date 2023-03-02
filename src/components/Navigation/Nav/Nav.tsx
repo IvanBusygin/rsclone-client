@@ -8,7 +8,7 @@ import friendsIcon from '../../../assets/img/svg/friends_icon.svg';
 import NavItem from '../NavItem/NavItem';
 
 const Nav = () => {
-  const { isLightTheme } = useTypedSelector(({ common }) => common);
+  const { isLightTheme, chats } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.navigation_light : style.navigation_dark;
 
   const { dataInFriends } = useTypedSelector(({ friends }) => friends);
@@ -25,7 +25,7 @@ const Nav = () => {
           route="/messenger"
           icon={messengerIcon}
           name="Мессенджер"
-          count={5}
+          count={chats.map((chat) => !chat.chatOwner).length}
         />
         <NavItem
           route="/friends"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import LayoutMain from './components/Layouts/LayoutMain';
 import LayoutLogin from './components/Layouts/LayoutLogin';
@@ -13,8 +13,19 @@ import MessengerPage from './pages/MessengerPage/MessengerPage';
 import MyFriendsBox from './components/friends/FriendsBox/MyFriendsBox';
 import UserPage from './pages/UserPage/UserPage';
 import FriendPage from './pages/FriendPage/FriendPage';
+import socket from './utils/socket';
+import { useTypedDispatch } from './redux/hooks';
+import { addChat } from './redux/slices/commonSlice';
 
 function App() {
+  const dispatch = useTypedDispatch();
+
+  useEffect(() => {
+    socket.on('create chat', (chatDocument) => {
+      dispatch(addChat(chatDocument));
+    });
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route

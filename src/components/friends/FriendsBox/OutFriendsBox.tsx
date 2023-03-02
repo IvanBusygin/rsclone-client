@@ -28,7 +28,7 @@ const OutFriendsBox = () => {
 
   return (
     <div>
-      {loadingCount ? (
+      {loadingCount && friendsOut.length === 0 ? (
         <div className={style.preloader}>
           <Preloader />
         </div>

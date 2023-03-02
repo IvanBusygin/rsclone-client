@@ -69,22 +69,23 @@ const FriendPage = () => {
         theme={isLightTheme}
       />
       <div className={style.friendPage__posts}>
-        {posts.map((post) => (
-          <Post
-            key={post.id}
-            postId={post.id}
-            firstName={info.firstName}
-            lastName={info.lastName}
-            avatar={info.avatar}
-            text={post.text}
-            time={post.date}
-            editTime={post.lastEdit}
-            likes={post.likes}
-            comments={post.comments}
-            canEdit={false}
-            canComment
-          />
-        ))}
+        {posts &&
+          posts.map((post) => (
+            <Post
+              key={post.id}
+              postId={post.id}
+              firstName={info.firstName}
+              lastName={info.lastName}
+              avatar={info.avatar}
+              text={post.text}
+              time={post.date}
+              editTime={post.lastEdit}
+              likes={post.likes}
+              comments={post.comments}
+              canEdit={false}
+              canComment
+            />
+          ))}
       </div>
     </div>
   );

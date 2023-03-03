@@ -33,8 +33,8 @@ const MessengerFriendsList: FC<IMessengerFriendsListProps> = (props) => {
             <div
               key={option._id}
               className={style.friendList__item}
-              onClick={() => onOptionClick()}
-              onKeyDown={() => onOptionClick()}
+              onClick={() => onOptionClick(option._id)}
+              onKeyDown={() => {}}
             >
               {option.info.fullName}
             </div>

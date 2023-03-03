@@ -4,11 +4,14 @@ import style from './MessengerPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { fetchMyFriends } from '../../redux/slices/friendsSlice';
 import MessengerFriendsList from '../../components/MessengerFriendsList/MessengerFriendsList';
+import socket from '../../utils/socket';
+import { createChat } from '../../redux/thunks/messengerThunks';
 
 const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.messenger_light : style.messenger_dark;
   const { dataMyFriends } = useTypedSelector(({ friends }) => friends);
+  console.log(dataMyFriends);
 
   const dispatch = useTypedDispatch();
 
@@ -16,7 +19,15 @@ const MessengerPage = () => {
     dispatch(fetchMyFriends());
   }, [dispatch]);
 
-  const onFriendClick = () => {};
+  useEffect(() => {
+    socket.on('chat message on', (chatData) => {
+      console.log(chatData);
+    });
+  }, [dispatch]);
+
+  const onFriendClick = (friendId: string) => {
+    dispatch(createChat(friendId));
+  };
 
   return (
     <div className={classNames(style.messenger, themeClass)}>

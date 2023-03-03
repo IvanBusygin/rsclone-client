@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --node-env=development",
+    "start1": "webpack serve --node-env=development",
+    "start2": "webpack serve --node-env=development",
     "build": "webpack --node-env=production",
     "prettier": "npx prettier --write ./src/**/*"
   },

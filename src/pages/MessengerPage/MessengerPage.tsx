@@ -5,7 +5,7 @@ import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { fetchMyFriends } from '../../redux/slices/friendsSlice';
 import MessengerFriendsList from '../../components/MessengerFriendsList/MessengerFriendsList';
 import socket from '../../utils/socket';
-import { createChat } from '../../redux/thunks/messengerThunks';
+import { createChat, getChats } from '../../redux/thunks/messengerThunks';
 
 const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -17,6 +17,7 @@ const MessengerPage = () => {
 
   useEffect(() => {
     dispatch(fetchMyFriends());
+    dispatch(getChats());
   }, [dispatch]);
 
   useEffect(() => {

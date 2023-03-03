@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import style from './MessengerPage.scss';
-import { useTypedSelector } from '../../redux/hooks';
-import FriendCard from '../../components/FriendCard/FriendCard';
+import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
+import { fetchMyFriends } from '../../redux/slices/friendsSlice';
+import MessengerFriendsList from '../../components/MessengerFriendsList/MessengerFriendsList';
 
 const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.messenger_light : style.messenger_dark;
+  const { dataMyFriends } = useTypedSelector(({ friends }) => friends);
+
+  const dispatch = useTypedDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMyFriends());
+  }, [dispatch]);
+
+  const onFriendClick = () => {};
 
   return (
     <div className={classNames(style.messenger, themeClass)}>
       <div className={style.messenger__friends}>
-        <FriendCard />
-        <FriendCard />
-        <FriendCard />
-        <FriendCard />
-        <FriendCard />
+        <MessengerFriendsList
+          options={dataMyFriends}
+          onOptionClick={onFriendClick}
+        />
       </div>
       <div className={style.messenger__chat}>
         <div className={style.messenger__chatMessages}>

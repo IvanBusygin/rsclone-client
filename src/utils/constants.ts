@@ -15,7 +15,7 @@ export const IN_FRIEND_URL = `${SERVER_URL}/user/friends/incomming`;
 export const OUT_FRIEND_URL = `${SERVER_URL}/user/friends/outcomming`;
 export const POST_COMMENT_URL = `${SERVER_URL}/posts/comments`;
 export const POST_LIKE_URL = `${SERVER_URL}/posts/likes`;
-export const CREATE_CHAT_URL = `${SERVER_URL}/chats`;
+export const CHATS_URL = `${SERVER_URL}/chats`;
 
 export const MAX_SIZE_FILE = 1048576;
 export const MIN_LENGTH_NAME = 2;

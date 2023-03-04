@@ -5,13 +5,17 @@ import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { fetchMyFriends } from '../../redux/slices/friendsSlice';
 import MessengerFriendsList from '../../components/MessengerFriendsList/MessengerFriendsList';
 import socket from '../../utils/socket';
-import { createChat, getChats } from '../../redux/thunks/messengerThunks';
+import { createChat, getChat, getChats } from '../../redux/thunks/messengerThunks';
+import { LS_USER_ID } from '../../utils/constants';
+import isExistChat from '../../utils/messenger';
 
 const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.messenger_light : style.messenger_dark;
   const { dataMyFriends } = useTypedSelector(({ friends }) => friends);
-  console.log(dataMyFriends);
+  const { chats, currentChat } = useTypedSelector(({ messenger }) => messenger);
+  console.log(chats);
+  console.log(currentChat);
 
   const dispatch = useTypedDispatch();
 
@@ -27,7 +31,14 @@ const MessengerPage = () => {
   }, [dispatch]);
 
   const onFriendClick = (friendId: string) => {
-    dispatch(createChat(friendId));
+    const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+    const existChatId = isExistChat(USER_ID, friendId, chats);
+
+    if (existChatId) {
+      dispatch(getChat(existChatId));
+    } else {
+      dispatch(createChat(friendId));
+    }
   };
 
   return (

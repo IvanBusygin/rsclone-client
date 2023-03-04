@@ -9,7 +9,7 @@
   gap: $size-gap;
 
   &__friends {
-    max-width: 25rem;
+    width: 20rem;
   }
 
   &__chat {
@@ -83,7 +83,6 @@
     flex-direction: column;
 
     &__friends {
-      max-width: 18rem;
       display: flex;
     }
 

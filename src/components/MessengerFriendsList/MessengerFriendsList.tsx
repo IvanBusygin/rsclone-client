@@ -13,6 +13,18 @@ const MessengerFriendsList: FC<IMessengerFriendsListProps> = (props) => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.friendList_light : style.friendList_dark;
 
+  const [selectedName, setSelectedName] = useState('Выберите диалог');
+
+  const onClick = (id: string) => {
+    onOptionClick(id);
+
+    const friend = options.find((option) => option._id === id);
+
+    if (friend) {
+      setSelectedName(friend.info.fullName);
+    }
+  };
+
   return (
     <div
       className={classNames(style.friendList, themeClass)}
@@ -20,7 +32,7 @@ const MessengerFriendsList: FC<IMessengerFriendsListProps> = (props) => {
       onKeyDown={() => {}}
     >
       <div className={style.friendList__selectedItem}>
-        <span>Выберите диалог</span>
+        <span>{selectedName}</span>
         {isActive ? (
           <ArrowDropUpIcon style={{ fontSize: 'large' }} />
         ) : (
@@ -33,7 +45,7 @@ const MessengerFriendsList: FC<IMessengerFriendsListProps> = (props) => {
             <div
               key={option._id}
               className={style.friendList__item}
-              onClick={() => onOptionClick(option._id)}
+              onClick={() => onClick(option._id)}
               onKeyDown={() => {}}
             >
               {option.info.fullName}

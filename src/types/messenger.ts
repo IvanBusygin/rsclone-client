@@ -9,6 +9,7 @@ export interface IMessengerState {
   chats: IChat[];
   currentChat: ICurrentChat | null;
   loadingData: boolean;
+  isMessageLoading: boolean;
 }
 
 export interface IChatMemberFromServer {

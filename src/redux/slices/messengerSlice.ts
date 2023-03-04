@@ -12,6 +12,7 @@ const initialState: IMessengerState = {
   chats: [],
   currentChat: null,
   loadingData: false,
+  isMessageLoading: false,
 };
 
 const messengerSlice = createSlice({
@@ -26,6 +27,12 @@ const messengerSlice = createSlice({
           message: action.payload.message,
         });
       }
+    },
+    showPreloader(state) {
+      state.isMessageLoading = true;
+    },
+    hidePreloader(state) {
+      state.isMessageLoading = false;
     },
   },
   extraReducers: (builder) =>
@@ -119,6 +126,6 @@ const messengerSlice = createSlice({
       }),
 });
 
-export const { addMessageToCurrentChat } = messengerSlice.actions;
+export const { addMessageToCurrentChat, showPreloader, hidePreloader } = messengerSlice.actions;
 
 export default messengerSlice.reducer;

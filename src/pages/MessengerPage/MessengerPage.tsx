@@ -8,13 +8,19 @@ import socket from '../../utils/socket';
 import { createChat, getChat, getChats } from '../../redux/thunks/messengerThunks';
 import { LS_USER_ID } from '../../utils/constants';
 import isExistChat from '../../utils/messenger';
-import { addMessageToCurrentChat } from '../../redux/slices/messengerSlice';
+import {
+  addMessageToCurrentChat,
+  hidePreloader,
+  showPreloader,
+} from '../../redux/slices/messengerSlice';
+import Preloader from '../../components/Preloader/Preloader';
+import sendButtonIcon from '../../assets/img/svg/send-button_icon.svg';
 
 const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.messenger_light : style.messenger_dark;
   const { dataMyFriends } = useTypedSelector(({ friends }) => friends);
-  const { chats, currentChat } = useTypedSelector(({ messenger }) => messenger);
+  const { chats, currentChat, isMessageLoading } = useTypedSelector(({ messenger }) => messenger);
   console.log(chats);
   console.log(currentChat);
 
@@ -30,6 +36,7 @@ const MessengerPage = () => {
   useEffect(() => {
     socket.on('chat message on', (chatData) => {
       dispatch(addMessageToCurrentChat(chatData));
+      dispatch(hidePreloader());
     });
   }, [dispatch]);
 
@@ -48,6 +55,7 @@ const MessengerPage = () => {
     if (currentChat) {
       const data = { chatId: currentChat.id, message: messageText };
       socket.emit('chat message emit', data);
+      dispatch(showPreloader());
     }
 
     setMessageText('');
@@ -77,8 +85,20 @@ const MessengerPage = () => {
             className={style.messenger__button}
             type="button"
             aria-label="Send post"
+            disabled={isMessageLoading}
             onClick={onSendMessage}
-          />
+          >
+            {isMessageLoading ? (
+              <Preloader />
+            ) : (
+              <span className={style.messenger__buttonIcon}>
+                <img
+                  src={sendButtonIcon}
+                  alt="Send button icon"
+                />
+              </span>
+            )}
+          </button>
         </div>
       </div>
     </div>

@@ -44,11 +44,27 @@
     width: 2.4rem;
     height: 2.4rem;
     @extend %BgImage;
-    background-image: url('../../assets/img/svg/send-button_icon.svg');
     position: absolute;
     top: 50%;
     right: $size-padding;
     transform: translateY(-50%);
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+  }
+
+  &__buttonIcon {
+    width: 70%;
+    height: 70%;
+    display: block;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
   &_light {

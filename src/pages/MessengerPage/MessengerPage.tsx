@@ -51,8 +51,7 @@ const MessengerPage = () => {
       </div>
       <div className={style.messenger__chat}>
         <div className={style.messenger__chatMessages}>
-          <p>Привет</p>
-          <p>Привет</p>
+          {currentChat && currentChat.messages.map((message) => <p>{message.message}</p>)}
         </div>
         <div className={style.messenger__text}>
           <textarea

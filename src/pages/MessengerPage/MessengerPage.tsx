@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import style from './MessengerPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
@@ -8,6 +8,7 @@ import socket from '../../utils/socket';
 import { createChat, getChat, getChats } from '../../redux/thunks/messengerThunks';
 import { LS_USER_ID } from '../../utils/constants';
 import isExistChat from '../../utils/messenger';
+import { addMessageToCurrentChat } from '../../redux/slices/messengerSlice';
 
 const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
@@ -16,6 +17,8 @@ const MessengerPage = () => {
   const { chats, currentChat } = useTypedSelector(({ messenger }) => messenger);
   console.log(chats);
   console.log(currentChat);
+
+  const [messageText, setMessageText] = useState('');
 
   const dispatch = useTypedDispatch();
 
@@ -26,7 +29,7 @@ const MessengerPage = () => {
 
   useEffect(() => {
     socket.on('chat message on', (chatData) => {
-      console.log(chatData);
+      dispatch(addMessageToCurrentChat(chatData));
     });
   }, [dispatch]);
 
@@ -41,6 +44,15 @@ const MessengerPage = () => {
     }
   };
 
+  const onSendMessage = () => {
+    if (currentChat) {
+      const data = { chatId: currentChat.id, message: messageText };
+      socket.emit('chat message emit', data);
+    }
+
+    setMessageText('');
+  };
+
   return (
     <div className={classNames(style.messenger, themeClass)}>
       <div className={style.messenger__friends}>
@@ -51,17 +63,21 @@ const MessengerPage = () => {
       </div>
       <div className={style.messenger__chat}>
         <div className={style.messenger__chatMessages}>
-          {currentChat && currentChat.messages.map((message) => <p>{message.message}</p>)}
+          {currentChat &&
+            currentChat.messages.map((message) => <p key={message.id}>{message.message}</p>)}
         </div>
         <div className={style.messenger__text}>
           <textarea
             className={style.messenger__textarea}
             placeholder="Введите текст"
+            value={messageText}
+            onChange={(e) => setMessageText(e.target.value)}
           />
           <button
             className={style.messenger__button}
             type="button"
             aria-label="Send post"
+            onClick={onSendMessage}
           />
         </div>
       </div>

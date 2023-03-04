@@ -17,7 +17,17 @@ const initialState: IMessengerState = {
 const messengerSlice = createSlice({
   name: 'messenger',
   initialState,
-  reducers: {},
+  reducers: {
+    addMessageToCurrentChat(state, action) {
+      if (state.currentChat) {
+        state.currentChat.messages.push({
+          id: action.payload.messageId,
+          author: action.payload.user,
+          message: action.payload.message,
+        });
+      }
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(createChat.pending, (state) => {
@@ -108,5 +118,7 @@ const messengerSlice = createSlice({
         state.loadingData = false;
       }),
 });
+
+export const { addMessageToCurrentChat } = messengerSlice.actions;
 
 export default messengerSlice.reducer;

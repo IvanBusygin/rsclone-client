@@ -21,11 +21,17 @@ const messengerSlice = createSlice({
   reducers: {
     addMessageToCurrentChat(state, action) {
       if (state.currentChat) {
-        state.currentChat.messages.push({
-          id: action.payload.messageId,
-          author: action.payload.user,
-          message: action.payload.message,
-        });
+        const { messageId, user, message } = action.payload;
+
+        const hasMessage = state.currentChat.messages.find((m) => m.id === messageId);
+
+        if (hasMessage) {
+          state.currentChat.messages.push({
+            id: messageId,
+            author: user,
+            message,
+          });
+        }
       }
     },
     showPreloader(state) {

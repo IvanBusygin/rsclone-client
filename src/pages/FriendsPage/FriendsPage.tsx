@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import style from './FriendsPage.scss';
 import { useTypedSelector } from '../../redux/hooks';
 
@@ -8,27 +8,31 @@ const FriendsPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.friendsPage_light : style.friendsPage_dark;
 
+  const activeElem = ({ isActive }: { isActive: boolean }) => {
+    return isActive ? style.friendsPage__buttonActive : style.friendsPage__button;
+  };
+
   return (
     <div className={classNames(style.friendsPage, themeClass)}>
       <header className={style.friendsPage__header}>
-        <Link
+        <NavLink
           to="inbox"
-          className={style.friendsPage__button}
+          className={activeElem}
         >
           входящие
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="outbox"
-          className={style.friendsPage__button}
+          className={activeElem}
         >
           исходящие
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="search"
-          className={style.friendsPage__button}
+          className={activeElem}
         >
           найти друзей
-        </Link>
+        </NavLink>
       </header>
       <div className={style.friendsPage__content}>
         <Outlet />

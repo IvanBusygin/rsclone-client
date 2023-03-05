@@ -10,6 +10,7 @@ export interface IMessengerState {
   currentChat: ICurrentChat | null;
   loadingData: boolean;
   isMessageLoading: boolean;
+  incomingFriendId: string;
 }
 
 export interface IChatMemberFromServer {
@@ -51,8 +52,16 @@ interface ICurrentChatMessage {
   message: string;
 }
 
-interface ICurrentChat {
+export interface ICurrentChat {
   id: string;
   members: ICurrentChatMember[];
   messages: ICurrentChatMessage[];
+}
+
+export interface IMessengerFriendProps {
+  id: string;
+  avatar: string | undefined;
+  fullName: string;
+  onFriendClick: (id: string) => void;
+  indicator?: string;
 }

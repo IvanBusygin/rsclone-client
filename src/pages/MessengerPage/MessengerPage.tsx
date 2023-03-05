@@ -3,26 +3,27 @@ import classNames from 'classnames';
 import style from './MessengerPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
 import { fetchMyFriends } from '../../redux/slices/friendsSlice';
-import MessengerFriendsList from '../../components/MessengerFriendsList/MessengerFriendsList';
 import socket from '../../utils/socket';
 import { createChat, getChat, getChats } from '../../redux/thunks/messengerThunks';
 import { LS_USER_ID } from '../../utils/constants';
-import isExistChat from '../../utils/messenger';
+import { isExistChat } from '../../utils/messenger';
 import {
-  addMessageToCurrentChat,
+  hideIndicator,
   hidePreloader,
+  showIndicator,
   showPreloader,
 } from '../../redux/slices/messengerSlice';
 import Preloader from '../../components/Preloader/Preloader';
 import sendButtonIcon from '../../assets/img/svg/send-button_icon.svg';
+import MessageFriend from '../../components/MessageFriend/MessageFriend';
 
 const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.messenger_light : style.messenger_dark;
   const { dataMyFriends } = useTypedSelector(({ friends }) => friends);
-  const { chats, currentChat, isMessageLoading } = useTypedSelector(({ messenger }) => messenger);
-  console.log(chats);
-  console.log(currentChat);
+  const { chats, currentChat, isMessageLoading, incomingFriendId } = useTypedSelector(
+    ({ messenger }) => messenger,
+  );
 
   const [messageText, setMessageText] = useState('');
 
@@ -35,10 +36,11 @@ const MessengerPage = () => {
 
   useEffect(() => {
     socket.on('chat message on', (chatData) => {
-      dispatch(addMessageToCurrentChat(chatData));
       dispatch(hidePreloader());
+      dispatch(showIndicator(chatData));
+      dispatch(getChat(chatData.chatId));
     });
-  }, [dispatch]);
+  }, [dispatch, currentChat]);
 
   const onFriendClick = (friendId: string) => {
     const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
@@ -49,6 +51,8 @@ const MessengerPage = () => {
     } else {
       dispatch(createChat(friendId));
     }
+
+    dispatch(hideIndicator());
   };
 
   const onSendMessage = () => {
@@ -64,10 +68,18 @@ const MessengerPage = () => {
   return (
     <div className={classNames(style.messenger, themeClass)}>
       <div className={style.messenger__friends}>
-        <MessengerFriendsList
-          options={dataMyFriends}
-          onOptionClick={onFriendClick}
-        />
+        <div>
+          {dataMyFriends.map((friend) => (
+            <MessageFriend
+              key={friend._id}
+              id={friend._id}
+              avatar={friend.info.avatar}
+              fullName={friend.info.fullName}
+              indicator={incomingFriendId}
+              onFriendClick={onFriendClick}
+            />
+          ))}
+        </div>
       </div>
       <div className={style.messenger__chat}>
         <div className={style.messenger__chatMessages}>

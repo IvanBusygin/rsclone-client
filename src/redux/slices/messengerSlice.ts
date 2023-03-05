@@ -13,6 +13,7 @@ const initialState: IMessengerState = {
   currentChat: null,
   loadingData: false,
   isMessageLoading: false,
+  incomingFriendId: '',
 };
 
 const messengerSlice = createSlice({
@@ -39,6 +40,12 @@ const messengerSlice = createSlice({
     },
     hidePreloader(state) {
       state.isMessageLoading = false;
+    },
+    showIndicator(state, action) {
+      state.incomingFriendId = action.payload.user;
+    },
+    hideIndicator(state) {
+      state.incomingFriendId = '';
     },
   },
   extraReducers: (builder) =>
@@ -100,8 +107,6 @@ const messengerSlice = createSlice({
         state.loadingData = true;
       })
       .addCase(getChat.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         const { _id: id, members, messages } = action.payload;
 
         const chatMembers = members.map((member: IChatMemberFromServer) => ({
@@ -132,6 +137,7 @@ const messengerSlice = createSlice({
       }),
 });
 
-export const { addMessageToCurrentChat, showPreloader, hidePreloader } = messengerSlice.actions;
+export const { showPreloader, hidePreloader, showIndicator, hideIndicator } =
+  messengerSlice.actions;
 
 export default messengerSlice.reducer;

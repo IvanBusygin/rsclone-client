@@ -32,7 +32,6 @@ const UserPage = () => {
   const navigate = useNavigate();
   if (friendStatus === 0) {
     navigate(`/friend/${id}`);
-    console.log('navigate');
   }
 
   return (

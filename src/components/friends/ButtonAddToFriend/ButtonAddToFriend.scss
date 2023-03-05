@@ -5,12 +5,16 @@
   font-family: Roboto-Regular, sans-serif;
   padding: 0 1.5rem;
   height: $size-button-height;
-  width: 10rem;
+  width: 11rem;
   border-radius: $size-border-radius;
   font-size: 1.4rem;
   background-color: $color-button;
   transition: all 0.2s;
   color: $color-main-light;
+
+  &:disabled {
+    cursor: default;
+  }
 
   &:hover {
     background-color: $color-button-hover;

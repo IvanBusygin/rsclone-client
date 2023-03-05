@@ -8,7 +8,6 @@ import {
 } from '../../../redux/slices/friendsSlice';
 import { useTypedDispatch, useTypedSelector } from '../../../redux/hooks';
 import style from './ButtonAddToFriend.scss';
-import sent from '../../../assets/img/svg/sent.svg';
 import getUserInfo from '../../../redux/thunks/userPageThunks';
 
 interface IProps {
@@ -23,6 +22,7 @@ function ButtonAddToFriend(props: IProps) {
   const { loadingAdd, loadingAccept, loadingDelete } = useTypedSelector(({ friends }) => friends);
 
   const [stateLoading, setStateLoading] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
     if (loadingAdd === false) setStateLoading(false);
@@ -36,18 +36,26 @@ function ButtonAddToFriend(props: IProps) {
 
   const acceptFriendHandler = () => {
     setStateLoading(true);
-    dispatch(fetchAcceptFriend(id)).then(() => dispatch(getUserInfo(id)));
+    dispatch(fetchAcceptFriend(id)).then(() => {
+      dispatch(getUserInfo(id));
+      setClicked(true);
+    });
   };
 
   const addFriendHandler = () => {
     setStateLoading(true);
-    dispatch(fetchAddFriend(id)).then(() => dispatch(getUserInfo(id)));
+    dispatch(fetchAddFriend(id)).then(() => {
+      dispatch(getUserInfo(id));
+      setClicked(true);
+    });
   };
 
   const deleteFriendHandler = () => {
     setStateLoading(true);
-    console.log('deleteFriendHandler', id);
-    dispatch(fetchDeleteFriend(id)).then(() => dispatch(fetchMyFriends()));
+    dispatch(fetchDeleteFriend(id)).then(() => {
+      dispatch(fetchMyFriends());
+      setClicked(true);
+    });
   };
 
   switch (friendStatus) {
@@ -57,13 +65,14 @@ function ButtonAddToFriend(props: IProps) {
           className={style.button}
           type="button"
           onClick={deleteFriendHandler}
+          disabled={clicked}
         >
           {stateLoading && loadingDelete ? (
             <Preloader />
           ) : (
             <>
-              <span className={style.button__text}>Удалить</span>
-              <span className={style.button__sign}>-</span>
+              <span className={style.button__text}>{!clicked ? 'Удалить' : 'Удален'}</span>
+              <span className={style.button__sign}>{!clicked ? '-' : '🗸'}</span>
             </>
           )}
         </button>
@@ -71,11 +80,14 @@ function ButtonAddToFriend(props: IProps) {
 
     case 1:
       return (
-        <img
-          className={style.sent}
-          src={sent}
-          alt="sent"
-        />
+        <button
+          className={style.button}
+          type="button"
+          disabled
+        >
+          <span className={style.button__text}>Отправлено</span>
+          <span className={style.button__sign}> 🗸 </span>
+        </button>
       );
 
     case 2:
@@ -84,13 +96,14 @@ function ButtonAddToFriend(props: IProps) {
           className={style.button}
           type="button"
           onClick={acceptFriendHandler}
+          disabled={clicked}
         >
           {stateLoading && loadingAccept ? (
             <Preloader />
           ) : (
             <>
-              <span className={style.button__text}>Принять</span>
-              <span className={style.button__sign}>+</span>
+              <span className={style.button__text}>{!clicked ? 'Принять' : 'Принят'}</span>
+              <span className={style.button__sign}>{!clicked ? '+' : '🗸'}</span>
             </>
           )}
         </button>
@@ -102,13 +115,14 @@ function ButtonAddToFriend(props: IProps) {
           className={style.button}
           type="button"
           onClick={addFriendHandler}
+          disabled={clicked}
         >
           {stateLoading && loadingAdd ? (
             <Preloader />
           ) : (
             <>
-              <span className={style.button__text}>Добавить</span>
-              <span className={style.button__sign}>+</span>
+              <span className={style.button__text}> {!clicked ? 'Добавить' : 'Отправлено'} </span>
+              <span className={style.button__sign}> {!clicked ? '+' : '🗸'} </span>
             </>
           )}
         </button>

@@ -12,12 +12,15 @@
     gap: $size-gap;
   }
 
-  &__button {
+  &__button,
+  &__buttonActive {
+    box-sizing: border-box;
     padding: 1rem $size-padding;
     border-radius: $size-border-radius;
     color: $color-dark;
     text-align: center;
     display: block;
+    transition: all 0.2s;
   }
 
   &_light {
@@ -25,6 +28,15 @@
 
     .friendsPage__button {
       background-color: $color-background-light;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-nav-hover;
+      }
+    }
+
+    .friendsPage__buttonActive {
+      background-color: $color-nav-hover;
     }
   }
 
@@ -35,7 +47,20 @@
     .friendsPage__button {
       color: $color-dark;
       background-color: $color-main-light;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-nav-hover-dark;
+      }
     }
+
+    .friendsPage__buttonActive {
+      background-color: $color-nav-hover-dark;
+    }
+  }
+
+  &__buttonActive {
+    background-color: $color-nav-hover-dark;
   }
 }
 

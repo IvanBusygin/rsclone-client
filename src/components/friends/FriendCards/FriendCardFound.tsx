@@ -16,7 +16,7 @@ const FriendCardFound = (props: IFoundPeople) => {
     <div className={classNames(style.friendCard, themeClass)}>
       <Link
         to={`/user/${user._id}`}
-        target="_blank"
+        target="_self"
         className={style.friendCard__container}
       >
         <div className={style.friendCard__avatar}>

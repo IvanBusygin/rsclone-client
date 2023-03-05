@@ -12,6 +12,7 @@
     height: $size-friend-avatar;
     border-radius: 50%;
     overflow: hidden;
+    object-fit: cover;
   }
 
   &__name {

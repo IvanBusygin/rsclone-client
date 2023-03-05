@@ -25,6 +25,8 @@ const MessengerPage = () => {
     ({ messenger }) => messenger,
   );
 
+  const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
+
   const [messageText, setMessageText] = useState('');
 
   const dispatch = useTypedDispatch();
@@ -43,7 +45,6 @@ const MessengerPage = () => {
   }, [dispatch, currentChat]);
 
   const onFriendClick = (friendId: string) => {
-    const USER_ID = JSON.parse(localStorage.getItem(LS_USER_ID) ?? '');
     const existChatId = isExistChat(USER_ID, friendId, chats);
 
     if (existChatId) {
@@ -84,7 +85,18 @@ const MessengerPage = () => {
       <div className={style.messenger__chat}>
         <div className={style.messenger__chatMessages}>
           {currentChat &&
-            currentChat.messages.map((message) => <p key={message.id}>{message.message}</p>)}
+            currentChat.messages.map((message) => (
+              <p
+                key={message.id}
+                className={
+                  message.authorId === USER_ID
+                    ? classNames(style.messenger__message, style.messenger__message_own)
+                    : classNames(style.messenger__message, style.messenger__message_alien)
+                }
+              >
+                {message.message}
+              </p>
+            ))}
         </div>
         <div className={style.messenger__text}>
           <textarea

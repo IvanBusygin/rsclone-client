@@ -26,6 +26,32 @@
     border-radius: $size-border-radius;
     background-color: $color-background-light;
     color: $color-dark;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__message {
+    padding: 1rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 14px;
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+
+    &_own {
+      border-bottom-right-radius: 1rem;
+      background-color: $color-message-own;
+      align-self: flex-start;
+    }
+
+    &_alien {
+      border-bottom-left-radius: 1rem;
+      background-color: $color-message-alien;
+      align-self: flex-end;
+    }
   }
 
   &__text {

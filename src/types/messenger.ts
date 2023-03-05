@@ -49,6 +49,7 @@ interface ICurrentChatMember {
 interface ICurrentChatMessage {
   id: string;
   author: string;
+  authorId: string;
   message: string;
 }
 

@@ -1,6 +1,8 @@
+@import '../../styles/variables';
+
 .messageFriend {
   &__button {
-    width: 12rem;
+    width: 14rem;
     display: flex;
     align-items: center;
 
@@ -31,9 +33,10 @@
   }
 
   &__indicator {
+    margin-left: auto;
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    background-color: red;
+    background-color: $color-stop-editing-post;
   }
 }

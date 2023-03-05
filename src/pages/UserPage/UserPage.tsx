@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import style from './UserPage.scss';
 import { useTypedDispatch, useTypedSelector } from '../../redux/hooks';
@@ -28,6 +28,12 @@ const UserPage = () => {
       dispatch(getUserInfo(id));
     }
   }, [id, dispatch]);
+
+  const navigate = useNavigate();
+  if (friendStatus === 0) {
+    navigate(`/friend/${id}`);
+    console.log('navigate');
+  }
 
   return (
     <div className={style.userPage}>

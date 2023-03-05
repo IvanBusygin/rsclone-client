@@ -24,7 +24,7 @@ const FriendCardMy = (props: IProps) => {
     <div className={classNames(style.friendCard, themeClass)}>
       <Link
         to={`/friend/${friendId}`}
-        target="_blank"
+        target="_self"
         className={style.friendCard__container}
       >
         <div className={style.friendCard__avatar}>

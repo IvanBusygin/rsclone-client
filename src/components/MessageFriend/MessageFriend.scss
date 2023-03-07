@@ -39,4 +39,15 @@
     border-radius: 50%;
     background-color: $color-stop-editing-post;
   }
+
+  &_light {
+    .messageFriend__name {
+      color: $color-dark;
+    }
+  }
+
+  &_dark {
+    .messageFriend__name {
+      color: $color-main-light;
+    }}
 }

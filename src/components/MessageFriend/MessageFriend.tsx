@@ -1,13 +1,18 @@
 import React, { FC } from 'react';
+import classNames from 'classnames';
 import style from './MessageFriend.scss';
 import { IMessengerFriendProps } from '../../types/messenger';
+import { useTypedSelector } from '../../redux/hooks';
 
 const MessageFriend: FC<IMessengerFriendProps> = (props) => {
   const { id, avatar, fullName, indicator, isChatOpen, onFriendClick } = props;
 
+  const { isLightTheme } = useTypedSelector(({ common }) => common);
+  const themeClass = isLightTheme ? style.messageFriend_light : style.messageFriend_dark;
+
   return (
     <button
-      className={style.messageFriend__button}
+      className={classNames(style.messageFriend__button, themeClass)}
       type="button"
       onClick={() => onFriendClick(id)}
     >

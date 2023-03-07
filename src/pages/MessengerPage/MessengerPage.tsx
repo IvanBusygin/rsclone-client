@@ -6,7 +6,7 @@ import { fetchMyFriends } from '../../redux/slices/friendsSlice';
 import socket from '../../utils/socket';
 import { createChat, getChat, getChats } from '../../redux/thunks/messengerThunks';
 import { LS_USER_ID } from '../../utils/constants';
-import { isExistChat } from '../../utils/messenger';
+import isExistChat from '../../utils/messenger';
 import {
   hideIndicator,
   hidePreloader,

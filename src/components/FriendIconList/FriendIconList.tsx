@@ -21,7 +21,15 @@ const FriendIconList = () => {
 
   myFriends.length = Math.min(myFriends.length, 4);
 
-  return <div className={classNames(style.friends, themeClass)}>{myFriends}</div>;
+  return (
+    <div className={classNames(style.friends, themeClass)}>
+      {myFriends.length === 0 ? (
+        <div className={style.noFriends}>У вас еще нет друзей</div>
+      ) : (
+        myFriends
+      )}
+    </div>
+  );
 };
 
 export default FriendIconList;

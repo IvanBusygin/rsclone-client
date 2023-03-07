@@ -5,6 +5,7 @@
   border-radius: $size-border-radius;
   overflow: hidden;
   display: flex;
+  justify-content: center;
   gap: 1rem;
 
   &_light {
@@ -16,6 +17,11 @@
     color: $color-main-light;
     background-color: $color-main-dark;
   }
+}
+
+.noFriends {
+  font-family: Roboto-Regular, sans-serif;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 1000px) {

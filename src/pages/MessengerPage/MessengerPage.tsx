@@ -10,6 +10,7 @@ import { isExistChat } from '../../utils/messenger';
 import {
   hideIndicator,
   hidePreloader,
+  openChat,
   showIndicator,
   showPreloader,
 } from '../../redux/slices/messengerSlice';
@@ -21,7 +22,7 @@ const MessengerPage = () => {
   const { isLightTheme } = useTypedSelector(({ common }) => common);
   const themeClass = isLightTheme ? style.messenger_light : style.messenger_dark;
   const { dataMyFriends } = useTypedSelector(({ friends }) => friends);
-  const { chats, currentChat, isMessageLoading, incomingFriendId } = useTypedSelector(
+  const { chats, currentChat, isMessageLoading, incomingFriendId, isChatOpen } = useTypedSelector(
     ({ messenger }) => messenger,
   );
 
@@ -54,6 +55,7 @@ const MessengerPage = () => {
     }
 
     dispatch(hideIndicator());
+    dispatch(openChat());
   };
 
   const onSendMessage = () => {
@@ -78,13 +80,15 @@ const MessengerPage = () => {
               fullName={friend.info.fullName}
               indicator={incomingFriendId}
               onFriendClick={onFriendClick}
+              isChatOpen={isChatOpen}
             />
           ))}
         </div>
       </div>
       <div className={style.messenger__chat}>
         <div className={style.messenger__chatMessages}>
-          {currentChat &&
+          {isChatOpen &&
+            currentChat &&
             currentChat.messages.map((message) => (
               <p
                 key={message.id}

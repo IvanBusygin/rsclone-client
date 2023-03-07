@@ -11,6 +11,7 @@ export interface IMessengerState {
   loadingData: boolean;
   isMessageLoading: boolean;
   incomingFriendId: string;
+  isChatOpen: boolean;
 }
 
 export interface IChatMemberFromServer {
@@ -65,4 +66,5 @@ export interface IMessengerFriendProps {
   fullName: string;
   onFriendClick: (id: string) => void;
   indicator?: string;
+  isChatOpen: boolean;
 }

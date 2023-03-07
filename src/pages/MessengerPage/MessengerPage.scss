@@ -42,15 +42,15 @@
     }
 
     &_own {
-      border-bottom-right-radius: 1rem;
+      border-bottom-left-radius: 1rem;
       background-color: $color-message-own;
-      align-self: flex-start;
+      align-self: flex-end;
     }
 
     &_alien {
-      border-bottom-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
       background-color: $color-message-alien;
-      align-self: flex-end;
+      align-self: flex-start;
     }
   }
 

@@ -3,7 +3,7 @@ import style from './MessageFriend.scss';
 import { IMessengerFriendProps } from '../../types/messenger';
 
 const MessageFriend: FC<IMessengerFriendProps> = (props) => {
-  const { id, avatar, fullName, indicator, onFriendClick } = props;
+  const { id, avatar, fullName, indicator, isChatOpen, onFriendClick } = props;
 
   return (
     <button
@@ -18,7 +18,7 @@ const MessageFriend: FC<IMessengerFriendProps> = (props) => {
         />
       </div>
       <p className={style.messageFriend__name}>{fullName}</p>
-      {indicator === id && <span className={style.messageFriend__indicator} />}
+      {!isChatOpen && indicator === id && <span className={style.messageFriend__indicator} />}
     </button>
   );
 };

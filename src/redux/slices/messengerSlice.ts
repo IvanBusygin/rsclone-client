@@ -14,27 +14,13 @@ const initialState: IMessengerState = {
   loadingData: false,
   isMessageLoading: false,
   incomingFriendId: '',
+  isChatOpen: false,
 };
 
 const messengerSlice = createSlice({
   name: 'messenger',
   initialState,
   reducers: {
-    addMessageToCurrentChat(state, action) {
-      if (state.currentChat) {
-        const { messageId, user, message } = action.payload;
-
-        const hasMessage = state.currentChat.messages.find((m) => m.id === messageId);
-
-        if (hasMessage) {
-          state.currentChat.messages.push({
-            id: messageId,
-            author: user,
-            message,
-          });
-        }
-      }
-    },
     showPreloader(state) {
       state.isMessageLoading = true;
     },
@@ -46,6 +32,12 @@ const messengerSlice = createSlice({
     },
     hideIndicator(state) {
       state.incomingFriendId = '';
+    },
+    openChat(state) {
+      state.isChatOpen = true;
+    },
+    closeChat(state) {
+      state.isChatOpen = false;
     },
   },
   extraReducers: (builder) =>
@@ -117,6 +109,7 @@ const messengerSlice = createSlice({
         const chatMessages = messages.map((message: IChatMessageFromServer) => ({
           id: message._id,
           author: message.user.info.fullName,
+          authorId: message.user._id,
           message: message.message,
         }));
 
@@ -137,7 +130,7 @@ const messengerSlice = createSlice({
       }),
 });
 
-export const { showPreloader, hidePreloader, showIndicator, hideIndicator } =
+export const { showPreloader, hidePreloader, showIndicator, hideIndicator, openChat, closeChat } =
   messengerSlice.actions;
 
 export default messengerSlice.reducer;

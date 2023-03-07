@@ -1,0 +1,7 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.posts {
+  border-radius: $size-border-radius;
+  @extend %FlexColumn;
+}

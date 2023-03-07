@@ -1,0 +1,104 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.footer {
+  &__container {
+    @extend %Container;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__githubs {
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__github,
+  &__year,
+  &__logo {
+    display: block;
+  }
+
+  &__github {
+    width: 3rem;
+    height: 3rem;
+
+    & span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      @extend %BgImage;
+    }
+  }
+
+  &__year {
+    font-size: 20px;
+    letter-spacing: 3px;
+  }
+
+  &__year {
+    font-family: 'Roboto-Regular', sans-serif;
+    font-size: 20px;
+  }
+
+  &__logo {
+    width: 7.5rem;
+    height: 5rem;
+    @extend %BgImage;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .footer__year {
+      color: $color-dark;
+    }
+
+    .footer__github {
+      & span {
+        background-image: url('../../assets/img/svg/github_icon_light.svg');
+      }
+    }
+
+    .footer__logo {
+      background-image: url('../../assets/img/svg/rsschool__icon_light.svg');
+    }
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+
+    .footer__year {
+      color: $color-main-light;
+    }
+
+    .footer__github {
+      & span {
+        background-image: url('../../assets/img/svg/github_icon_dark.svg');
+      }
+    }
+
+    .footer__logo {
+      background-image: url('../../assets/img/svg/rsschool__icon_dark.svg');
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .footer {
+    &__github {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    &__year {
+      font-size: 16px;
+    }
+
+    &__logo {
+      width: 5.5rem;
+      height: 3.5rem;
+    }
+  }
+}

@@ -1,0 +1,315 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.post {
+  padding: $size-padding;
+  max-width: 67rem;
+  border-radius: $size-border-radius;
+  font-family: Roboto-Regular, sans-serif;
+
+  &__header {
+    padding-bottom: $size-padding;
+    position: relative;
+    display: flex;
+  }
+
+  &__avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    margin-left: $size-padding;
+  }
+
+  &__author {
+    font-size: 1.4rem;
+  }
+
+  &__time {
+    color: $color-nav-count;
+    font-size: 1.2rem;
+  }
+
+  &__deletePostButton {
+    width: 1rem;
+    height: 1rem;
+    font-size: 2.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__textWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__text {
+    padding: $size-padding 0;
+    border: 1px solid $color-main-light;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+    word-break: break-all;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $color-main-light;
+    }
+  }
+
+  &__editButtons {
+    margin-left: $size-padding;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $size-gap;
+  }
+
+  &__editPostButton,
+  &__unEdit {
+    width: 1.6rem;
+    height: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__editPostButton {
+    flex-shrink: 0;
+  }
+
+  &__buttonIcon {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__unEdit {
+    font-size: 2.2rem;
+    color: $color-stop-editing-post;
+  }
+
+  &__preloader {
+    margin: 0 auto;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  &__likesButton {
+    padding-top: $size-padding;
+    display: flex;
+    align-items: center;
+  }
+
+  &__likesIcon,
+  &__commentButton,
+  &__saveComment {
+    width: 2rem;
+    height: 2rem;
+    @extend %BgImage;
+  }
+
+  &__likesIcon {
+    background-image: url('../../assets/img/svg/likes_icon.svg');
+    display: inline-block;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__likes {
+    padding: 0.5rem;
+    border-radius: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    position: absolute;
+    top: 0.6rem;
+    left: 5rem;
+  }
+
+  &__likesCount {
+    margin-left: 0.5rem;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &__commentButton {
+    background-image: url('../../assets/img/svg/comment_button.svg');
+  }
+
+  &__commentField {
+    height: 4rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__commentTextarea {
+    padding: 0.5rem 3rem 0.5rem 0.5rem;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 14px;
+    resize: none;
+  }
+
+  &__saveComment {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+  }
+
+  &__closeTextarea {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    color: $color-stop-editing-post;
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+  }
+
+  &__footer {
+    border-top: 1px solid $color-nav-count;
+  }
+
+  &_remove {
+    filter: blur(1px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .post__author,
+    .post__deletePostButton,
+    .post__text {
+      color: $color-main-dark;
+    }
+
+    .post__text {
+      border-color: $color-main-light;
+
+      &:focus {
+        border-color: $color-border;
+      }
+    }
+
+    .post__commentTextarea {
+      color: $color-dark;
+      background-color: $color-main-light;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+
+    .post__closeTextarea {
+      background-color: $color-main-light;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 2px;
+    }
+
+    .post__likes {
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+
+    .post__likesCount {
+      color: $color-main-dark;
+    }
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+
+    .post__author,
+    .post__deletePostButton,
+    .post__text {
+      color: $color-main-light;
+    }
+
+    .post__text {
+      border-color: $color-main-dark;
+
+      &:focus {
+        border-color: $color-border;
+      }
+    }
+
+    .post__commentTextarea {
+      color: $color-main-light;
+      background-color: $color-main-dark;
+      box-shadow: rgba(255, 255, 255, 0.2) 0px 2px 8px 0px;
+    }
+
+    .post__closeTextarea {
+      background-color: $color-main-dark;
+      box-shadow: rgba(255, 255, 255, 0.05) 0px 0px 0px 2px;
+    }
+
+    .post__likes {
+      box-shadow: rgba(255, 255, 255, 0.2) 0px 2px 8px 0px;
+    }
+
+    .post__likesCount {
+      color: $color-main-light;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .post {
+    &__likesIcon {
+      width: 1.7rem;
+      height: 1.7rem;
+    }
+
+    &__likesCount {
+      font-size: 1.2rem;
+    }
+  }
+}

@@ -1,0 +1,71 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.friendCard {
+  margin: 3rem auto 0;
+  padding: $size-padding 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $size-gap;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $color-background-light;
+  }
+
+  &__avatar {
+    width: 7rem;
+    height: 7rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  &_light {
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__btn {
+    font-family: Roboto-Regular, sans-serif;
+    margin: 1rem 0 0;
+    padding: 0 1.5rem;
+    height: $size-button-height;
+    width: 17rem;
+    border-radius: $size-border-radius;
+    font-size: 1.4rem;
+    background-color: $color-button;
+    transition: all 0.2s;
+    color: $color-main-light;
+
+    &:hover {
+      background-color: $color-button-hover;
+      border: none;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .friendCard__avatar {
+    width: 5rem;
+    height: 5rem;
+  }
+  .friendCard__btn {
+    width: 10rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .friendCard__container {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,68 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.button {
+  font-family: Roboto-Regular, sans-serif;
+  padding: 0 1.5rem;
+  height: $size-button-height;
+  width: 11rem;
+  border-radius: $size-border-radius;
+  font-size: 1.4rem;
+  background-color: $color-button;
+  transition: all 0.2s;
+  color: $color-main-light;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:hover {
+    background-color: $color-button-hover;
+    border: none;
+  }
+
+  &__sign {
+    display: none;
+  }
+}
+
+.sent {
+  font-family: Roboto-Regular, sans-serif;
+  border-radius: $size-border-radius;
+  height: $size-button-height;
+  transition: all 0.2s;
+}
+
+@media (max-width: 650px) {
+  .button {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .button {
+    height: 2.5rem;
+  }
+  .sent {
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .button {
+    width: 3rem;
+    border-radius: 0.5rem;
+
+    &__text {
+      display: none;
+    }
+
+    &__sign {
+      display: block;
+    }
+  }
+  .sent {
+    width: 3rem;
+    border-radius: 0.5rem;
+  }
+}

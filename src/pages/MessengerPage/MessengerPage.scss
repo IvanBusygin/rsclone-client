@@ -1,0 +1,78 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.messenger {
+  padding: $size-padding;
+  height: calc(100vh - 100px - 2 * $size-gap);
+  border-radius: $size-border-radius;
+  display: flex;
+  gap: $size-gap;
+
+  &__friends {
+    width: 25rem;
+  }
+
+  &__chat {
+    width: calc(100% - 25rem);
+    @extend %FlexColumn;
+    justify-content: space-between;
+  }
+
+  &__chatMessages {
+    padding: $size-padding;
+    flex-grow: 1;
+    border-radius: $size-border-radius;
+    background-color: $color-background-light;
+    color: $color-dark;
+  }
+
+  &__text {
+    padding: $size-padding;
+    width: 100%;
+    border: 1px solid $color-background-light;
+    border-radius: $size-border-radius;
+    background-color: $color-main-light;
+    position: relative;
+  }
+
+  &__textarea {
+    width: 100%;
+    resize: none;
+  }
+
+  &__button {
+    width: 2.4rem;
+    height: 2.4rem;
+    @extend %BgImage;
+    background-image: url('../../assets/img/svg/send-button_icon.svg');
+    position: absolute;
+    top: 50%;
+    right: $size-padding;
+    transform: translateY(-50%);
+  }
+
+  &_light {
+    color: $color-dark;
+    background-color: $color-main-light;
+  }
+
+  &_dark {
+    color: $color-main-light;
+    background-color: $color-main-dark;
+  }
+}
+
+@media (max-width: 800px) {
+  .messenger {
+    flex-direction: column;
+
+    &__friends {
+      display: flex;
+    }
+
+    &__chat {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

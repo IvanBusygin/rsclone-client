@@ -1,0 +1,210 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.editPage {
+  padding: $size-padding;
+  border-radius: $size-border-radius;
+  font-family: Roboto-Regular, sans-serif;
+  @extend %FlexColumn;
+  align-items: center;
+
+  &__wrapper {
+    width: 50rem;
+    @extend %FlexColumn;
+    align-items: center;
+  }
+
+  &__item {
+    width: 100%;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+  }
+
+  &__label {
+    margin-right: 1rem;
+  }
+
+  &__familyStatus {
+    margin-left: auto;
+    width: 63%;
+  }
+
+  &__field,
+  &__textarea {
+    margin-left: auto;
+    padding: 0.5rem;
+    width: 63%;
+    min-width: 17rem;
+    border: 1px solid $color-background-light;
+    border-radius: 0.5rem;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &__textarea {
+    resize: none;
+  }
+
+  &__fileWrapper {
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: $size-gap;
+    position: relative;
+
+    & input {
+      width: 0;
+      height: 0;
+      opacity: 0;
+      display: block;
+      position: absolute;
+    }
+
+    & label {
+      padding: 0.5rem 1rem;
+      border-radius: 0.4rem;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+
+  &__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__button {
+    width: 10rem;
+    height: $size-button-height;
+    border-radius: $size-border-radius;
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  &_light {
+    color: $color-dark;
+    background-color: $color-main-light;
+
+    .editPage__fileWrapper {
+      & label {
+        color: $color-main-light;
+        background-color: $color-save-button;
+
+        &:hover {
+          background-color: darken($color-save-button, $size-hover-percent);
+        }
+      }
+    }
+
+    .editPage__field,
+    .editPage__textarea {
+      color: $color-dark;
+      background-color: $color-main-light;
+    }
+
+    .editPage__button {
+      color: $color-main-light;
+      background-color: $color-save-button;
+
+      &:hover {
+        background-color: darken($color-save-button, $size-hover-percent);
+      }
+    }
+  }
+
+  &_dark {
+    color: $color-main-light;
+    background-color: $color-main-dark;
+
+    .editPage__fileWrapper {
+      & label {
+        color: $color-dark;
+        background-color: $color-main-light;
+
+        &:hover {
+          background-color: darken($color-main-light, $size-hover-percent);
+        }
+      }
+    }
+
+    .editPage__field,
+    .editPage__textarea {
+      color: $color-main-light;
+      background-color: $color-main-dark;
+      border-color: $color-nav-count;
+    }
+
+    .editPage__button {
+      color: $color-dark;
+      background-color: $color-main-light;
+
+      &:hover {
+        background-color: darken($color-main-light, $size-hover-percent);
+      }
+    }
+  }
+}
+
+.error {
+  position: relative;
+
+  &__input,
+  &__textarea {
+    position: absolute;
+    white-space: nowrap;
+    font-size: 1.15rem;
+    color: red;
+  }
+
+  &__input {
+    bottom: -27px;
+    right: 1px;
+  }
+
+  &__textarea {
+    bottom: -35px;
+    right: 1px;
+  }
+}
+
+@media (max-width: 650px) {
+  .editPage {
+    &__wrapper {
+      width: 85%;
+    }
+
+    &__item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    &__field,
+    &__textarea,
+    &__familyStatus {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .editPage {
+    &__wrapper {
+      width: 100%;
+    }
+  }
+}

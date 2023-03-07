@@ -1,0 +1,87 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.friendsPage {
+  padding: $size-padding;
+  border-radius: $size-border-radius;
+  font-family: Roboto-Regular, sans-serif;
+  @extend %FlexColumn;
+
+  &__header {
+    display: flex;
+    gap: $size-gap;
+  }
+
+  &__button,
+  &__buttonActive {
+    box-sizing: border-box;
+    padding: 1rem $size-padding;
+    border-radius: $size-border-radius;
+    color: $color-dark;
+    text-align: center;
+    display: block;
+    transition: all 0.2s;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .friendsPage__button {
+      background-color: $color-background-light;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-nav-hover;
+      }
+    }
+
+    .friendsPage__buttonActive {
+      background-color: $color-nav-hover;
+    }
+  }
+
+  &_dark {
+    color: $color-main-light;
+    background-color: $color-main-dark;
+
+    .friendsPage__button {
+      color: $color-dark;
+      background-color: $color-main-light;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-nav-hover-dark;
+      }
+    }
+
+    .friendsPage__buttonActive {
+      background-color: $color-nav-hover-dark;
+    }
+  }
+
+  &__buttonActive {
+    background-color: $color-nav-hover-dark;
+  }
+}
+
+@media (max-width: 550px) {
+  .friendsPage {
+    &__button {
+      padding: 0.5rem 1rem;
+      font-size: 1.4rem;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .friendsPage {
+    &__header {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__button {
+      width: 50%;
+    }
+  }
+}

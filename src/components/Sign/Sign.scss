@@ -1,0 +1,134 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.sign {
+  &__container {
+    font-family: Roboto-Regular, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_light {
+    background-color: $color-main-light;
+
+    .btn {
+      color: $color-main-light;
+    }
+
+    .input {
+      border-color: $color-background-light;
+
+      &:focus {
+        border: 1px solid $color-button;
+        background-color: $color-main-light;
+      }
+    }
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+
+    .title,
+    .input,
+    .btn,
+    .note {
+      color: $color-main-light;
+    }
+
+    .input {
+      color: $color-main-light;
+      background-color: $color-main-dark;
+
+      &:focus {
+        border: 1px solid $color-button;
+      }
+    }
+  }
+}
+
+.form {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  min-width: 220px;
+  padding: 1rem;
+  border: 1px solid $color-background-light;
+  border-radius: 0.5rem;
+  font-family: Roboto-Regular, sans-serif;
+  font-size: 1.4rem;
+}
+
+.icon {
+  margin: 2rem;
+  width: 5rem;
+  height: 100%;
+}
+
+.title {
+  text-align: center;
+  margin: 1rem;
+  font-size: 2.2rem;
+}
+
+.btn {
+  margin: 1rem 0 0;
+  padding: 0 1.5rem;
+  width: 100%;
+  height: $size-button-height;
+  border-radius: $size-border-radius;
+  font-size: 1.8rem;
+  background-color: $color-button;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $color-button-hover;
+    border: none;
+  }
+}
+
+.error {
+  position: relative;
+
+  &__msg {
+    position: absolute;
+    bottom: -3px;
+    left: 1px;
+    transform: translate(-50%);
+    white-space: nowrap;
+    font-size: 1.15rem;
+    color: red;
+  }
+
+  &__request {
+    transform: translate(-50%);
+    white-space: nowrap;
+    position: absolute;
+    color: red;
+    font-size: 1.5rem;
+  }
+}
+
+.note {
+  font-family: Roboto-Regular, sans-serif;
+  font-size: 1.4rem;
+  max-width: 32rem;
+}
+
+.loading {
+  color: green;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 680px) {
+  .title {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,72 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.content {
+  &__container {
+    @extend %Container;
+    @extend %FlexColumn;
+    align-items: center;
+  }
+
+  &_light {
+    .inputs {
+      background-color: $color-main-light;
+    }
+
+    .ques__text {
+      color: $color-dark;
+    }
+
+    .ques__btn {
+      color: $color-main-light;
+    }
+  }
+
+  &_dark {
+    .inputs {
+      background-color: $color-main-dark;
+    }
+
+    .ques__text,
+    .ques__btn {
+      color: $color-main-light;
+    }
+  }
+}
+
+.inputs {
+  padding: 1rem 3rem 3rem;
+  border-radius: $size-border-radius;
+}
+
+.ques {
+  margin-top: 2.2rem;
+  display: flex;
+  gap: $size-gap;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &__text {
+    font-size: $size-small-font;
+  }
+
+  &__btn {
+    min-width: 12rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: $size-small-font;
+    background-color: $color-button;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $color-button-hover;
+      border: none;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .inputs {
+    padding: 1rem;
+  }
+}

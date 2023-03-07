@@ -1,0 +1,32 @@
+@import '../../styles/variables';
+
+.logo {
+  height: 30px;
+  display: flex;
+  align-items: center;
+
+  &_light .logo__name {
+    color: $color-dark;
+  }
+
+  &_dark .logo__name {
+    color: $color-main-light;
+  }
+
+  &__icon {
+    width: 30px;
+    height: 100%;
+  }
+
+  &__icon,
+  &__name {
+    display: inline-block;
+  }
+
+  &__name {
+    margin-left: 10px;
+    font-family: Roboto-Regular, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}

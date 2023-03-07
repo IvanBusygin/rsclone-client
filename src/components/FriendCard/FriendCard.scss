@@ -1,0 +1,29 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.friendCard {
+  margin: 0 auto;
+  padding: $size-padding;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: $size-gap;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $color-background-light;
+  }
+
+  &__avatar {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &_light {
+  }
+
+  &_dark {
+    background-color: $color-main-dark;
+  }
+}

@@ -1,0 +1,60 @@
+@import './variables';
+@import './fonts';
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-weight: 400;
+}
+
+ul {
+  list-style: none;
+}
+
+a:active,
+a:visited,
+a:link,
+a:hover,
+a:focus,
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+textarea,
+input {
+  border: none;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-track-piece {
+}
+
+::-webkit-scrollbar-thumb {
+  //border-radius: 3px;
+}
